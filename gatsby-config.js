@@ -1,6 +1,21 @@
 const config = require("./data/siteConfig")
+var proxy = require("http-proxy-middleware")
 
 module.exports = {
+  // From example at https://www.gatsbyjs.org/blog/2018-12-17-turning-the-static-dynamic/
+  // for avoiding CORS while developing Netlify Functions locally
+  // read more: https://www.gatsbyjs.org/docs/api-proxy/#advanced-proxying
+  developMiddleware: app => {
+    app.use(
+      "/.netlify/functions/",
+      proxy({
+        target: "http://localhost:9000",
+        pathRewrite: {
+          "/.netlify/functions/": "",
+        },
+      })
+    )
+  },
   siteMetadata: {
     title: config.siteTitle,
     description: config.siteDescription,
