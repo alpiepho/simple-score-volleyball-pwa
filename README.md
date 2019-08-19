@@ -18,6 +18,153 @@ Eventually, this will be ported to an Expo application so it can run natively on
 and Android.
 
 
+### Rough Diagram - Main
+
+```
+Horizontal:
+-----------------------  -----  -----------------------
+|                     |  | A |  |                     |
+|         Us          |  -----  |        Them         |
+|                     |         |                     |
+|                     |  -----  |                     |
+|         3           |  | ? |  |         4           |
+|                     |  -----  |                     |
+|                     |         |                     |
+|                     |  -----  |                     |
+|                     |  | B |  |                     |
+-----------------------  -----  -----------------------
+Vertical (default):
+----------------------- 
+|                     | 
+|         Us          |
+|                     | 
+|                     | 
+|         3           |
+|                     |
+|                     | 
+|                     |
+|                     |
+----------------------- 
+-----    -----    -----
+| A |    | ? |    | B |
+-----    -----    -----
+----------------------- 
+|                     | 
+|        Them         |
+|                     | 
+|                     | 
+|         4           |
+|                     |
+|                     | 
+|                     |
+|                     |
+----------------------- 
+NOTES:
+- "3", "4" will be in larger font
+- "A"  will be Summation Symbol to show modal with current
+       score and option to text
+- "?"  button to open About/Instructions Modal
+- "B"  will be Hamburger menu Symbol to show modal for 
+       settings
+
+```
+
+### Rough Diagram - Current Scores Modal
+```
+Vertical:
+----------------------- 
+|                     | 
+|  Match:             |
+|    Us  0, Them  1   | 
+|  Game:              | 
+|    Us  3, Them  4   |
+|  Status:            |
+|    PLAYING          | 
+|                     |
+|                     |
+|                     |
+|                     |
+|                     |
+|                     |
+|                     |
+| -----         ----- |
+| | A |         | B | |
+| -----         ----- |
+|                     | 
+|                     |
+|                     |
+|                     | 
+|                     |
+|                     |
+----------------------- 
+NOTES:
+- "A" quit, return to main
+- "B" send current score to SMS/Text list
+- "Status" will be 'PENDING', 'PLAYING', 'DONE-TIE', 'DONE-US', 'DONE-THEM'
+```
+
+### Rough Diagram - About/Instructions Modal
+```
+Vertical:
+----------------------- 
+|  Simple Score -     | 
+|     Volleyball      |
+|                     | 
+| - Use settings      | 
+|      to reset match |
+|  - Tap Us or Them   |
+|      to add point   | 
+|  - Double Tap to    |
+|      remove point   |
+|  - Use <Summation>  |
+|      to see score   |
+|  - Use <Summation>  |
+|      send to text   |
+|  - Use <Settings>   |
+|      to configure#  | 
+|                     |
+|                     | 
+|                     | 
+| -----         ----- |
+| | A |         | B | |
+| -----         ----- |
+|                     |
+|                     |
+----------------------- 
+NOTES:
+- "A" quit, return to main
+```
+
+## Rough Diagram - Settings Modal
+```
+Vertical:
+----------------------- 
+|  Settings:          | 
+|                     |
+|  - reset match      | 
+|  - reset game       | 
+|  - swap Us/Them     |
+|  - rotate main      |
+|  - set your #...    | 
+|                     |
+|                     |
+|                     |
+|                     |
+|                     |
+|                     |
+|                     |
+|                     | 
+|                     |
+|                     | 
+|                     | 
+|                     |
+|                     |
+| -----         ----- |
+| | A |         | B | |
+| -----         ----- |
+----------------------- 
+```
+
 ----------------------------------------------------
 
 
