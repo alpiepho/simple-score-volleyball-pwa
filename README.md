@@ -14,7 +14,7 @@ The PWA version will be written with React/Gatsby on the front end, hosted on Ne
 and use a Netlify Function (basically an AWS Lamda function) to interface with Twillio
 to send texts.
 
-Eventually, this will be ported to an Expo application so ti can run natively on IOS
+Eventually, this will be ported to an Expo application so it can run natively on IOS
 and Android.
 
 
