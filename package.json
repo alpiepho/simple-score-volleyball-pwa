@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "simple-score-volleyball-pwa",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "A PWA application that allows easy score keeping of a volleyball match and send results as text messages.",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Al Piepho <alpiepho@gmail.com>",
   "dependencies": {
     "@material-ui/core": "^4.3.1",
     "gatsby": "^2.13.51",
@@ -15,7 +15,9 @@
     "gatsby-plugin-sharp": "^2.2.9",
     "gatsby-source-filesystem": "^2.1.8",
     "gatsby-transformer-sharp": "^2.2.5",
-    "gh-pages": "^2.1.1",
+    "http-proxy-middleware": "^0.19.1",
+    "netlify-lambda": "^1.6.2",
+    "npm-run-all": "^4.1.5",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -30,19 +32,22 @@
   ],
   "license": "MIT",
   "scripts": {
-    "build": "gatsby build",
     "develop": "gatsby develop",
-    "deploy": "gatsby build --prefix-paths && gh-pages -d public",
+    "start": "run-p start:**",
+    "start:app": "npm run develop",
+    "start:lambda": "netlify-lambda serve src/lambda",
+    "build": "run-p build:**",
+    "build:app": "gatsby build",
+    "build:lambda": "netlify-lambda build src/lambda",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
-    "start": "npm run develop",
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\""
   },
   "repository": {
     "type": "git",
-    "url": "https://alpiepho.github.io/any-counter"
+    "url": "https://alpiepho.github.io/simple-score-volleyball-pwa"
   },
   "bugs": {
-    "url": "https://github.com/alpiepho/any-counter/issues"
+    "url": "https://github.com/alpiepho/simple-score-volleyball-pwa/issues"
   }
 }

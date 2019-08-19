@@ -60,6 +60,13 @@ export default function AnyCounter() {
     engine_max(maxDigits)
     engine_reset()
     setAllDigits(engine_get())
+
+    // TODO: remove this.
+    // From example at https://www.gatsbyjs.org/blog/2018-12-17-turning-the-static-dynamic/
+    fetch("/.netlify/functions/hello")
+      .then(response => response.json())
+      .then(console.log)
+
   }, [])
 
   const onMinChange = event => {

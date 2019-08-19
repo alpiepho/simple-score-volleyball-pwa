@@ -1,7 +1,13 @@
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/6513a439-e820-4405-954f-8f442c0a29c1/deploy-status)](https://app.netlify.com/sites/admiring-bhabha-8dfc0c/deploys)
+
 ## Simple Score Volleyball PWA
 
 :construction: WORK IN PROGRESS 
+
+This is hosted on Netlify [here](admiring-bhabha-8dfc0c.netlify.com)
+
+
 
 This was copied from [any-counter](https://github.com/alpiepho/any-counter) and is still
 a work-in-progress.
