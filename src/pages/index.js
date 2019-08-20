@@ -5,16 +5,16 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import AnyCounter from "../components/anycounter"
 
-import { initAuth } from '../app/services/auth'
+import { initAuth } from '../scores/services/auth'
 initAuth()
 
 const IndexPage = () => (
   <Layout>
     <SEO title="Home" />
-    <AnyCounter />
-    <Link to="/app/">
-      <b>Go to App (with Netlify Identity)</b>
+    <Link to="/scores/">
+      <b>Go to Scores (with Netlify Identity)</b>
     </Link>{" "}
+    <AnyCounter />
   </Layout>
 )
 

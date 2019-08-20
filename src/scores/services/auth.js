@@ -5,7 +5,6 @@ export const initAuth = () => {
   if (isBrowser()) {
     window.netlifyIdentity = netlifyIdentity
     // You must run this once before trying to interact with the widget
-    console.log('11111')
     netlifyIdentity.init()
   }
 }
@@ -19,14 +18,10 @@ const setUser = user =>
 
 export const handleLogin = callback => {
   if (isLoggedIn()) {
-    console.log('22222')
     callback(getUser())
   } else {
-    console.log('33333')
     netlifyIdentity.open()
-    console.log('44444')
     netlifyIdentity.on("login", user => {
-      console.log('55555')
       setUser(user)
       callback(user)
     })
@@ -34,11 +29,8 @@ export const handleLogin = callback => {
 }
 
 export const isLoggedIn = () => {
-  console.log("aaaa")
-  console.log(isBrowser())
   if (!isBrowser()) return false
   const user = netlifyIdentity.currentUser()
-  console.log(user)
   return !!user
 }
 

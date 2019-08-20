@@ -1,5 +1,6 @@
 import React from 'react'
-import { getUser } from './services/auth'
+import { Link, navigate } from "gatsby"
+import { getUser, isLoggedIn, logout } from "./services/auth"
 
 class Main extends React.Component {
   state = { loading: false, json: null }
@@ -23,12 +24,30 @@ class Main extends React.Component {
     const user = getUser()
     return (
       <>
-        <h1>Your Main App</h1>
+        <h1>Settings: (TODO)</h1>
         <ul>
           <li>API: {user.api && user.api.apiURL}</li>
           <li>ID: {user.id}</li>
         </ul>
         <hr />
+
+        <Link to="/">Home</Link>
+        {` `}
+        {isLoggedIn() ? (
+          <a
+            href="/"
+            onClick={event => {
+              event.preventDefault()
+              logout(() => navigate(`/scores/login`))
+            }}
+          >
+            Logout
+          </a>
+        ) : (
+          <Link to="/scores/login">Login</Link>
+        )}
+        <hr />
+
 
         <button onClick={this.handleClick}>
           {loading ? 'Loading...' : 'Call Lambda Function'}
