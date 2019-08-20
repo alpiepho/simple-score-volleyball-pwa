@@ -7,6 +7,8 @@
 
 This is hosted on Netlify [here](admiring-bhabha-8dfc0c.netlify.com)
 
+Branch: issue_4_netlify_identity
+
 
 
 This was copied from [any-counter](https://github.com/alpiepho/any-counter) and is still
