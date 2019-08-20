@@ -179,6 +179,15 @@ Vertical:
 ----------------------- 
 ```
 
+
+### Warning about adding Login Indentify
+
+It tooks like you can test the login feature from a local run (ie. localhost:8000).  The Netlify
+login page will even ask the URL for the site.  The problem is that any confirmation email links
+take you to the hosted site.  In my case, I didn't have the login code deployed yet, so my user
+could never confirm their email.
+
+
 ----------------------------------------------------
 
 
