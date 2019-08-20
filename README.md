@@ -8,6 +8,10 @@
 This is hosted on Netlify [here](admiring-bhabha-8dfc0c.netlify.com)
 
 
+TODO:
+- change app to ??? (app is too generic) advanced?  from settings?  marker somehow
+- rework pages...
+
 
 This was copied from [any-counter](https://github.com/alpiepho/any-counter) and is still
 a work-in-progress.
@@ -27,6 +31,7 @@ and Android.
 ### Rough Diagram - Main
 
 ```
+/
 Horizontal:
 -----------------------  -----  -----------------------
 |                     |  | A |  |                     |
@@ -77,6 +82,7 @@ NOTES:
 
 ### Rough Diagram - Current Scores Modal
 ```
+/scores
 Vertical:
 ----------------------- 
 |                     | 
@@ -111,6 +117,7 @@ NOTES:
 
 ### Rough Diagram - About/Instructions Modal
 ```
+/about
 Vertical:
 ----------------------- 
 |  Simple Score -     | 
@@ -143,6 +150,7 @@ NOTES:
 
 ## Rough Diagram - Settings Modal
 ```
+/settings
 Vertical:
 ----------------------- 
 |  Settings:          | 
@@ -152,7 +160,7 @@ Vertical:
 |  - swap Us/Them     |
 |  - rotate main      |
 |  - set your #...    | 
-|                     |
+|  - Login/Logout     |
 |                     |
 |                     |
 |                     |
@@ -170,6 +178,15 @@ Vertical:
 | -----         ----- |
 ----------------------- 
 ```
+
+
+### Warning about adding Login Indentify
+
+It tooks like you can test the login feature from a local run (ie. localhost:8000).  The Netlify
+login page will even ask the URL for the site.  The problem is that any confirmation email links
+take you to the hosted site.  In my case, I didn't have the login code deployed yet, so my user
+could never confirm their email.
+
 
 ----------------------------------------------------
 
