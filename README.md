@@ -8,11 +8,6 @@
 This is hosted on Netlify [here](admiring-bhabha-8dfc0c.netlify.com)
 
 
-TODO:
-- change app to ??? (app is too generic) advanced?  from settings?  marker somehow
-- rework pages...
-
-
 This was copied from [any-counter](https://github.com/alpiepho/any-counter) and is still
 a work-in-progress.
 
@@ -187,6 +182,23 @@ login page will even ask the URL for the site.  The problem is that any confirma
 take you to the hosted site.  In my case, I didn't have the login code deployed yet, so my user
 could never confirm their email.
 
+## Notes on using Sending Texts
+
+The applications sends score updates by:
+- client side applications posts payload to Netlify Function(lambda)
+- lamda get Twilio eonfigurations from .env on server (or local when testing)
+- lambda cycles thru list of active numbers to send to, issues twilio sms calls to each with
+  message from client side.
+- TODO: do we need to wait for all texts to be sent?
+
+:warning:  Since we are using the free tier of Twilio, there are some limitations.
+- each send-to number must be pre-verified
+- this means, adding via Twilio portal,
+- owner will get verification code,
+- code must be entered in portal,
+- I think there is a 60s timeout, so person needs to be local
+
+I think we can avoid the verification if we upgrade plans.
 
 ----------------------------------------------------
 
