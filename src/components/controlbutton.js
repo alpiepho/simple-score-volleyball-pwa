@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { Button, Grid } from "@material-ui/core"
+import React from "react"
+import { Button } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 
 const useStyles = makeStyles(theme => ({
@@ -20,8 +20,7 @@ export default function ControlButton(props) {
   const classes = useStyles(props)
 
   const onButtonClick = () => {
-    console.log("onButtonClick")
-    //props.onButtonClick()
+    props.onButtonClick()
   }
 
   return (

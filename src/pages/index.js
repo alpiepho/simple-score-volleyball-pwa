@@ -1,11 +1,12 @@
 import React, { useState } from "react"
-import { Link } from "gatsby"
-import { Button, Grid, Paper, TextField, Typography, ClickAwayListener } from "@material-ui/core"
+import { navigate } from "gatsby"
+import { Grid } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
+
+import useLocalStorage from 'react-use-localstorage';
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import Title from "../components/title"
 import TeamButton from "../components/teambutton"
 import Controls from "../components/controls"
 
@@ -33,30 +34,53 @@ const IndexPage = () => {
   const [scoreUs, setScoreUs] = useState(0)
   const [matchThem, setMatchThem] = useState(0)
   const [scoreThem, setScoreThem] = useState(0)
-  // score
 
-  let label1 = "US"
-  let label2 = "THEM"
-  if (goodGuys) {
-    label1 = "GOOD GUYS"
-    label2 = "BAD GUYS"
+  const getTeamColor = (teamNumber) => {
+    let value1 = colorUs
+    let value2 = colorThem
+  
+    if (!usThem) {
+      ;[value1, value2] = [value2, value1]
+    }
+    if (teamNumber === 1) return value1
+    return value2
   }
-  let color1 = colorUs
-  let backgroundColor1 = backgroundColorUs
-  let color2 = colorThem
-  let backgroundColor2 = backgroundColorThem
 
-  let match1 = matchUs
-  let match2 = matchThem
-  let score1 = scoreUs
-  let score2 = scoreThem
+  const getTeamBackgroundColor = (teamNumber) => {
+    let value1 = backgroundColorUs
+    let value2 = backgroundColorThem
+  
+    if (!usThem) {
+      ;[value1, value2] = [value2, value1]
+    }
+    if (teamNumber === 1) return value1
+    return value2
+  }
 
-  if (!usThem) {
-    ;[label1, label2] = [label2, label1]
-    ;[color1, color2] = [color2, color1]
-    ;[backgroundColor1, backgroundColor2] = [backgroundColor2, backgroundColor1]
-    ;[match1, match2] = [match2, match1]
-    ;[score1, score2] = [score2, score1]
+
+  const getTeamLabel = (teamNumber) => {
+    let value1 = "US"
+    let value2 = "THEM"
+    if (goodGuys) {
+      value1 = "GOOD GUYS"
+      value2 = "BAD GUYS"
+    }
+    if (!usThem) {
+      ;[value1, value2] = [value2, value1]
+    }
+    if (teamNumber === 1) return value1
+    return value2
+  }
+
+  const getTeamScore = (teamNumber) => {
+    let value1 = scoreUs
+    let value2 = scoreThem
+  
+    if (!usThem) {
+      ;[value1, value2] = [value2, value1]
+    }
+    if (teamNumber === 1) return value1
+    return value2
   }
 
   const onTeam1Click = () => {
@@ -67,7 +91,6 @@ const IndexPage = () => {
     else {
       setScoreThem(scoreThem + 1)
     }
-
   }
 
   const onTeam2Click = () => {
@@ -80,13 +103,24 @@ const IndexPage = () => {
     }
   }
 
+  const onAboutClick = () => {
+    console.log("onAboutClick")
+    navigate('/about/')
+  }
+
+  const onScoresClick = () => {
+    console.log("onScoresClick")
+    //navigate('/scores/')
+  }
+
+  const onSettingsClick = () => {
+    console.log("onSettingsClick")
+    //navigate('/settings/')
+  }
 
   return (
     <Layout>
       <SEO title="Home" />
-      {/* <Link to="/scores/">
-        <b>Go to Scores</b>
-      </Link>{" "} */}
       <Grid
         className={classes.root}
         container
@@ -94,26 +128,28 @@ const IndexPage = () => {
         justify="space-around"
         direction="column"
       >
-        {/* <Title label="Simple Score - Volleyball"/> */}
         <TeamButton
           horizontal={horizontal}
-          color={color1}
-          backgroundColor={backgroundColor1}
-          label={label1}
-          score={score1}
+          color={getTeamColor(1)}
+          backgroundColor={getTeamBackgroundColor(1)}
+          label={getTeamLabel(1)}
+          score={getTeamScore(1)}
           onButtonClick={onTeam1Click}
         />
         <Controls
           horizontal={horizontal}
           color="black"
           backgroundColor="gray"
-        />
+          onScoresClick={onScoresClick}
+          onAboutClick={onAboutClick}
+          onSettingsClick={onSettingsClick}
+         />
         <TeamButton
           horizontal={horizontal}
-          color={color2}
-          backgroundColor={backgroundColor2}
-          label={label2}
-          score={score2}
+          color={getTeamColor(2)}
+          backgroundColor={getTeamBackgroundColor(2)}
+          label={getTeamLabel(2)}
+          score={getTeamScore(2)}
           onButtonClick={onTeam2Click}
         />
       </Grid>
