@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Button, Grid } from "@material-ui/core"
-import { FaGithub } from "react-icons/fa"
+import { FaBars, FaRegChartBar, FaQuestion } from "react-icons/fa"
 import { makeStyles } from "@material-ui/core/styles"
 import ControlButton from "./controlbutton"
 
@@ -27,15 +27,39 @@ export default function Controls(props) {
   }
 
   return (
-    <Grid container spacing={8} justify="center" alignItems="center" direction="row">
+    <Grid
+      container
+      spacing={8}
+      justify="center"
+      alignItems="center"
+      direction="row"
+    >
       <Grid item xs={4}>
-        <ControlButton label="A" />
+        <ControlButton
+          horizontal={props.horizontal}
+          color={props.color}
+          backgroundColor={props.backgroundColor}
+        >
+          <FaRegChartBar className={classes.icon} size={24} aria-hidden="true" />
+        </ControlButton>
       </Grid>
       <Grid item xs={4}>
-        <ControlButton label="?" />
+        <ControlButton
+          horizontal={props.horizontal}
+          color={props.color}
+          backgroundColor={props.backgroundColor}
+          >
+          <FaQuestion className={classes.icon} size={24} aria-hidden="true" />
+        </ControlButton>
       </Grid>
       <Grid item xs={4}>
-        <ControlButton label="B" />
+        <ControlButton
+          horizontal={props.horizontal}
+          color={props.color}
+          backgroundColor={props.backgroundColor}
+          >
+          <FaBars className={classes.icon} size={24} aria-hidden="true" />
+        </ControlButton>
       </Grid>
     </Grid>
   )

@@ -16,6 +16,12 @@ const useStyles = makeStyles(theme => ({
   button: {
     width: "100%",
     height: "40vh",
+    color: props => props.color,
+    backgroundColor: props => props.backgroundColor,
+    '&:hover, &$focusVisible': {
+      color: props => props.color,
+      backgroundColor: props => props.backgroundColor,
+    }
   },
   teamLabel: {
     marginTop: 20,
@@ -24,15 +30,16 @@ const useStyles = makeStyles(theme => ({
   teamScore: {
     fontSize: 100,
     marginBottom: 20,
+    transform: props => { return(props.horizontal ? "rotate(-90deg)" : "") }
   },
 }))
 
 export default function TeamButton(props) {
-  const classes = useStyles()
+  const classes = useStyles(props)
 
   const onButtonClick = () => {
     console.log("onButtonClick")
-    //props.onButtonClick()
+    props.onButtonClick()
   }
 
   return (
@@ -43,7 +50,7 @@ export default function TeamButton(props) {
             <Button
               className={classes.button}
               variant="contained"
-              color="primary"
+              color="secondary"
               onClick={onButtonClick}
             >
               <Grid
