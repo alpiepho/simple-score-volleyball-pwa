@@ -201,11 +201,3 @@ const IndexPage = () => {
 
 export default IndexPage
 
-// TODO
-// - double click
-// - no rotate
-// - scoring engine
-// - local storage
-// - about page
-// - settings page
-// - scores page
