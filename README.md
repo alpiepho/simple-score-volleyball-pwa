@@ -29,6 +29,7 @@ and Android.
 - scores page
 - hook send text
 - toggle us them button?
+- try modal
 
 ### BUGS
 
