@@ -19,7 +19,6 @@ const SettingsPage = () => {
   const classes = useStyles()
 
   const onCancelClick = () => {
-    console.log("ok")
     navigate("/home/")
   }
 

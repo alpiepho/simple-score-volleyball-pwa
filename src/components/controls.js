@@ -7,15 +7,7 @@ import ControlButton from "./controlbutton"
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    height: "10vh",
   },
-  button: {
-    width: 100,
-    marginLeft: 30,
-    marginBottom: 20,
-  },
-  teamLabel: {},
-  teamScore: {},
 }))
 
 export default function Controls(props) {
@@ -23,11 +15,12 @@ export default function Controls(props) {
 
   return (
     <Grid
+      className={classes.root}
       container
-      spacing={3}
-      justify="spaces-around"
+      spacing={2}
+      justify="space-around"
       alignItems="center"
-      direction="row"
+      direction={ props.horizontal ? "column" : "row" }
     >
       <Grid item xs={3}>
         <ControlButton

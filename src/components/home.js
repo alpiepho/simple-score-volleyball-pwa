@@ -11,7 +11,8 @@ import Controls from "../components/controls"
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    height: "100vh",
+    height: "95vh",
+    marginTop: "2.5vh",
   },
 }))
 
@@ -53,6 +54,10 @@ const Home = () => {
     unpackSettings()
   }, [])
 
+  useEffect(() => {
+    packSettings()
+  }, [score1, score2, label1, label2])
+
   const packSettings = () => {
     let settings = {}
 
@@ -69,6 +74,8 @@ const Home = () => {
     settings["label2"] = label2
     settings["match2"] = match2
     settings["score2"] = score2
+
+    console.log(settings)
 
     settings = JSON.stringify(settings)
 
@@ -94,12 +101,6 @@ const Home = () => {
       setMatch2(settings.match2)
       setScore2(settings.score2)
     }
-  }
-
-  const delayPackSettings = () => {
-    setTimeout(() => {
-      packSettings()
-    },100)
   }
 
   // const toggleGoodGuys = () => {
@@ -141,12 +142,10 @@ const Home = () => {
 
   const onTeam1Click = () => {
     setScore1(score1 + 1)
-    delayPackSettings()
   }
 
   const onTeam2Click = () => {
     setScore2(score2 + 1)
-    delayPackSettings()
   }
 
   const onScoresClick = () => {
@@ -177,8 +176,9 @@ const Home = () => {
         container
         spacing={0}
         justify="space-around"
-        direction="column"
+        direction={ horizontal ? "row" : "column" }
       >
+        <Grid item xs={4}>
         <TeamButton
           horizontal={horizontal}
           color={color1}
@@ -187,6 +187,7 @@ const Home = () => {
           score={score1}
           onButtonClick={onTeam1Click}
         />
+        </Grid>
         <Controls
           horizontal={horizontal}
           color="black"
