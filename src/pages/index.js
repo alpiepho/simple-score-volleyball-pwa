@@ -38,141 +38,126 @@ function saveToLS(key, value) {
 
 const IndexPage = () => {
   const classes = useStyles()
-  const [usThem, setUsThem] = useState(true)
-  const [goodGuys, setGoodGuys] = useState(false)
-  const [colorUs, setColorUs] = useState("white")
-  const [backgroundColorUs, setBackgroundColorUs] = useState("red")
-  const [colorThem, setColorThem] = useState("white")
-  const [backgroundColorThem, setBackgroundColorThem] = useState("blue")
   const [horizontal, setHorizontal] = useState(false)
-  const [matchUs, setMatchUs] = useState(0)
-  const [scoreUs, setScoreUs] = useState(0)
-  const [matchThem, setMatchThem] = useState(0)
-  const [scoreThem, setScoreThem] = useState(0)
+
+  const [color1, setColor1] = useState("white")
+  const [backgroundColor1, setBackgroundColor1] = useState("red")
+  const [label1, setLabel1] = useState("US")
+  const [match1, setMatch1] = useState(0)
+  const [score1, setScore1] = useState(0)
+
+  const [color2, setColor2] = useState("white")
+  const [backgroundColor2, setBackgroundColor2] = useState("blue")
+  const [label2, setLabel2] = useState("THEM")
+  const [match2, setMatch2] = useState(0)
+  const [score2, setScore2] = useState(0)
 
   useEffect(() => {
-    unpackSettings()
-  },[]);
+    //unpackSettings()
+  }, [])
 
   const packSettings = () => {
     let settings = {}
-    settings['usThem'] = usThem
-    settings['usThem'] = usThem
-    settings['goodGuys'] = goodGuys
-    settings['colorUs'] = colorUs
-    settings['backgroundColorUs'] = backgroundColorUs
-    settings['backgroundColorThem'] = backgroundColorThem
-    settings['horizontal'] = horizontal
-    settings['matchUs'] = matchUs
-    settings['scoreUs'] = scoreUs
-    settings['matchThem'] = matchThem
-    settings['scoreThem'] = scoreThem
-    settings = JSON.stringify(settings)
+
+    settings["horizontal"] = horizontal
+
+    settings["color1"] = color1
+    settings["backgroundColor1"] = backgroundColor1
+    settings["label1"] = label1
+    settings["match1"] = match1
+    settings["score1"] = score1
+
+    settings["color2"] = color2
+    settings["backgroundColor2"] = backgroundColor2
+    settings["label2"] = label2
+    settings["match2"] = match2
+    settings["score2"] = score2
+
     saveToLS('allSettings', settings)
   }
 
   const unpackSettings = () => {
-    let settings = getFromLS('allSettings')
+    let settings = getFromLS("allSettings")
     if (settings) {
       settings = JSON.parse(settings)
-      setUsThem(settings.usThem)
-      setGoodGuys(settings.goodGuys)
-      setColorUs(settings.colorUs)
-      setBackgroundColorUs(settings.backgroundColorUs)
-      setColorThem(settings.colorThem)
-      setBackgroundColorThem(settings.backgroundColorThem)
+
       setHorizontal(settings.horizontal)
-      setMatchUs(settings.matchUs)
-      setScoreUs(settings.scoreUs)
-      setMatchThem(settings.matchThem)
-      setScoreThem(settings.scoreThem)
+
+      setColor1(settings.color1)
+      setBackgroundColor1(settings.backgroundColor1)
+      setLabel1(settings.label1)
+      setMatch1(settings.match1)
+      setScore1(settings.score1)
+
+      setColor2(settings.color2)
+      setBackgroundColor2(settings.backgroundColor2)
+      setLabel2(settings.label2)
+      setMatch2(settings.match2)
+      setScore2(settings.score2)
     }
   }
 
-  const getTeamColor = (teamNumber) => {
-    let value1 = colorUs
-    let value2 = colorThem
-  
-    if (!usThem) {
-      ;[value1, value2] = [value2, value1]
+  const toggleGoodGuys = () => {
+    console.log(label1)
+    if (label1 === "US") {
+      setLabel1("GOOD GUYS")
+      setLabel2("BAD GUYS")
+    } else if (label1 === "THEM") {
+      setLabel2("GOOD GUYS")
+      setLabel1("BAD GUYS")
+    } else if (label1 === "GOOD GUYS") {
+      setLabel1("US")
+      setLabel2("THEM")
+    } else if (label1 === "BAD GUYS") {
+      setLabel2("US")
+      setLabel1("THEM")
     }
-    if (teamNumber === 1) return value1
-    return value2
   }
 
-  const getTeamBackgroundColor = (teamNumber) => {
-    let value1 = backgroundColorUs
-    let value2 = backgroundColorThem
-  
-    if (!usThem) {
-      ;[value1, value2] = [value2, value1]
-    }
-    if (teamNumber === 1) return value1
-    return value2
-  }
+  const toggleUsThem = () => {
+    let color = color1
+    let backgroundColor = backgroundColor1
+    let label = label1
+    let match = match1
+    let score = score1
 
+    setColor1(color2)
+    setBackgroundColor1(backgroundColor2)
+    setLabel1(label2)
+    setMatch1(match2)
+    setScore1(score2)
 
-  const getTeamLabel = (teamNumber) => {
-    let value1 = "US"
-    let value2 = "THEM"
-    if (goodGuys) {
-      value1 = "GOOD GUYS"
-      value2 = "BAD GUYS"
-    }
-    if (!usThem) {
-      ;[value1, value2] = [value2, value1]
-    }
-    if (teamNumber === 1) return value1
-    return value2
-  }
-
-  const getTeamScore = (teamNumber) => {
-    let value1 = scoreUs
-    let value2 = scoreThem
-  
-    if (!usThem) {
-      ;[value1, value2] = [value2, value1]
-    }
-    if (teamNumber === 1) return value1
-    return value2
+    setColor2(color)
+    setBackgroundColor2(backgroundColor)
+    setLabel2(label)
+    setMatch2(match)
+    setScore2(score)
   }
 
   const onTeam1Click = () => {
-    console.log("onButtonClick1")
-    if (usThem) {
-      setScoreUs(scoreUs + 1)
-    }
-    else {
-      setScoreThem(scoreThem + 1)
-    }
+    setScore1(score1 + 1)
   }
 
   const onTeam2Click = () => {
-    console.log("onButtonClick1")
-    if (usThem) {
-      setScoreThem(scoreThem + 1)
-    }
-    else {
-      setScoreUs(scoreUs + 1)
-    }
+    setScore2(score2 + 1)
   }
 
   const onAboutClick = () => {
     console.log("onAboutClick")
     packSettings()
-    navigate('/about/')
+    navigate("/about/")
   }
 
   const onScoresClick = () => {
     console.log("onScoresClick")
-    packSettings()
-    navigate('/scores/')
+    //packSettings()
+    //navigate('/scores/')
   }
 
   const onSettingsClick = () => {
     console.log("onSettingsClick")
     packSettings()
-    navigate('/settings/')
+    navigate("/settings/")
   }
 
   return (
@@ -187,10 +172,10 @@ const IndexPage = () => {
       >
         <TeamButton
           horizontal={horizontal}
-          color={getTeamColor(1)}
-          backgroundColor={getTeamBackgroundColor(1)}
-          label={getTeamLabel(1)}
-          score={getTeamScore(1)}
+          color={color1}
+          backgroundColor={backgroundColor1}
+          label={label1}
+          score={score1}
           onButtonClick={onTeam1Click}
         />
         <Controls
@@ -200,13 +185,13 @@ const IndexPage = () => {
           onScoresClick={onScoresClick}
           onAboutClick={onAboutClick}
           onSettingsClick={onSettingsClick}
-         />
+        />
         <TeamButton
           horizontal={horizontal}
-          color={getTeamColor(2)}
-          backgroundColor={getTeamBackgroundColor(2)}
-          label={getTeamLabel(2)}
-          score={getTeamScore(2)}
+          color={color2}
+          backgroundColor={backgroundColor2}
+          label={label2}
+          score={score2}
           onButtonClick={onTeam2Click}
         />
       </Grid>
@@ -216,13 +201,11 @@ const IndexPage = () => {
 
 export default IndexPage
 
-
-// TODO 
-// - double click 
-// - no rotate 
+// TODO
+// - double click
+// - no rotate
 // - scoring engine
 // - local storage
-// - about page 
-// - settings page 
-// - scores page  
-
+// - about page
+// - settings page
+// - scores page
