@@ -5,7 +5,7 @@
 
 :construction: WORK IN PROGRESS 
 
-This is hosted on Netlify [here](admiring-bhabha-8dfc0c.netlify.com)
+This is hosted on Netlify [here](https://admiring-bhabha-8dfc0c.netlify.com/)
 
 
 This was copied from [any-counter](https://github.com/alpiepho/any-counter) and is still
