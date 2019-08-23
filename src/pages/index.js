@@ -4,6 +4,9 @@ import { Grid } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 
 import useLocalStorage from 'react-use-localstorage';
+import exitHook from 'exit-hook';
+//const exitHook = require('exit-hook');
+
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -37,8 +40,13 @@ const IndexPage = () => {
   const [allSettings, setAllSettings] = useLocalStorage('allSettings', '')
 
   useEffect(() => {
-    uppackSettings()
+    unpackSettings()
   },[]);
+
+  // not sure this is working
+  exitHook(() => {
+    packSettings()
+  });
 
   const packSettings = () => {
     let settings = {}
@@ -57,7 +65,7 @@ const IndexPage = () => {
     setAllSettings(settings)
   }
 
-  const uppackSettings = () => {
+  const unpackSettings = () => {
     let settings = allSettings
     if (settings.length) {
       settings = JSON.parse(settings)
