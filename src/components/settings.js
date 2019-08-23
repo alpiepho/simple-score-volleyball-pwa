@@ -1,14 +1,12 @@
 import React from "react"
 import { navigate } from "gatsby"
-import { Grid, Typography } from "@material-ui/core"
+import { Grid } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Title from "../components/title"
 import ControlButton from "../components/controlbutton"
-
-import { handleLogin } from "./services/auth"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -17,21 +15,21 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const Login = () => {
+const SettingsPage = () => {
   const classes = useStyles()
 
   const onCancelClick = () => {
     navigate("/home/")
   }
 
-  const onLoginClick = () => {
+  const onSaveClick = () => {
     console.log("save")
-    handleLogin(user => navigate(`/scores/`))
+    navigate("/home/")
   }
 
   return (
     <Layout>
-      <SEO title="Login" />
+      <SEO title="Settings" />
       <Grid
         className={classes.root}
         container
@@ -39,22 +37,7 @@ const Login = () => {
         justify="space-around"
         direction="column"
       >
-        <Title label="Login" />
-
-        <Typography className={classes.paragraph} variant="body1" gutterBottom>
-          In order to send texts, you will need to login.  We are currently
-          using a web hosting service called Netlify and their autorization
-          service 'Indentify'.
-        </Typography>
-        <Typography className={classes.paragraph} variant="body1" gutterBottom>
-          You should be able to signup for a new account, by entering an email
-          and password.  Netlify will send a confirmation email before you
-          can login.
-        </Typography>
-        <Typography className={classes.paragraph} variant="body1" gutterBottom>
-          NOTE: You don't have to sign up, but that is the only way you can
-          send texts with onging scores.
-        </Typography>
+        <Title label="Settings" />
 
         <Grid
           container
@@ -76,9 +59,9 @@ const Login = () => {
             <ControlButton
               color="black"
               backgroundColor="gray"
-              onButtonClick={onLoginClick}
+              onButtonClick={onSaveClick}
             >
-              Login
+              Save
             </ControlButton>
           </Grid>
         </Grid>
@@ -87,4 +70,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default SettingsPage

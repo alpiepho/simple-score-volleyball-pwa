@@ -1,21 +1,13 @@
 import React from "react"
 import { Grid } from "@material-ui/core"
-import { FaBars, FaRegChartBar, FaQuestion } from "react-icons/fa"
+import { FaArrowsAltV, FaBars, FaRegChartBar, FaQuestion } from "react-icons/fa"
 import { makeStyles } from "@material-ui/core/styles"
 import ControlButton from "./controlbutton"
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    height: "10vh",
   },
-  button: {
-    width: 100,
-    marginLeft: 30,
-    marginBottom: 20,
-  },
-  teamLabel: {},
-  teamScore: {},
 }))
 
 export default function Controls(props) {
@@ -23,13 +15,14 @@ export default function Controls(props) {
 
   return (
     <Grid
+      className={classes.root}
       container
-      spacing={8}
-      justify="center"
+      spacing={2}
+      justify="space-around"
       alignItems="center"
-      direction="row"
+      direction={ props.horizontal ? "column" : "row" }
     >
-      <Grid item xs={4}>
+      <Grid item xs={3}>
         <ControlButton
           horizontal={props.horizontal}
           color={props.color}
@@ -39,7 +32,7 @@ export default function Controls(props) {
           <FaRegChartBar className={classes.icon} size={24} aria-hidden="true" />
         </ControlButton>
       </Grid>
-      <Grid item xs={4}>
+      <Grid item xs={3}>
         <ControlButton
           horizontal={props.horizontal}
           color={props.color}
@@ -49,7 +42,18 @@ export default function Controls(props) {
           <FaQuestion className={classes.icon} size={24} aria-hidden="true" />
         </ControlButton>
       </Grid>
-      <Grid item xs={4}>
+
+      <Grid item xs={3}>
+        <ControlButton
+          horizontal={props.horizontal}
+          color={props.color}
+          backgroundColor={props.backgroundColor}
+          onButtonClick={props.onSwapTeamsClick}
+          >
+          <FaArrowsAltV className={classes.icon} size={24} aria-hidden="true" />
+        </ControlButton>
+      </Grid>
+      <Grid item xs={3}>
         <ControlButton
           horizontal={props.horizontal}
           color={props.color}
