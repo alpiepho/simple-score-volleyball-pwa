@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { navigate } from "gatsby"
 import { Grid } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
@@ -34,6 +34,46 @@ const IndexPage = () => {
   const [scoreUs, setScoreUs] = useState(0)
   const [matchThem, setMatchThem] = useState(0)
   const [scoreThem, setScoreThem] = useState(0)
+  const [allSettings, setAllSettings] = useLocalStorage('allSettings', '')
+
+  useEffect(() => {
+    uppackSettings()
+  },[]);
+
+  const packSettings = () => {
+    let settings = {}
+    settings['usThem'] = usThem
+    settings['usThem'] = usThem
+    settings['goodGuys'] = goodGuys
+    settings['colorUs'] = colorUs
+    settings['backgroundColorUs'] = backgroundColorUs
+    settings['backgroundColorThem'] = backgroundColorThem
+    settings['horizontal'] = horizontal
+    settings['matchUs'] = matchUs
+    settings['scoreUs'] = scoreUs
+    settings['matchThem'] = matchThem
+    settings['scoreThem'] = scoreThem
+    settings = JSON.stringify(settings)
+    setAllSettings(settings)
+  }
+
+  const uppackSettings = () => {
+    let settings = allSettings
+    if (settings.length) {
+      settings = JSON.parse(settings)
+      setUsThem(settings.usThem)
+      setGoodGuys(settings.goodGuys)
+      setColorUs(settings.colorUs)
+      setBackgroundColorUs(settings.backgroundColorUs)
+      setColorThem(settings.colorThem)
+      setBackgroundColorThem(settings.backgroundColorThem)
+      setHorizontal(settings.horizontal)
+      setMatchUs(settings.matchUs)
+      setScoreUs(settings.scoreUs)
+      setMatchThem(settings.matchThem)
+      setScoreThem(settings.scoreThem)
+    }
+  }
 
   const getTeamColor = (teamNumber) => {
     let value1 = colorUs
@@ -105,16 +145,19 @@ const IndexPage = () => {
 
   const onAboutClick = () => {
     console.log("onAboutClick")
+    packSettings()
     navigate('/about/')
   }
 
   const onScoresClick = () => {
     console.log("onScoresClick")
+    packSettings()
     navigate('/scores/')
   }
 
   const onSettingsClick = () => {
     console.log("onSettingsClick")
+    packSettings()
     navigate('/settings/')
   }
 
