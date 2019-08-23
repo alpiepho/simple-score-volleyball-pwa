@@ -1,5 +1,5 @@
 import React from "react"
-import { navigate } from "gatsby"
+import { Link, navigate } from "gatsby"
 import { handleLogin } from "./services/auth"
 
 class Login extends React.Component {
@@ -9,6 +9,8 @@ class Login extends React.Component {
       <>
         <h1>Log in</h1>
         <button onClick={this.handleSubmit}>log in</button>
+        <hr/>
+        <Link to="/">Home</Link>
       </>
     )
   }
