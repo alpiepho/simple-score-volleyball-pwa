@@ -110,12 +110,12 @@ const IndexPage = () => {
 
   const onScoresClick = () => {
     console.log("onScoresClick")
-    //navigate('/scores/')
+    navigate('/scores/')
   }
 
   const onSettingsClick = () => {
     console.log("onSettingsClick")
-    //navigate('/settings/')
+    navigate('/settings/')
   }
 
   return (

@@ -32,16 +32,12 @@ const AboutPage = () => {
   const classes = useStyles()
 
   const onOkClick = () => {
-    console.log('ok')
     navigate('/')
   }
 
   return (
     <Layout>
       <SEO title="About" />
-      {/* <Link to="/scores/">
-        <b>Go to Scores</b>
-      </Link>{" "} */}
       <Grid
         className={classes.root}
         container
