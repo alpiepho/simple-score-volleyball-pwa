@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { navigate } from "gatsby"
-import { Grid } from "@material-ui/core"
+import { Grid, Typography } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 
 import Layout from "../components/layout"
@@ -171,41 +171,62 @@ const Home = () => {
   return (
     <Layout>
       <SEO title="Home" />
-      <Grid
-        className={classes.root}
-        container
-        spacing={0}
-        justify="space-around"
-        direction={ horizontal ? "row" : "column" }
-      >
-        <Grid item xs={4}>
-        <TeamButton
-          horizontal={horizontal}
-          color={color1}
-          backgroundColor={backgroundColor1}
-          label={label1}
-          score={score1}
-          onButtonClick={onTeam1Click}
-        />
-        </Grid>
-        <Controls
-          horizontal={horizontal}
-          color="black"
-          backgroundColor="gray"
-          onScoresClick={onScoresClick}
-          onAboutClick={onAboutClick}
-          onSwapTeamsClick={onSwapTeamsClick}
-          onSettingsClick={onSettingsClick}
-        />
-        <TeamButton
-          horizontal={horizontal}
-          color={color2}
-          backgroundColor={backgroundColor2}
-          label={label2}
-          score={score2}
-          onButtonClick={onTeam2Click}
-        />
-      </Grid>
+      <>
+        <div className="home-vertical">
+          <Grid
+            className={classes.root}
+            container
+            spacing={0}
+            justify="space-around"
+            direction="column"
+          >
+            <TeamButton
+              horizontal={horizontal}
+              color={color1}
+              backgroundColor={backgroundColor1}
+              label={label1}
+              score={score1}
+              onButtonClick={onTeam1Click}
+            />
+            <Controls
+              horizontal={horizontal}
+              color="black"
+              backgroundColor="gray"
+              onScoresClick={onScoresClick}
+              onAboutClick={onAboutClick}
+              onSwapTeamsClick={onSwapTeamsClick}
+              onSettingsClick={onSettingsClick}
+            />
+            <TeamButton
+              horizontal={horizontal}
+              color={color2}
+              backgroundColor={backgroundColor2}
+              label={label2}
+              score={score2}
+              onButtonClick={onTeam2Click}
+            />
+          </Grid>
+        </div>
+        <div className="home-horizontal">
+          <Grid
+            className={classes.root}
+            container
+            spacing={0}
+            justify="space-around"
+            direction="column"
+          >
+            <Typography
+              className={classes.paragraph}
+              variant="body1"
+              gutterBottom
+            >
+              Automatic formating for horizontal or landscape mode is not available.
+              A workaround is to lock the screen rotation on your phone and use the
+              settings for horizontal mode.  Then all the text will be rotated 90 degrees.
+            </Typography>
+          </Grid>
+        </div>
+      </>
     </Layout>
   )
 }

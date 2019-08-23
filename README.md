@@ -28,15 +28,15 @@ and Android.
 - settings page
 - scores page
 - hook send text
-- toggle us them button?
+
 - try modal
+- icons/favicon
+- screenshots for readme
 
 ### BUGS
 
 - double click
-- no rotate
-- local storage (turn it on)
-- about page (fix 1st load without style)
+- about page (fix 1st load without style, take out work around)
 - investigate send text failure
 
 
@@ -216,6 +216,34 @@ The applications sends score updates by:
 - I think there is a 60s timeout, so person needs to be local
 
 I think we can avoid the verification if we upgrade plans.
+
+
+### Work Around for About page, first load
+
+There is a bug wher the first load of a page is missing styles (presumably from styled comonents
+and Material UI).  As a work around I needed CSS that would not conflict with the styled component
+generated CSS.
+
+To do this I added a <div> with className of "about-component" around the React components.  Then in
+the global CSS (in this case it is layout.css) I added the follow:
+
+```
+.about-component h2 {
+  margin-top: 5vh;
+}
+.about-component p {
+  margin-top: 8vh;
+  margin-bottom: 8vh;
+}
+.about-component button {
+  border-radius: 20px;
+  color: black;
+  background-color: gray;
+  height: 8vh;
+}```
+
+This mimicks the styled CSS, but because it is declared as 'class' then 'html element' it will not 
+carry over to other pages.
 
 <!-- ----------------------------------------------------
 

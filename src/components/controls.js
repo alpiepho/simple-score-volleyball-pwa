@@ -20,7 +20,7 @@ export default function Controls(props) {
       spacing={2}
       justify="space-around"
       alignItems="center"
-      direction={ props.horizontal ? "column" : "row" }
+      direction="row"
     >
       <Grid item xs={3}>
         <ControlButton

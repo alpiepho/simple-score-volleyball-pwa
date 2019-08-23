@@ -622,3 +622,35 @@ pre tt:after {
     font-size: 100%;
   }
 }
+
+
+
+.home-vertical {
+  display: grid;
+}
+.home-horizontal {
+  display: none;
+}
+@media all and (orientation:landscape) {
+  .home-vertical {
+    display: none;
+  }
+  .home-horizontal {
+    display: block;
+  }
+}
+
+
+.about-component h2 {
+  margin-top: 5vh;
+}
+.about-component p {
+  margin-top: 8vh;
+  margin-bottom: 8vh;
+}
+.about-component button {
+  border-radius: 20px;
+  color: black;
+  background-color: gray;
+  height: 8vh;
+}
