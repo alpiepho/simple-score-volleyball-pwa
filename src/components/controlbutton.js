@@ -6,6 +6,7 @@ const useStyles = makeStyles(theme => ({
   button: {
     width: "100%",
     height: "8vh",
+    borderRadius: 20,
     color: props => props.color,
     backgroundColor: props => props.backgroundColor,
     '&:hover, &$focusVisible': {

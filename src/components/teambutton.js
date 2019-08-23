@@ -1,8 +1,6 @@
-import React, { useState } from "react"
+import React from "react"
 import { Button, Grid } from "@material-ui/core"
-import { FaGithub } from "react-icons/fa"
 import { makeStyles } from "@material-ui/core/styles"
-import { red } from "@material-ui/core/colors";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,6 +14,7 @@ const useStyles = makeStyles(theme => ({
   button: {
     width: "100%",
     height: "40vh",
+    borderRadius: 20,
     color: props => props.color,
     backgroundColor: props => props.backgroundColor,
     '&:hover, &$focusVisible': {
