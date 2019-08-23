@@ -3,17 +3,13 @@ import { navigate } from "gatsby"
 import { Grid } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 
-import useLocalStorage from 'react-use-localstorage';
-import exitHook from 'exit-hook';
-//const exitHook = require('exit-hook');
-
-
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import TeamButton from "../components/teambutton"
 import Controls from "../components/controls"
 
 import { initAuth } from "../scores/services/auth"
+initAuth()
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,7 +18,23 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-initAuth()
+function getFromLS(key) {
+  let ls = {}
+  if (window.localStorage) {
+    try {
+      ls = window.localStorage.getItem("simple-score-volleyball")
+    } catch (e) {
+      /*Ignore*/
+    }
+  }
+  return ls
+}
+
+function saveToLS(key, value) {
+  if (window.localStorage) {
+    window.localStorage.setItem("simple-score-volleyball", value)
+  }
+}
 
 const IndexPage = () => {
   const classes = useStyles()
@@ -37,16 +49,10 @@ const IndexPage = () => {
   const [scoreUs, setScoreUs] = useState(0)
   const [matchThem, setMatchThem] = useState(0)
   const [scoreThem, setScoreThem] = useState(0)
-  const [allSettings, setAllSettings] = useLocalStorage('allSettings', '')
 
   useEffect(() => {
     unpackSettings()
   },[]);
-
-  // not sure this is working
-  exitHook(() => {
-    packSettings()
-  });
 
   const packSettings = () => {
     let settings = {}
@@ -62,12 +68,12 @@ const IndexPage = () => {
     settings['matchThem'] = matchThem
     settings['scoreThem'] = scoreThem
     settings = JSON.stringify(settings)
-    setAllSettings(settings)
+    saveToLS('allSettings', settings)
   }
 
   const unpackSettings = () => {
-    let settings = allSettings
-    if (settings.length) {
+    let settings = getFromLS('allSettings')
+    if (settings) {
       settings = JSON.parse(settings)
       setUsThem(settings.usThem)
       setGoodGuys(settings.goodGuys)
