@@ -61,7 +61,7 @@ class Main extends React.Component {
         </ul>
         <hr />
 
-        <Link to="/">Home</Link>
+        <Link to="/home/">Home</Link>
         {` `}
         {` `}
         {isLoggedIn() ? (

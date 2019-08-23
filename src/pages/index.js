@@ -1,15 +1,23 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { navigate } from "gatsby"
-import { Grid } from "@material-ui/core"
+import {
+  Button,
+  Grid,
+  Paper,
+  TextField,
+  Typography,
+  ClickAwayListener,
+} from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import Title from "../components/title"
 import TeamButton from "../components/teambutton"
 import Controls from "../components/controls"
+import ControlButton from "../components/controlbutton"
 
 import { initAuth } from "../scores/services/auth"
-initAuth()
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,166 +26,18 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-function getFromLS(key) {
-  let ls = {}
-  if (window.localStorage) {
-    try {
-      ls = window.localStorage.getItem("simple-score-volleyball")
-    } catch (e) {
-      /*Ignore*/
-    }
-  }
-  return ls
-}
+initAuth()
 
-function saveToLS(key, value) {
-  if (window.localStorage) {
-    window.localStorage.setItem("simple-score-volleyball", value)
-  }
-}
-
-const IndexPage = () => {
+const AboutPage = () => {
   const classes = useStyles()
-  const [usThem, setUsThem] = useState(true)
-  const [goodGuys, setGoodGuys] = useState(false)
-  const [colorUs, setColorUs] = useState("white")
-  const [backgroundColorUs, setBackgroundColorUs] = useState("red")
-  const [colorThem, setColorThem] = useState("white")
-  const [backgroundColorThem, setBackgroundColorThem] = useState("blue")
-  const [horizontal, setHorizontal] = useState(false)
-  const [matchUs, setMatchUs] = useState(0)
-  const [scoreUs, setScoreUs] = useState(0)
-  const [matchThem, setMatchThem] = useState(0)
-  const [scoreThem, setScoreThem] = useState(0)
 
-  useEffect(() => {
-    unpackSettings()
-  },[]);
-
-  const packSettings = () => {
-    let settings = {}
-    settings['usThem'] = usThem
-    settings['usThem'] = usThem
-    settings['goodGuys'] = goodGuys
-    settings['colorUs'] = colorUs
-    settings['backgroundColorUs'] = backgroundColorUs
-    settings['backgroundColorThem'] = backgroundColorThem
-    settings['horizontal'] = horizontal
-    settings['matchUs'] = matchUs
-    settings['scoreUs'] = scoreUs
-    settings['matchThem'] = matchThem
-    settings['scoreThem'] = scoreThem
-    settings = JSON.stringify(settings)
-    saveToLS('allSettings', settings)
-  }
-
-  const unpackSettings = () => {
-    let settings = getFromLS('allSettings')
-    if (settings) {
-      settings = JSON.parse(settings)
-      setUsThem(settings.usThem)
-      setGoodGuys(settings.goodGuys)
-      setColorUs(settings.colorUs)
-      setBackgroundColorUs(settings.backgroundColorUs)
-      setColorThem(settings.colorThem)
-      setBackgroundColorThem(settings.backgroundColorThem)
-      setHorizontal(settings.horizontal)
-      setMatchUs(settings.matchUs)
-      setScoreUs(settings.scoreUs)
-      setMatchThem(settings.matchThem)
-      setScoreThem(settings.scoreThem)
-    }
-  }
-
-  const getTeamColor = (teamNumber) => {
-    let value1 = colorUs
-    let value2 = colorThem
-  
-    if (!usThem) {
-      ;[value1, value2] = [value2, value1]
-    }
-    if (teamNumber === 1) return value1
-    return value2
-  }
-
-  const getTeamBackgroundColor = (teamNumber) => {
-    let value1 = backgroundColorUs
-    let value2 = backgroundColorThem
-  
-    if (!usThem) {
-      ;[value1, value2] = [value2, value1]
-    }
-    if (teamNumber === 1) return value1
-    return value2
-  }
-
-
-  const getTeamLabel = (teamNumber) => {
-    let value1 = "US"
-    let value2 = "THEM"
-    if (goodGuys) {
-      value1 = "GOOD GUYS"
-      value2 = "BAD GUYS"
-    }
-    if (!usThem) {
-      ;[value1, value2] = [value2, value1]
-    }
-    if (teamNumber === 1) return value1
-    return value2
-  }
-
-  const getTeamScore = (teamNumber) => {
-    let value1 = scoreUs
-    let value2 = scoreThem
-  
-    if (!usThem) {
-      ;[value1, value2] = [value2, value1]
-    }
-    if (teamNumber === 1) return value1
-    return value2
-  }
-
-  const onTeam1Click = () => {
-    console.log("onButtonClick1")
-    if (usThem) {
-      setScoreUs(scoreUs + 1)
-    }
-    else {
-      setScoreThem(scoreThem + 1)
-    }
-  }
-
-  const onTeam2Click = () => {
-    console.log("onButtonClick1")
-    if (usThem) {
-      setScoreThem(scoreThem + 1)
-    }
-    else {
-      setScoreUs(scoreUs + 1)
-    }
-  }
-
-  const onAboutClick = () => {
-    console.log("onAboutClick")
-    packSettings()
-    navigate('/about/')
-  }
-
-  const onScoresClick = () => {
-    console.log("onScoresClick")
-    packSettings()
-    navigate('/scores/')
-  }
-
-  const onSettingsClick = () => {
-    console.log("onSettingsClick")
-    packSettings()
-    navigate('/settings/')
+  const onOkClick = () => {
+    navigate('/home/')
   }
 
   return (
     <Layout>
-      <SEO title="Home" />
+      <SEO title="About" />
       <Grid
         className={classes.root}
         container
@@ -185,44 +45,27 @@ const IndexPage = () => {
         justify="space-around"
         direction="column"
       >
-        <TeamButton
-          horizontal={horizontal}
-          color={getTeamColor(1)}
-          backgroundColor={getTeamBackgroundColor(1)}
-          label={getTeamLabel(1)}
-          score={getTeamScore(1)}
-          onButtonClick={onTeam1Click}
-        />
-        <Controls
-          horizontal={horizontal}
+        <Title label="Simple Score - Volleyball" />
+        <Typography className={classes.paragraph} variant="body1" gutterBottom>
+          This is a simple PWA (progressive web application) that allows you to
+          track the score of a volleyball match and optionally send the match
+          results to a list of predefined phone numbers as a text.
+        </Typography>
+        <Typography className={classes.paragraph} variant="body1" gutterBottom>
+          To send texts, you must first have a login created from your email, 
+          attempt to login, then verify your email.  Once logged in, you will
+          be able to send results. (currently, the text list is set by the admin.)
+       </Typography>
+        <ControlButton
           color="black"
           backgroundColor="gray"
-          onScoresClick={onScoresClick}
-          onAboutClick={onAboutClick}
-          onSettingsClick={onSettingsClick}
-         />
-        <TeamButton
-          horizontal={horizontal}
-          color={getTeamColor(2)}
-          backgroundColor={getTeamBackgroundColor(2)}
-          label={getTeamLabel(2)}
-          score={getTeamScore(2)}
-          onButtonClick={onTeam2Click}
-        />
+          onButtonClick={onOkClick}
+        >
+          Ok
+        </ControlButton>
       </Grid>
     </Layout>
   )
 }
 
-export default IndexPage
-
-
-// TODO 
-// - double click 
-// - no rotate 
-// - scoring engine
-// - local storage
-// - about page 
-// - settings page 
-// - scores page  
-
+export default AboutPage

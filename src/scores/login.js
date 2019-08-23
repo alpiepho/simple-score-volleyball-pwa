@@ -10,7 +10,7 @@ class Login extends React.Component {
         <h1>Log in</h1>
         <button onClick={this.handleSubmit}>log in</button>
         <hr/>
-        <Link to="/">Home</Link>
+        <Link to="/home/">Home</Link>
       </>
     )
   }

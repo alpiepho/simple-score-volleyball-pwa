@@ -22,6 +22,23 @@ to send texts.
 Eventually, this will be ported to an Expo application so it can run natively on IOS
 and Android.
 
+### TODO
+
+- scoring engine
+- settings page
+- scores page
+- hook send text
+- toggle us them button?
+- try modal
+
+### BUGS
+
+- double click
+- no rotate
+- local storage (turn it on)
+- about page (fix 1st load without style)
+- investigate send text failure
+
 
 ### Rough Diagram - Main
 
@@ -200,7 +217,7 @@ The applications sends score updates by:
 
 I think we can avoid the verification if we upgrade plans.
 
-----------------------------------------------------
+<!-- ----------------------------------------------------
 
 
 ## Any Counter PWA
@@ -242,4 +259,4 @@ This is a list of some things to finish up:
     - A clock timer
     - A date count down
 
-
+ -->
