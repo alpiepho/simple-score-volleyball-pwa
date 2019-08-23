@@ -33,12 +33,12 @@ const SettingsPage = () => {
 
   const onCancelClick = () => {
     console.log("ok")
-    navigate("/")
+    navigate("/home/")
   }
 
   const onSaveClick = () => {
     console.log("save")
-    navigate("/")
+    navigate("/home/")
   }
 
   return (
