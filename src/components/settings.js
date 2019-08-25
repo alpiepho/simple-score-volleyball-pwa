@@ -1,10 +1,11 @@
 import React from "react"
 import { navigate } from "gatsby"
-import { Grid, TextField, Typography } from "@material-ui/core"
+import { Grid, TextField } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import LandscapeWarning from "../components/landscapewarning"
 import Title from "../components/title"
 import ControlButton from "../components/controlbutton"
 
@@ -39,6 +40,8 @@ const SettingsPage = () => {
     console.log("save")
     navigate("/home/")
   }
+
+
 
   return (
     <Layout>
@@ -172,7 +175,7 @@ const SettingsPage = () => {
               className={classes.buttonRow}
               container
               spacing={8}
-              justify="space-between"
+              justify="space-around"
               alignItems="center"
               direction="row"
             >
@@ -198,24 +201,7 @@ const SettingsPage = () => {
           </Grid>
         </div>
         <div className="settings-horizontal">
-          <Grid
-            className={classes.root}
-            container
-            spacing={0}
-            justify="space-around"
-            direction="column"
-          >
-            <Typography
-              className={classes.paragraph}
-              variant="body1"
-              gutterBottom
-            >
-              Automatic formating for horizontal or landscape mode is not
-              available. A workaround is to lock the screen rotation on your
-              phone and use the settings for horizontal mode. Then all the text
-              will be rotated 90 degrees.
-            </Typography>
-          </Grid>
+          <LandscapeWarning />
         </div>
       </>
     </Layout>

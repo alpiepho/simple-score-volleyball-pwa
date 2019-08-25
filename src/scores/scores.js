@@ -8,14 +8,15 @@ import Login from "./login"
 // remember everything in /scores/* is dynamic now!
 const App = () => {
   return (
-    <Layout>
-      <Router>
-        <PublicRoute path="/scores">
-          <PrivateRoute path="/" component={Main} />
-          <Login path="/login" />
-        </PublicRoute>
-      </Router>
-    </Layout>
+    <Main />
+    // <Layout>
+    //   <Router>
+    //     <PublicRoute path="/scores">
+    //       <PrivateRoute path="/" component={Main} />
+    //       <Login path="/login" />
+    //     </PublicRoute>
+    //   </Router>
+    // </Layout>
   )
 }
 function PublicRoute(props) {

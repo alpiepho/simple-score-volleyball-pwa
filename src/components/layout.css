@@ -670,3 +670,20 @@ pre tt:after {
     display: block;
   }
 }
+
+.scores-vertical {
+  display: grid;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+}
+.scores-horizontal {
+  display: none;
+}
+@media all and (orientation:landscape) {
+  .scores-vertical {
+    display: none;
+  }
+  .scores-horizontal {
+    display: block;
+  }
+}
