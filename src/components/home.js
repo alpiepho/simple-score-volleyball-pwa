@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react"
 import { navigate } from "gatsby"
-import { Grid, Typography } from "@material-ui/core"
+import { Grid } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import LandscapeWarning from "../components/landscapewarning"
 import TeamButton from "../components/teambutton"
 import Controls from "../components/controls"
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -58,7 +60,7 @@ const Home = () => {
     packSettings()
   }, [score1, score2, label1, label2])
 
-  const packSettings = () => {
+  const prepSettings = () => {
     let settings = {}
 
     settings["horizontal"] = horizontal
@@ -75,10 +77,13 @@ const Home = () => {
     settings["match2"] = match2
     settings["score2"] = score2
 
-    console.log(settings)
+    return settings
+  }
 
+  const packSettings = () => {
+    let settings = prepSettings()
+    //console.log(settings)
     settings = JSON.stringify(settings)
-
     saveToLS("allSettings", settings)
   }
 
@@ -149,9 +154,15 @@ const Home = () => {
   }
 
   const onScoresClick = () => {
-    console.log("onScoresClick")
+    let settings = prepSettings()
+    console.log(settings)
     packSettings()
-    navigate("/scores/")
+    // TODO: Gatsby documentation is weak, infers that
+    // component at end of navigation should get state
+    // from props.state or whatever tag used.  From google
+    // search, need to use window.history.state to access
+    // what was passed
+    navigate("/scores/", { state: settings })
   }
 
   const onAboutClick = () => {
@@ -208,23 +219,7 @@ const Home = () => {
           </Grid>
         </div>
         <div className="home-horizontal">
-          <Grid
-            className={classes.root}
-            container
-            spacing={0}
-            justify="space-around"
-            direction="column"
-          >
-            <Typography
-              className={classes.paragraph}
-              variant="body1"
-              gutterBottom
-            >
-              Automatic formating for horizontal or landscape mode is not available.
-              A workaround is to lock the screen rotation on your phone and use the
-              settings for horizontal mode.  Then all the text will be rotated 90 degrees.
-            </Typography>
-          </Grid>
+          <LandscapeWarning />
         </div>
       </>
     </Layout>

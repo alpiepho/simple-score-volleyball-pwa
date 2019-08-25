@@ -208,8 +208,6 @@ body {
   -ms-font-feature-settings: "kern", "liga", "clig", "calt";
   -webkit-font-feature-settings: "kern", "liga", "clig", "calt";
   font-feature-settings: "kern", "liga", "clig", "calt";
-  overflow-x: hidden !important;
-  overflow-y: hidden !important;
 }
 img {
   max-width: 100%;
@@ -624,9 +622,10 @@ pre tt:after {
 }
 
 
-
 .home-vertical {
   display: grid;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
 }
 .home-horizontal {
   display: none;
@@ -653,4 +652,38 @@ pre tt:after {
   color: black;
   background-color: gray;
   height: 8vh;
+}
+
+.settings-vertical {
+  display: grid;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+}
+.settings-horizontal {
+  display: none;
+}
+@media all and (orientation:landscape) {
+  .settings-vertical {
+    display: none;
+  }
+  .settings-horizontal {
+    display: block;
+  }
+}
+
+.scores-vertical {
+  display: grid;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+}
+.scores-horizontal {
+  display: none;
+}
+@media all and (orientation:landscape) {
+  .scores-vertical {
+    display: none;
+  }
+  .scores-horizontal {
+    display: block;
+  }
 }
