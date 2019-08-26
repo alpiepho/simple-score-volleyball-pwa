@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { navigate } from "gatsby"
 import { Grid, TextField } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
@@ -32,13 +32,110 @@ const useStyles = makeStyles(theme => ({
 const SettingsPage = () => {
   const classes = useStyles()
 
+  const [color1, setColor1] = useState("white")
+  const [backgroundColor1, setBackgroundColor1] = useState("red")
+  const [color2, setColor2] = useState("white")
+  const [backgroundColor2, setBackgroundColor2] = useState("blue")
+
+  useEffect(() => {
+    // TODO: Gatsby documentation is weak, infers that
+    // component at end of navigation should get state
+    // from props.state or whatever tag used.  From google
+    // search, need to use window.history.state to access
+    // what was passed
+    if (
+      window &&
+      window.history &&
+      window.history.state &&
+      window.history.state.color1
+    ) {
+      console.log('window.history.state')
+      console.log(window.history.state)
+      let settings = window.history.state
+      setColor1(settings.color1)
+      setBackgroundColor1(settings.backgroundColor1)
+      setColor2(settings.color2)
+      setBackgroundColor2(settings.backgroundColor2)
+      }
+  }, [])
+
+  const homeWithSettings = (what, payload) => {
+    console.log(what)
+    let settings = { settingschange: true }
+    settings[what] = true
+    settings = { ...settings, ...payload }
+    // TODO: Gatsby documentation is weak, infers that
+    // component at end of navigation should get state
+    // from props.state or whatever tag used.  From google
+    // search, need to use window.history.state to access
+    // what was passed
+    navigate("/home/", { state: settings })
+  }
+
+  const onUndoClick = () => {
+    homeWithSettings('undo')
+  }
+
+  const onFinishGameClick = () => {
+    homeWithSettings('finishgame')
+  }
+
+  const onResetGameClick = () => {
+    homeWithSettings('resetgame')
+  }
+
+  const onFinishMatchClick = () => {
+    homeWithSettings('finishmatch')
+  }
+
+  const onResetMatchClick = () => {
+    homeWithSettings('resetmatch')
+  }
+
+  const onToggleHorizontalClick = () => {
+    homeWithSettings('togglehorizontal')
+  }
+
+  const onToggleGoodGuysClick = () => {
+    homeWithSettings('togglegoodguys')
+  }
+
+  const onColorChange1 = (event) => {
+    setColor1(event.target.value)
+  }
+
+  const onBackgroundColorChange1 = (event) => {
+    setBackgroundColor1(event.target.value)
+  }
+
+  const onColorChange2 = (event) => {
+    setColor2(event.target.value)
+  }
+
+  const onBackgroundColorChange2 = (event) => {
+    console.log(event.target.value)
+    setBackgroundColor2(event.target.value)
+  }
+
+  const onDefaultColorsClick = (event) => {
+    setColor1("white")
+    setColor2("white")
+    setBackgroundColor1("red")
+    setBackgroundColor2("blue")
+  }
+
   const onCancelClick = () => {
+    console.log("cancel")
     navigate("/home/")
   }
 
   const onSaveClick = () => {
-    console.log("save")
-    navigate("/home/")
+    let payload = {}
+    payload['color1'] = color1
+    payload['backgroundColor1'] = backgroundColor1
+    payload['color2'] = color2
+    payload['backgroundColor2'] = backgroundColor2
+    homeWithSettings('changecolors', payload)
   }
 
 
@@ -69,7 +166,7 @@ const SettingsPage = () => {
                 <ControlButton
                   color="black"
                   backgroundColor="gray"
-                  onButtonClick={onCancelClick}
+                  onButtonClick={onUndoClick}
                 >
                   Undo
                 </ControlButton>
@@ -79,7 +176,7 @@ const SettingsPage = () => {
                   className={classes.button}
                   color="black"
                   backgroundColor="gray"
-                  onButtonClick={onCancelClick}
+                  onButtonClick={onFinishGameClick}
                 >
                   Finish Game
                 </ControlButton>
@@ -89,7 +186,7 @@ const SettingsPage = () => {
                   className={classes.button}
                   color="black"
                   backgroundColor="gray"
-                  onButtonClick={onCancelClick}
+                  onButtonClick={onResetGameClick}
                 >
                   Reset Game
                 </ControlButton>
@@ -99,7 +196,17 @@ const SettingsPage = () => {
                   className={classes.button}
                   color="black"
                   backgroundColor="gray"
-                  onButtonClick={onCancelClick}
+                  onButtonClick={onFinishMatchClick}
+                >
+                  Finish Match
+                </ControlButton>
+              </Grid>
+              <Grid item className={classes.button}>
+                <ControlButton
+                  className={classes.button}
+                  color="black"
+                  backgroundColor="gray"
+                  onButtonClick={onResetMatchClick}
                 >
                   Reset Match
                 </ControlButton>
@@ -109,15 +216,35 @@ const SettingsPage = () => {
                   className={classes.button}
                   color="black"
                   backgroundColor="gray"
-                  onButtonClick={onCancelClick}
+                  onButtonClick={onToggleGoodGuysClick}
                 >
                   Toggle "Good Guys"
                 </ControlButton>
               </Grid>
               <Grid item className={classes.button}>
+                <ControlButton
+                  className={classes.button}
+                  color="black"
+                  backgroundColor="gray"
+                  onButtonClick={onToggleHorizontalClick}
+                >
+                  Toggle Horizontal
+                </ControlButton>
+              </Grid>
+              <Grid item className={classes.button}>
                 <hr />
               </Grid>
-            </Grid>
+               <Grid item className={classes.button}>
+                <ControlButton
+                  className={classes.button}
+                  color="black"
+                  backgroundColor="gray"
+                  onButtonClick={onDefaultColorsClick}
+                >
+                  Default Colors
+                </ControlButton>
+              </Grid>
+           </Grid>
 
             <Grid
               container
@@ -129,44 +256,44 @@ const SettingsPage = () => {
                 <TextField
                   id="standard-helperText"
                   label="Team 1 text"
-                  defaultValue={"black"}
+                  value={color1}
                   className={classes.textField}
                   helperText="color name or CSS hex (ie. #000, #000000)"
                   margin="normal"
-                  onChange={null}
+                  onChange={onColorChange1}
                 />
               </Grid>
               <Grid item className={classes.textfield}>
                 <TextField
                   id="standard-helperText"
                   label="Team 1 background"
-                  defaultValue={"red"}
+                  value={backgroundColor1}
                   className={classes.textField}
                   helperText="color name or CSS hex (ie. #000, #000000)"
                   margin="normal"
-                  onChange={null}
+                  onChange={onBackgroundColorChange1}
                 />
               </Grid>
               <Grid item className={classes.textfield}>
                 <TextField
                   id="standard-helperText"
                   label="Team 2 text"
-                  defaultValue={"black"}
+                  value={color2}
                   className={classes.textField}
                   helperText="color name or CSS hex (ie. #000, #000000)"
                   margin="normal"
-                  onChange={null}
+                  onChange={onColorChange2}
                 />
               </Grid>
               <Grid item className={classes.textfield}>
                 <TextField
                   id="standard-helperText"
                   label="Team 2 background"
-                  defaultValue={"red"}
+                  value={backgroundColor2}
                   className={classes.textField}
                   helperText="color name or CSS hex (ie. #000, #000000)"
                   margin="normal"
-                  onChange={null}
+                  onChange={onBackgroundColorChange2}
                 />
               </Grid>
             </Grid>

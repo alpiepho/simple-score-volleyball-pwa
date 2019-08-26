@@ -640,7 +640,7 @@ pre tt:after {
 }
 
 
-.about-component h2 {
+/* .about-component h2 {
   margin-top: 5vh;
 }
 .about-component p {
@@ -652,7 +652,7 @@ pre tt:after {
   color: black;
   background-color: gray;
   height: 8vh;
-}
+} */
 
 .settings-vertical {
   display: grid;
