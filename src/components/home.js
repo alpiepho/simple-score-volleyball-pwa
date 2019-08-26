@@ -53,14 +53,37 @@ const Home = () => {
   const [score2, setScore2] = useState(0)
 
   useEffect(() => {
-    unpackSettings()
+    let settings = prepUnpackSettings()
+    let newSettings = {}
+    
+    // entry return-from-settings
+    // TODO: Gatsby documentation is weak, infers that
+    // component at end of navigation should get state
+    // from props.state or whatever tag used.  From google
+    // search, need to use window.history.state to access
+    // what was passed
+    if (
+      settings &&
+      window &&
+      window.history &&
+      window.history.state &&
+      window.history.state.settingschange
+    ) {
+      if (window.history.state.togglegoodguys) {
+        [newSettings.label1,  newSettings.label2]  = prepToggleGoodGuys(settings)
+      }
+    }
+    unpackSettings(settings, newSettings)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
 
   useEffect(() => {
     packSettings()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [score1, score2, label1, label2])
 
-  const prepSettings = () => {
+  const prepPackSettings = () => {
     let settings = {}
 
     settings["horizontal"] = horizontal
@@ -81,16 +104,23 @@ const Home = () => {
   }
 
   const packSettings = () => {
-    let settings = prepSettings()
+    let settings = prepPackSettings()
     //console.log(settings)
     settings = JSON.stringify(settings)
     saveToLS("allSettings", settings)
   }
 
-  const unpackSettings = () => {
+  const prepUnpackSettings = () => {
     let settings = getFromLS("allSettings")
     if (settings) {
       settings = JSON.parse(settings)
+    }
+    return settings
+  }
+
+  const unpackSettings = (settings, newSettings) => {
+    if (settings) {
+      settings = { ...settings, ...newSettings }
 
       setHorizontal(settings.horizontal)
 
@@ -108,22 +138,30 @@ const Home = () => {
     }
   }
 
-  // const toggleGoodGuys = () => {
-  //   console.log(label1)
-  //   if (label1 === "US") {
-  //     setLabel1("GOOD GUYS")
-  //     setLabel2("BAD GUYS")
-  //   } else if (label1 === "THEM") {
-  //     setLabel2("GOOD GUYS")
-  //     setLabel1("BAD GUYS")
-  //   } else if (label1 === "GOOD GUYS") {
-  //     setLabel1("US")
-  //     setLabel2("THEM")
-  //   } else if (label1 === "BAD GUYS") {
-  //     setLabel2("US")
-  //     setLabel1("THEM")
-  //   }
-  // }
+  const prepToggleGoodGuys = (settings) => {
+    let newLabel1 = settings.label1
+    let newLabel2 = settings.label2
+    if (newLabel1 === "US") {
+      newLabel1 = "GOOD GUYS"
+      newLabel2 = "BAD GUYS"
+    } else if (newLabel1 === "THEM") {
+      newLabel2 = "GOOD GUYS"
+      newLabel1 = "BAD GUYS"
+    } else if (newLabel1 === "GOOD GUYS") {
+      newLabel1 = "US"
+      newLabel2 = "THEM"
+    } else if (newLabel1 === "BAD GUYS") {
+      newLabel2 = "US"
+      newLabel1 = "THEM"
+    }
+    return [ newLabel1, newLabel2 ]
+  }
+
+  const toggleGoodGuys = () => {
+    let[newLabel1,  newLabel2]  = prepToggleGoodGuys()
+    setLabel1(newLabel1)
+    setLabel2(newLabel2)
+  }
 
   const toggleUsThem = () => {
     let color = color1
@@ -154,8 +192,7 @@ const Home = () => {
   }
 
   const onScoresClick = () => {
-    let settings = prepSettings()
-    console.log(settings)
+    let settings = prepPackSettings()
     packSettings()
     // TODO: Gatsby documentation is weak, infers that
     // component at end of navigation should get state
@@ -166,12 +203,15 @@ const Home = () => {
   }
 
   const onAboutClick = () => {
-    packSettings()
-    navigate("/")
+    toggleGoodGuys()
+
+    // packSettings()
+    // navigate("/")
   }
 
   const onSwapTeamsClick = () => {
     toggleUsThem()
+    packSettings()
   }
 
   const onSettingsClick = () => {

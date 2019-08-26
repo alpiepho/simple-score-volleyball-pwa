@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 20,
     color: props => props.color,
     backgroundColor: props => props.backgroundColor,
-    '&:hover, &$focusVisible': {
+    '&:hover, &:focus': {
       color: props => props.color,
       backgroundColor: props => props.backgroundColor,
     },

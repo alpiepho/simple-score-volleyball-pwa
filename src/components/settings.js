@@ -32,7 +32,44 @@ const useStyles = makeStyles(theme => ({
 const SettingsPage = () => {
   const classes = useStyles()
 
+  const homeWithSettings = (what) => {
+    console.log(what)
+    let settings = { settingschange: true }
+    settings[what] = true
+    // TODO: Gatsby documentation is weak, infers that
+    // component at end of navigation should get state
+    // from props.state or whatever tag used.  From google
+    // search, need to use window.history.state to access
+    // what was passed
+    navigate("/home/", { state: settings })
+  }
+
+  const onUndoClick = () => {
+    homeWithSettings('undo')
+  }
+
+  const onFinishGameClick = () => {
+    homeWithSettings('finishgame')
+  }
+
+  const onResetGameClick = () => {
+    homeWithSettings('resetgame')
+  }
+
+  const onFinishMatchClick = () => {
+    homeWithSettings('finishmatch')
+  }
+
+  const onResetMatchClick = () => {
+    homeWithSettings('resetmatch')
+  }
+
+  const onToggleGoodGuysClick = () => {
+    homeWithSettings('togglegoodguys')
+  }
+
   const onCancelClick = () => {
+    console.log("cancel")
     navigate("/home/")
   }
 
@@ -69,7 +106,7 @@ const SettingsPage = () => {
                 <ControlButton
                   color="black"
                   backgroundColor="gray"
-                  onButtonClick={onCancelClick}
+                  onButtonClick={onUndoClick}
                 >
                   Undo
                 </ControlButton>
@@ -79,7 +116,7 @@ const SettingsPage = () => {
                   className={classes.button}
                   color="black"
                   backgroundColor="gray"
-                  onButtonClick={onCancelClick}
+                  onButtonClick={onFinishGameClick}
                 >
                   Finish Game
                 </ControlButton>
@@ -89,7 +126,7 @@ const SettingsPage = () => {
                   className={classes.button}
                   color="black"
                   backgroundColor="gray"
-                  onButtonClick={onCancelClick}
+                  onButtonClick={onResetGameClick}
                 >
                   Reset Game
                 </ControlButton>
@@ -99,7 +136,17 @@ const SettingsPage = () => {
                   className={classes.button}
                   color="black"
                   backgroundColor="gray"
-                  onButtonClick={onCancelClick}
+                  onButtonClick={onFinishMatchClick}
+                >
+                  Finish Match
+                </ControlButton>
+              </Grid>
+              <Grid item className={classes.button}>
+                <ControlButton
+                  className={classes.button}
+                  color="black"
+                  backgroundColor="gray"
+                  onButtonClick={onResetMatchClick}
                 >
                   Reset Match
                 </ControlButton>
@@ -109,7 +156,7 @@ const SettingsPage = () => {
                   className={classes.button}
                   color="black"
                   backgroundColor="gray"
-                  onButtonClick={onCancelClick}
+                  onButtonClick={onToggleGoodGuysClick}
                 >
                   Toggle "Good Guys"
                 </ControlButton>
