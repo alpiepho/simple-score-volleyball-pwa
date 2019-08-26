@@ -157,11 +157,11 @@ const Home = () => {
     return [ newLabel1, newLabel2 ]
   }
 
-  const toggleGoodGuys = () => {
-    let[newLabel1,  newLabel2]  = prepToggleGoodGuys()
-    setLabel1(newLabel1)
-    setLabel2(newLabel2)
-  }
+  // const toggleGoodGuys = () => {
+  //   let[newLabel1,  newLabel2]  = prepToggleGoodGuys()
+  //   setLabel1(newLabel1)
+  //   setLabel2(newLabel2)
+  // }
 
   const toggleUsThem = () => {
     let color = color1
@@ -203,10 +203,8 @@ const Home = () => {
   }
 
   const onAboutClick = () => {
-    toggleGoodGuys()
-
-    // packSettings()
-    // navigate("/")
+    packSettings()
+    navigate("/")
   }
 
   const onSwapTeamsClick = () => {

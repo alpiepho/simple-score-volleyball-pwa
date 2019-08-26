@@ -30,7 +30,7 @@ const About = () => {
           className={classes.root}
           container
           spacing={0}
-          justify="space-between"
+          justify="space-around"
           direction="column"
         >
           <Title label="Simple Score - Volleyball" />
