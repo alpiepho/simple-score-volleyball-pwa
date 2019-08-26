@@ -9,6 +9,7 @@ import SEO from "../components/seo"
 import LandscapeWarning from "../components/landscapewarning"
 import Title from "../components/title"
 import ControlButton from "../components/controlbutton"
+import { getFromLS } from "../components/utils"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const Main = props => {
+const Main = () => {
   const classes = useStyles()
 
   const [label1, setLabel1] = useState("US")
@@ -32,27 +33,24 @@ const Main = props => {
   const [match2, setMatch2] = useState(0)
   const [score2, setScore2] = useState(0)
 
-  useEffect(() => {
-    // TODO: Gatsby documentation is weak, infers that
-    // component at end of navigation should get state
-    // from props.state or whatever tag used.  From google
-    // search, need to use window.history.state to access
-    // what was passed
-    if (
-      window &&
-      window.history &&
-      window.history.state &&
-      window.history.state.label1
-    ) {
-      console.log(window.history.state)
-      let settings = window.history.state
+  const unpackSettings = () => {
+    let settings = getFromLS("allSettings")
+    if (settings) {
+      settings = JSON.parse(settings)
+
       setLabel1(settings.label1)
       setMatch1(settings.match1)
       setScore1(settings.score1)
+
       setLabel2(settings.label2)
       setMatch2(settings.match2)
-      setScore2(settings.score2)   
+      setScore2(settings.score2)
     }
+  }
+
+  useEffect(() => {
+    unpackSettings()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const onCancelClick = () => {
@@ -60,7 +58,6 @@ const Main = props => {
   }
 
   const onSaveClick = () => {
-    console.log("save")
     navigate("/home/")
   }
 
@@ -92,10 +89,14 @@ const Main = props => {
                 <h2>Game</h2>
               </Grid>
               <Grid item className={classes.score}>
-                <h3>{label1} : {score1}</h3>
+                <h3>
+                  {label1} : {score1}
+                </h3>
               </Grid>
               <Grid item className={classes.score}>
-                <h3>{label2} : {score2}</h3>
+                <h3>
+                  {label2} : {score2}
+                </h3>
               </Grid>
             </Grid>
 
@@ -111,10 +112,14 @@ const Main = props => {
                 <h2>Match</h2>
               </Grid>
               <Grid item className={classes.score}>
-                <h3>{label1} : {match1}</h3>
+                <h3>
+                  {label1} : {match1}
+                </h3>
               </Grid>
               <Grid item className={classes.score}>
-                <h3>{label2} : {match2}</h3>
+                <h3>
+                  {label2} : {match2}
+                </h3>
               </Grid>
             </Grid>
 
@@ -126,9 +131,7 @@ const Main = props => {
               alignItems="center"
               direction="column"
             >
-              <Typography>
-TODO: Add Text Area for Note
-              </Typography>
+              <Typography>TODO: Add Text Area for Note</Typography>
             </Grid>
 
             <Grid

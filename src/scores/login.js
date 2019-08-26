@@ -25,7 +25,6 @@ const Login = () => {
   }
 
   const onLoginClick = () => {
-    console.log("save")
     handleLogin(user => navigate(`/scores/`))
   }
 

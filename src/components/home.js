@@ -8,21 +8,15 @@ import SEO from "../components/seo"
 import LandscapeWarning from "../components/landscapewarning"
 import TeamButton from "../components/teambutton"
 import Controls from "../components/controls"
+import { getFromLS, saveToLS } from "./utils"
 import {
- engine_reset,
   engine_toggleOrder,
-  engine_undo,
   engine_pointA,
   engine_pointB,
-  engine_finishGame,
-  engine_resetGame,
-  engine_finishMatch,
-  engine_resetMatch,
   engine_load,
   engine_save,
   engine_get,
- } from "./engine"
-
+} from "./engine"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,24 +25,6 @@ const useStyles = makeStyles(theme => ({
     marginTop: "2.5vh",
   },
 }))
-
-function getFromLS(key) {
-  let ls = {}
-  if (window.localStorage) {
-    try {
-      ls = window.localStorage.getItem("simple-score-volleyball")
-    } catch (e) {
-      /*Ignore*/
-    }
-  }
-  return ls
-}
-
-function saveToLS(key, value) {
-  if (window.localStorage) {
-    window.localStorage.setItem("simple-score-volleyball", value)
-  }
-}
 
 const Home = () => {
   const classes = useStyles()
@@ -66,64 +42,10 @@ const Home = () => {
   const [match2, setMatch2] = useState(0)
   const [score2, setScore2] = useState(0)
 
-  useEffect(() => {
-    let settings = prepUnpackSettings()
-    let newSettings = {}
-    
-    // entry return-from-settings
-    // TODO: Gatsby documentation is weak, infers that
-    // component at end of navigation should get state
-    // from props.state or whatever tag used.  From google
-    // search, need to use window.history.state to access
-    // what was passed
-    if (
-      settings &&
-      window &&
-      window.history &&
-      window.history.state &&
-      window.history.state.settingschange
-    ) {
-      if (window.history.state.undo) {
-        engine_undo()
-      }
-      if (window.history.state.finishgame) {
-        engine_finishGame()
-      }
-      if (window.history.state.resetgame) {
-        engine_resetGame()
-      }
-      if (window.history.state.finishmatch) {
-        engine_finishMatch()
-      }
-      if (window.history.state.resetmatch) {
-        engine_resetMatch()
-      }
-      if (window.history.state.togglehorizontal) {
-        newSettings.horizontal = !settings.horizontal
-      }
-      if (window.history.state.togglegoodguys) {
-        [newSettings.label1,  newSettings.label2]  = prepToggleGoodGuys(settings)
-      }
-      if (window.history.state.changecolors) {
-        newSettings.color1 = window.history.state.color1
-        newSettings.backgroundColor1 = window.history.state.backgroundColor1
-        newSettings.color2 = window.history.state.color2
-        newSettings.backgroundColor2 = window.history.state.backgroundColor2
-      }
-      let gameDone, matchDone
-      [newSettings.score1, newSettings.score2, newSettings.match1, newSettings.match2, gameDone, matchDone] = prepFromEngine()
-    }
-    unpackSettings(settings, newSettings)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const [gameDone, setGameDone] = useState(false)
+  const [matchDone, setMatchDone] = useState(false)
 
-
-  useEffect(() => {
-    packSettings()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [score1, score2, label1, label2])
-
-  const prepPackSettings = () => {
+  const packSettings = () => {
     let settings = {}
 
     settings["horizontal"] = horizontal
@@ -140,31 +62,25 @@ const Home = () => {
     settings["match2"] = match2
     settings["score2"] = score2
 
-    return settings
-  }
+    settings["gameDone"] = gameDone
+    settings["matchDone"] = matchDone
 
-  const packSettings = () => {
-    let settings = prepPackSettings()
+    settings["engine"] = engine_save()
+    //console.log('home::pack')
     //console.log(settings)
-    settings['engine'] = engine_save()
     settings = JSON.stringify(settings)
     saveToLS("allSettings", settings)
   }
 
-  const prepUnpackSettings = () => {
+  const unpackSettings = () => {
     let settings = getFromLS("allSettings")
     if (settings) {
       settings = JSON.parse(settings)
-      if (settings['engine']) {
-        engine_load(settings['engine'])
+      //console.log('home::unpack')
+      //console.log(settings)
+        if (settings["engine"]) {
+        engine_load(settings["engine"])
       }
-    }
-    return settings
-  }
-
-  const unpackSettings = (settings, newSettings) => {
-    if (settings) {
-      settings = { ...settings, ...newSettings }
 
       setHorizontal(settings.horizontal)
 
@@ -179,33 +95,21 @@ const Home = () => {
       setLabel2(settings.label2)
       setMatch2(settings.match2)
       setScore2(settings.score2)
+
+      setGameDone(settings.gameDone)
+      setMatchDone(settings.matchDone)
     }
   }
 
-  const prepToggleGoodGuys = (settings) => {
-    let newLabel1 = settings.label1
-    let newLabel2 = settings.label2
-    if (newLabel1 === "US") {
-      newLabel1 = "GOOD GUYS"
-      newLabel2 = "BAD GUYS"
-    } else if (newLabel1 === "THEM") {
-      newLabel2 = "GOOD GUYS"
-      newLabel1 = "BAD GUYS"
-    } else if (newLabel1 === "GOOD GUYS") {
-      newLabel1 = "US"
-      newLabel2 = "THEM"
-    } else if (newLabel1 === "BAD GUYS") {
-      newLabel2 = "US"
-      newLabel1 = "THEM"
-    }
-    return [ newLabel1, newLabel2 ]
-  }
+  useEffect(() => {
+    unpackSettings()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  // const toggleGoodGuys = () => {
-  //   let[newLabel1,  newLabel2]  = prepToggleGoodGuys()
-  //   setLabel1(newLabel1)
-  //   setLabel2(newLabel2)
-  // }
+  useEffect(() => {
+    packSettings()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [score1, score2, label1, label2])
 
   const toggleUsThem = () => {
     let color = color1
@@ -229,18 +133,6 @@ const Home = () => {
     engine_toggleOrder()
   }
 
-  const prepFromEngine = () => {
-    let gameA
-    let gameB
-    let matchA
-    let matchB
-    let gameDone
-    let matchDone
-    ;[gameA, gameB, matchA, matchB, gameDone, matchDone] = engine_get()
-    console.log([gameA, gameB, matchA, matchB, gameDone, matchDone])
-    return [gameA, gameB, matchA, matchB, gameDone, matchDone]
-  }
-
   const updateFromEngine = () => {
     let gameA
     let gameB
@@ -250,11 +142,13 @@ const Home = () => {
     let matchDone
     ;[gameA, gameB, matchA, matchB, gameDone, matchDone] = engine_get()
 
-    console.log([gameA, gameB, matchA, matchB, gameDone, matchDone])
+    //console.log([gameA, gameB, matchA, matchB, gameDone, matchDone])
     setScore1(gameA)
     setScore2(gameB)
     setMatch1(matchA)
     setMatch2(matchB)
+    setGameDone(gameDone)
+    setMatchDone(matchDone)
   }
 
   const onTeam1Click = () => {
@@ -268,14 +162,8 @@ const Home = () => {
   }
 
   const onScoresClick = () => {
-    let settings = prepPackSettings()
     packSettings()
-    // TODO: Gatsby documentation is weak, infers that
-    // component at end of navigation should get state
-    // from props.state or whatever tag used.  From google
-    // search, need to use window.history.state to access
-    // what was passed
-    navigate("/scores/", { state: settings })
+    navigate("/scores/")
   }
 
   const onAboutClick = () => {
@@ -289,14 +177,8 @@ const Home = () => {
   }
 
   const onSettingsClick = () => {
-    let settings = prepPackSettings()
     packSettings()
-    // TODO: Gatsby documentation is weak, infers that
-    // component at end of navigation should get state
-    // from props.state or whatever tag used.  From google
-    // search, need to use window.history.state to access
-    // what was passed
-    navigate("/settings/", { state: settings })
+    navigate("/settings/")
   }
 
   return (
@@ -312,6 +194,8 @@ const Home = () => {
             direction="column"
           >
             <TeamButton
+              disabled={gameDone || matchDone}
+              winner=""
               horizontal={horizontal}
               color={color1}
               backgroundColor={backgroundColor1}
@@ -329,6 +213,8 @@ const Home = () => {
               onSettingsClick={onSettingsClick}
             />
             <TeamButton
+              disabled={gameDone || matchDone}
+              winner=""
               horizontal={horizontal}
               color={color2}
               backgroundColor={backgroundColor2}

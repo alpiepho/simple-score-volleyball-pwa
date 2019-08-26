@@ -34,12 +34,12 @@ export default function TeamButton(props) {
   const classes = useStyles(props)
 
   const onButtonClick = () => {
-    console.log("onButtonClick")
     props.onButtonClick()
   }
 
   return (
     <Button
+      disabled={props.disabled}
       className={classes.button}
       variant="contained"
       color="secondary"
@@ -47,7 +47,7 @@ export default function TeamButton(props) {
     >
       <Grid container spacing={2} justify="space-around" direction="column">
         <Grid item className={classes.teamLabel}>
-          {props.label}
+          {(props.winner ? (props.winner) : props.label) }
         </Grid>
         <Grid item className={classes.teamScore}>
           {props.score}
