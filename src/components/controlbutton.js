@@ -26,6 +26,7 @@ export default function ControlButton(props) {
 
   return (
       <Button
+        aria-label="control button"
         className={classes.button}
         variant="contained"
         color="primary"

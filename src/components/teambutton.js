@@ -39,6 +39,7 @@ export default function TeamButton(props) {
 
   return (
     <Button
+    aria-label="team button"
       disabled={props.disabled}
       className={classes.button}
       variant="contained"
