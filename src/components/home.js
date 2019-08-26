@@ -8,6 +8,20 @@ import SEO from "../components/seo"
 import LandscapeWarning from "../components/landscapewarning"
 import TeamButton from "../components/teambutton"
 import Controls from "../components/controls"
+import {
+ engine_reset,
+  engine_toggleOrder,
+  engine_undo,
+  engine_pointA,
+  engine_pointB,
+  engine_finishGame,
+  engine_resetGame,
+  engine_finishMatch,
+  engine_resetMatch,
+  engine_load,
+  engine_save,
+  engine_get,
+ } from "./engine"
 
 
 const useStyles = makeStyles(theme => ({
@@ -69,9 +83,35 @@ const Home = () => {
       window.history.state &&
       window.history.state.settingschange
     ) {
+      if (window.history.state.undo) {
+        engine_undo()
+      }
+      if (window.history.state.finishgame) {
+        engine_finishGame()
+      }
+      if (window.history.state.resetgame) {
+        engine_resetGame()
+      }
+      if (window.history.state.finishmatch) {
+        engine_finishMatch()
+      }
+      if (window.history.state.resetmatch) {
+        engine_resetMatch()
+      }
+      if (window.history.state.togglehorizontal) {
+        newSettings.horizontal = !settings.horizontal
+      }
       if (window.history.state.togglegoodguys) {
         [newSettings.label1,  newSettings.label2]  = prepToggleGoodGuys(settings)
       }
+      if (window.history.state.changecolors) {
+        newSettings.color1 = window.history.state.color1
+        newSettings.backgroundColor1 = window.history.state.backgroundColor1
+        newSettings.color2 = window.history.state.color2
+        newSettings.backgroundColor2 = window.history.state.backgroundColor2
+      }
+      let gameDone, matchDone
+      [newSettings.score1, newSettings.score2, newSettings.match1, newSettings.match2, gameDone, matchDone] = prepFromEngine()
     }
     unpackSettings(settings, newSettings)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -106,6 +146,7 @@ const Home = () => {
   const packSettings = () => {
     let settings = prepPackSettings()
     //console.log(settings)
+    settings['engine'] = engine_save()
     settings = JSON.stringify(settings)
     saveToLS("allSettings", settings)
   }
@@ -114,6 +155,9 @@ const Home = () => {
     let settings = getFromLS("allSettings")
     if (settings) {
       settings = JSON.parse(settings)
+      if (settings['engine']) {
+        engine_load(settings['engine'])
+      }
     }
     return settings
   }
@@ -181,14 +225,46 @@ const Home = () => {
     setLabel2(label)
     setMatch2(match)
     setScore2(score)
+
+    engine_toggleOrder()
+  }
+
+  const prepFromEngine = () => {
+    let gameA
+    let gameB
+    let matchA
+    let matchB
+    let gameDone
+    let matchDone
+    ;[gameA, gameB, matchA, matchB, gameDone, matchDone] = engine_get()
+    console.log([gameA, gameB, matchA, matchB, gameDone, matchDone])
+    return [gameA, gameB, matchA, matchB, gameDone, matchDone]
+  }
+
+  const updateFromEngine = () => {
+    let gameA
+    let gameB
+    let matchA
+    let matchB
+    let gameDone
+    let matchDone
+    ;[gameA, gameB, matchA, matchB, gameDone, matchDone] = engine_get()
+
+    console.log([gameA, gameB, matchA, matchB, gameDone, matchDone])
+    setScore1(gameA)
+    setScore2(gameB)
+    setMatch1(matchA)
+    setMatch2(matchB)
   }
 
   const onTeam1Click = () => {
-    setScore1(score1 + 1)
+    engine_pointA()
+    updateFromEngine()
   }
 
   const onTeam2Click = () => {
-    setScore2(score2 + 1)
+    engine_pointB()
+    updateFromEngine()
   }
 
   const onScoresClick = () => {
@@ -213,8 +289,14 @@ const Home = () => {
   }
 
   const onSettingsClick = () => {
+    let settings = prepPackSettings()
     packSettings()
-    navigate("/settings/")
+    // TODO: Gatsby documentation is weak, infers that
+    // component at end of navigation should get state
+    // from props.state or whatever tag used.  From google
+    // search, need to use window.history.state to access
+    // what was passed
+    navigate("/settings/", { state: settings })
   }
 
   return (

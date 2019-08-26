@@ -51,8 +51,7 @@ const Main = props => {
       setScore1(settings.score1)
       setLabel2(settings.label2)
       setMatch2(settings.match2)
-      setScore2(settings.score2)
-    
+      setScore2(settings.score2)   
     }
   }, [])
 
