@@ -8,6 +8,20 @@ import SEO from "../components/seo"
 import LandscapeWarning from "../components/landscapewarning"
 import Title from "../components/title"
 import ControlButton from "../components/controlbutton"
+import {
+  getFromLS,
+  saveToLS,
+} from "./utils"
+import {
+  engine_undo,
+  engine_finishGame,
+  engine_resetGame,
+  engine_finishMatch,
+  engine_resetMatch,
+  engine_load,
+  engine_save,
+  engine_get
+ } from "./engine"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,72 +46,179 @@ const useStyles = makeStyles(theme => ({
 const SettingsPage = () => {
   const classes = useStyles()
 
+  const [horizontal, setHorizontal] = useState(false)
+
   const [color1, setColor1] = useState("white")
   const [backgroundColor1, setBackgroundColor1] = useState("red")
+  const [label1, setLabel1] = useState("US")
+  const [match1, setMatch1] = useState(0)
+  const [score1, setScore1] = useState(0)
+
   const [color2, setColor2] = useState("white")
   const [backgroundColor2, setBackgroundColor2] = useState("blue")
+  const [label2, setLabel2] = useState("THEM")
+  const [match2, setMatch2] = useState(0)
+  const [score2, setScore2] = useState(0)
 
-  useEffect(() => {
-    // TODO: Gatsby documentation is weak, infers that
-    // component at end of navigation should get state
-    // from props.state or whatever tag used.  From google
-    // search, need to use window.history.state to access
-    // what was passed
-    if (
-      window &&
-      window.history &&
-      window.history.state &&
-      window.history.state.color1
-    ) {
-      console.log('window.history.state')
-      console.log(window.history.state)
-      let settings = window.history.state
+  const [gameDone, setGameDone] = useState(false)
+  const [matchDone, setMatchDone] = useState(false)
+
+  const packSettings = () => {
+    let settings = {}
+
+    settings["horizontal"] = horizontal
+
+    settings["color1"] = color1
+    settings["backgroundColor1"] = backgroundColor1
+    settings["label1"] = label1
+    settings["match1"] = match1
+    settings["score1"] = score1
+
+    settings["color2"] = color2
+    settings["backgroundColor2"] = backgroundColor2
+    settings["label2"] = label2
+    settings["match2"] = match2
+    settings["score2"] = score2
+
+    settings["gameDone"] = gameDone
+    settings["matchDone"] = matchDone
+
+    settings['engine'] = engine_save()
+    //console.log('settings::pack')
+    //console.log(settings)
+    settings = JSON.stringify(settings)
+    saveToLS("allSettings", settings)
+  }
+
+  const unpackSettings = () => {
+    let settings = getFromLS("allSettings")
+    if (settings) {
+      settings = JSON.parse(settings)
+      //console.log('settings::unpack')
+      //console.log(settings)
+      if (settings['engine']) {
+        engine_load(settings['engine'])
+      }
+
+      setHorizontal(settings.horizontal)
+
       setColor1(settings.color1)
       setBackgroundColor1(settings.backgroundColor1)
+      setLabel1(settings.label1)
+      setMatch1(settings.match1)
+      setScore1(settings.score1)
+
       setColor2(settings.color2)
       setBackgroundColor2(settings.backgroundColor2)
-      }
+      setLabel2(settings.label2)
+      setMatch2(settings.match2)
+      setScore2(settings.score2)
+
+      setGameDone(settings.gameDone)
+      setMatchDone(settings.matchDone)
+    }
+  }
+
+  useEffect(() => {
+    unpackSettings()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const homeWithSettings = (what, payload) => {
-    console.log(what)
-    let settings = { settingschange: true }
-    settings[what] = true
-    settings = { ...settings, ...payload }
-    // TODO: Gatsby documentation is weak, infers that
-    // component at end of navigation should get state
-    // from props.state or whatever tag used.  From google
-    // search, need to use window.history.state to access
-    // what was passed
-    navigate("/home/", { state: settings })
+  useEffect(() => {
+    packSettings()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [score1, score2, match1, match2, gameDone, matchDone, label1, label2])
+
+  const updateFromEngine = () => {
+    let gameA
+    let gameB
+    let matchA
+    let matchB
+    let gameDone
+    let matchDone
+    ;[gameA, gameB, matchA, matchB, gameDone, matchDone] = engine_get()
+
+    //console.log('settings::updateFromEngine')
+    //console.log([gameA, gameB, matchA, matchB, gameDone, matchDone])
+    setScore1(gameA)
+    setScore2(gameB)
+    setMatch1(matchA)
+    setMatch2(matchB)
+    setGameDone(gameDone)
+    setMatchDone(matchDone)
+  }
+
+  const toggleGoodGuys = () => {
+    let newLabel1, newLabel2
+    if (label1 === "US") {
+      newLabel1 = "GOOD GUYS"
+      newLabel2 = "BAD GUYS"
+    } else if (label1 === "THEM") {
+      newLabel2 = "GOOD GUYS"
+      newLabel1 = "BAD GUYS"
+    } else if (label1 === "GOOD GUYS") {
+      newLabel1 = "US"
+      newLabel2 = "THEM"
+    } else if (label1 === "BAD GUYS") {
+      newLabel2 = "US"
+      newLabel1 = "THEM"
+    }
+    setLabel1(newLabel1)
+    setLabel2(newLabel2)
   }
 
   const onUndoClick = () => {
-    homeWithSettings('undo')
+    engine_undo()
+    updateFromEngine()
+    packSettings()
+    navigate("/home/")
   }
 
   const onFinishGameClick = () => {
-    homeWithSettings('finishgame')
+    engine_finishGame()
+    updateFromEngine()
+    packSettings()
+    navigate("/home/")
   }
 
   const onResetGameClick = () => {
-    homeWithSettings('resetgame')
+    engine_resetGame()
+    updateFromEngine()
+    packSettings()
+    navigate("/home/")
   }
 
   const onFinishMatchClick = () => {
-    homeWithSettings('finishmatch')
+    engine_finishMatch()
+    updateFromEngine()
+    packSettings()
+    navigate("/home/")
   }
 
   const onResetMatchClick = () => {
-    homeWithSettings('resetmatch')
+    engine_resetMatch()
+    updateFromEngine()
+    packSettings()
+    navigate("/home/")
   }
 
   const onToggleHorizontalClick = () => {
-    homeWithSettings('togglehorizontal')
+    setHorizontal(!horizontal)
+    packSettings()
+    navigate("/home/")
   }
 
   const onToggleGoodGuysClick = () => {
-    homeWithSettings('togglegoodguys')
+    toggleGoodGuys()
+    packSettings()
+    navigate("/home/")
+  }
+
+  const onDefaultColorsClick = (event) => {
+    setColor1("white")
+    setColor2("white")
+    setBackgroundColor1("red")
+    setBackgroundColor2("blue")
   }
 
   const onColorChange1 = (event) => {
@@ -113,29 +234,18 @@ const SettingsPage = () => {
   }
 
   const onBackgroundColorChange2 = (event) => {
-    console.log(event.target.value)
     setBackgroundColor2(event.target.value)
   }
 
-  const onDefaultColorsClick = (event) => {
-    setColor1("white")
-    setColor2("white")
-    setBackgroundColor1("red")
-    setBackgroundColor2("blue")
-  }
 
   const onCancelClick = () => {
-    console.log("cancel")
     navigate("/home/")
   }
 
   const onSaveClick = () => {
-    let payload = {}
-    payload['color1'] = color1
-    payload['backgroundColor1'] = backgroundColor1
-    payload['color2'] = color2
-    payload['backgroundColor2'] = backgroundColor2
-    homeWithSettings('changecolors', payload)
+    packSettings()
+    navigate("/home/")
+
   }
 
 

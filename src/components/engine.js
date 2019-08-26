@@ -32,7 +32,7 @@ function engine_check() {
     }
 }
 
-export function engine_reset() {
+function engine_reset() {
   orderAB = true
   stack = [] // will always be orderAB === true
   gameA = 0
