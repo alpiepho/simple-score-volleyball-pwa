@@ -168,7 +168,7 @@ const Home = () => {
 
   const onAboutClick = () => {
     packSettings()
-    navigate("/")
+    navigate("/about/")
   }
 
   const onSwapTeamsClick = () => {
