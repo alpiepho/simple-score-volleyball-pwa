@@ -28,6 +28,7 @@ const useStyles = makeStyles(theme => ({
 
 const Home = () => {
   const classes = useStyles()
+  const [phone, setPhone] = useState("0000")
   const [horizontal, setHorizontal] = useState(false)
 
   const [color1, setColor1] = useState("white")
@@ -48,6 +49,7 @@ const Home = () => {
   const packSettings = () => {
     let settings = {}
 
+    settings["phone"] = phone
     settings["horizontal"] = horizontal
 
     settings["color1"] = color1
@@ -82,6 +84,7 @@ const Home = () => {
         engine_load(settings["engine"])
       }
 
+      setPhone(settings.phone)
       setHorizontal(settings.horizontal)
 
       setColor1(settings.color1)
