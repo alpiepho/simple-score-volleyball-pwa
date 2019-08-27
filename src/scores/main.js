@@ -77,8 +77,24 @@ const Main = () => {
     navigate("/home/")
   }
 
+  //Authorization: "Bearer " + user.token.access_token,
+
   const onSendClick = () => {
     console.log(getMessage())
+
+    fetch("/.netlify/functions/auth-send-sms", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: getMessage(),
+    })
+      .then(response => response.json())
+      .then(json => {
+        console.log(json)
+      })
+
     navigate("/home/")
   }
 
@@ -201,30 +217,6 @@ export default Main
 
 // class Main extends React.Component {
 //   state = { loading: false, json: null }
-
-//   getMessage = () => {
-//     let us_them_order = true;
-//     let match_us = 2;
-//     let match_them = 1;
-//     let game_us = 3;
-//     let game_them = 4;
-//     let extra = 'Great serve by K!\n...ran 6 points.'
-
-//     let message;
-
-//     if (us_them_order) {
-//       message = `\nSimple Score VB: from 6982
-//       Match: Us (${match_us}) vs Them (${match_them})
-//       Game : Us (${game_us}) vs Them (${game_them})`
-//     }
-//     else {
-//       message = `\nSimple Score VB: from 6982
-//       Match: Them (${match_them}) vs Us (${match_us})
-//       Game : Them (${game_them}) vs Us (${game_us})`
-//     }
-//     message += '\n' + extra;
-//     return message;
-//   }
 
 //   handleClick = e => {
 //     e.preventDefault()

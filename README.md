@@ -51,7 +51,7 @@ We have fireworks!!!
 
 ## Development Notes
 
-Keep these around for my own reference.
+Keeping these around for my own reference.
 
 ### Rough Diagram - Main
 
