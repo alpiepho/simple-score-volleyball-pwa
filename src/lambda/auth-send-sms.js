@@ -6,21 +6,28 @@ export function handler(event, context, callback) {
   const accountSid = process.env.TW_ACCOUNTSID
   const authToken = process.env.TW_AUTHTOKEN
   const client = require("twilio")(accountSid, authToken)
+  let numbers = process.env.TW_TO_LIST.split(" ")
   let valid = false
 
-  valid = true
-  // // Simple Score VB: from nnnn
-  // let lines = event.body.split('\n')
-  // let line = lines[0]
-  // let number = line.substring(line.length - 4)
-  // let numbers = process.env.TW_TO_LIST.split(" ")
-  // let i
-  // for (i = 0; i < numbers.length; i++) {
-  //   if (numbers[i].endsWith(number)) {
-  //     valid = true
-  //     break
-  //   }
-  // }  
+  // Simple Score VB: from nnnn
+  let lines = event.body.split('\n')
+  let line = lines[1]
+  let number = line.substring(line.length - 4) || 'missing'
+  let i
+  //console.log('lines')
+  //console.log(lines)
+  //console.log(line)
+  //console.log(number)
+  for (i = 0; i < numbers.length; i++) {
+    if (numbers[i].endsWith(number)) {
+      //console.log(numbers[i])
+      valid = true
+      break
+    }
+  }
+  //console.log('valid')
+  //console.log(valid)
+  //valid = false
 
   if (valid && context.clientContext) {
     numbers.map((number, index) => {
