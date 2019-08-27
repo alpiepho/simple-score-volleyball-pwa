@@ -61,15 +61,24 @@ const Main = () => {
     if (phone !== undefined && phone !== "0000") {
       setDisableSend(false)
     }
-   // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phone])
+
+  const getMessage = () => {
+    let extra = ""
+    let message = `\nSimple Score VB: from ${phone}
+    Match: ${label1} (${match1}) vs ${label2} (${match2})
+    Game : ${label1} (${score1}) vs ${label2} (${score2})`
+    message += "\n" + extra
+    return message
+  }
 
   const onCancelClick = () => {
     navigate("/home/")
   }
 
   const onSendClick = () => {
-    console.log("send text")
+    console.log(getMessage())
     navigate("/home/")
   }
 
