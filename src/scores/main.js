@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react"
 import { navigate } from "gatsby"
-import { Grid, Typography } from "@material-ui/core"
+import { Grid, TextField } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 //import { getUser, isLoggedIn, logout } from "./services/auth"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import LandscapeWarning from "../components/landscapewarning"
-import Title from "../components/title"
+//import Title from "../components/title"
 import ControlButton from "../components/controlbutton"
 import { getFromLS } from "../components/utils"
 
@@ -15,6 +15,12 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     marginTop: 40,
+  },
+  scoreSet: {
+    marginTop: 20,
+  },
+  score: {
+    marginTop: -10
   },
   buttonRow: {
     width: "80vw",
@@ -35,6 +41,7 @@ const Main = () => {
   const [score2, setScore2] = useState(0)
 
   const [disbleSend, setDisableSend] = useState(true)
+  const [extra, setExtra] = useState("")
 
   const unpackSettings = () => {
     let settings = getFromLS("allSettings")
@@ -65,12 +72,15 @@ const Main = () => {
   }, [phone])
 
   const getMessage = () => {
-    let extra = ""
     let message = `\nSimple Score VB: from ${phone}
     Match: ${label1} (${match1}) vs ${label2} (${match2})
     Game : ${label1} (${score1}) vs ${label2} (${score2})`
-    message += "\n" + extra
+    if (extra) message += "\n" + extra
     return message
+  }
+
+  const onExtraChange = (event) => {
+    setExtra(event.target.value)
   }
 
   const onCancelClick = () => {
@@ -110,12 +120,12 @@ const Main = () => {
             justify="space-around"
             direction="column"
           >
-            <Grid item className={classes.title}>
+            {/* <Grid item className={classes.title}>
               <Title label="Scores" />
-            </Grid>
+            </Grid> */}
 
             <Grid
-              className={classes.root}
+              className={classes.scoreSet}
               container
               spacing={0}
               justify="space-around"
@@ -138,7 +148,7 @@ const Main = () => {
             </Grid>
 
             <Grid
-              className={classes.root}
+              className={classes.scoreSet}
               container
               spacing={0}
               justify="space-around"
@@ -160,21 +170,21 @@ const Main = () => {
               </Grid>
             </Grid>
 
-            <Grid
-              className={classes.root}
-              container
-              spacing={0}
-              justify="space-around"
-              alignItems="center"
-              direction="column"
-            >
-              <Typography>TODO: Add Text Area for Note</Typography>
-            </Grid>
-
+            <TextField
+                  id="standard-multiline-flexible"
+                  multiline
+                  rowsMax="4"
+                  label="Extra Note"
+                  value={extra}
+                  className={classes.textField}
+                  margin="normal"
+                  onChange={onExtraChange}
+                />
+ 
             <Grid
               className={classes.buttonRow}
               container
-              spacing={8}
+              spacing={6}
               justify="space-around"
               alignItems="center"
               direction="row"
@@ -211,68 +221,3 @@ const Main = () => {
 
 export default Main
 
-// import React from 'react'
-// import { Link, navigate } from "gatsby"
-// import { getUser, isLoggedIn, logout } from "./services/auth"
-
-// class Main extends React.Component {
-//   state = { loading: false, json: null }
-
-//   handleClick = e => {
-//     e.preventDefault()
-//     const user = getUser()
-//     this.setState({ loading: true })
-
-//     fetch('/.netlify/functions/auth-send-sms', {
-//       method: 'POST',
-//       headers: {
-//         Accept: 'application/json',
-//         'Content-Type': 'application/json',
-//         Authorization: 'Bearer ' + user.token.access_token,
-//       },
-//       body: this.getMessage()
-//     })
-//       .then(response => response.json())
-//       .then(json => this.setState({ loading: false, json }))
-//   }
-
-//   render() {
-//     const { loading, json } = this.state
-//     const user = getUser()
-//     return (
-//       <>
-//         <h1>Settings: (TODO)</h1>
-//         <ul>
-//           <li>API: {user.api && user.api.apiURL}</li>
-//           <li>ID: {user.id}</li>
-//         </ul>
-//         <hr />
-
-//         <Link to="/home/">Home</Link>
-//         {` `}
-//         {` `}
-//         {isLoggedIn() ? (
-//           <a
-//             href="/"
-//             onClick={event => {
-//               event.preventDefault()
-//               logout(() => navigate(`/scores/login`))
-//             }}
-//           >
-//             Logout
-//           </a>
-//         ) : (
-//           <Link to="/scores/login">Login</Link>
-//         )}
-//         <hr />
-
-//         <button onClick={this.handleClick}>
-//           {loading ? 'Loading...' : 'Send Text'}
-//         </button>
-//         <pre>{JSON.stringify(json, null, 2)}</pre>
-//       </>
-//     )
-//   }
-// }
-
-// export default Main
