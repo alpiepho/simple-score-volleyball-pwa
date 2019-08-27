@@ -46,6 +46,7 @@ const useStyles = makeStyles(theme => ({
 const SettingsPage = () => {
   const classes = useStyles()
 
+  const [phone, setPhone] = useState("0000")
   const [horizontal, setHorizontal] = useState(false)
 
   const [color1, setColor1] = useState("white")
@@ -66,6 +67,7 @@ const SettingsPage = () => {
   const packSettings = () => {
     let settings = {}
 
+    settings["phone"] = phone
     settings["horizontal"] = horizontal
 
     settings["color1"] = color1
@@ -100,6 +102,7 @@ const SettingsPage = () => {
         engine_load(settings['engine'])
       }
 
+      setPhone(settings.phone)
       setHorizontal(settings.horizontal)
 
       setColor1(settings.color1)
@@ -219,6 +222,10 @@ const SettingsPage = () => {
     setColor2("white")
     setBackgroundColor1("red")
     setBackgroundColor2("blue")
+  }
+
+  const onPhoneChange = (event) => {
+    setPhone(event.target.value)
   }
 
   const onColorChange1 = (event) => {
@@ -404,6 +411,17 @@ const SettingsPage = () => {
                   helperText="color name or CSS hex (ie. #000, #000000)"
                   margin="normal"
                   onChange={onBackgroundColorChange2}
+                />
+              </Grid>
+              <Grid item className={classes.textfield}>
+                <TextField
+                  id="standard-helperText"
+                  label=""
+                  value={phone}
+                  className={classes.textField}
+                  helperText="phone last 4 digits to allow send text"
+                  margin="normal"
+                  onChange={onPhoneChange}
                 />
               </Grid>
             </Grid>

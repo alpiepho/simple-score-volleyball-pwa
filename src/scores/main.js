@@ -26,6 +26,7 @@ const useStyles = makeStyles(theme => ({
 const Main = () => {
   const classes = useStyles()
 
+  const [phone, setPhone] = useState("0000")
   const [label1, setLabel1] = useState("US")
   const [match1, setMatch1] = useState(0)
   const [score1, setScore1] = useState(0)
@@ -33,11 +34,14 @@ const Main = () => {
   const [match2, setMatch2] = useState(0)
   const [score2, setScore2] = useState(0)
 
+  const [disbleSend, setDisableSend] = useState(true)
+
   const unpackSettings = () => {
     let settings = getFromLS("allSettings")
     if (settings) {
       settings = JSON.parse(settings)
 
+      setPhone(settings.phone)
       setLabel1(settings.label1)
       setMatch1(settings.match1)
       setScore1(settings.score1)
@@ -53,11 +57,28 @@ const Main = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    if (phone !== undefined && phone !== "0000") {
+      setDisableSend(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phone])
+
+  const getMessage = () => {
+    let extra = ""
+    let message = `\nSimple Score VB: from ${phone}
+    Match: ${label1} (${match1}) vs ${label2} (${match2})
+    Game : ${label1} (${score1}) vs ${label2} (${score2})`
+    message += "\n" + extra
+    return message
+  }
+
   const onCancelClick = () => {
     navigate("/home/")
   }
 
-  const onSaveClick = () => {
+  const onSendClick = () => {
+    console.log(getMessage())
     navigate("/home/")
   }
 
@@ -153,11 +174,12 @@ const Main = () => {
               </Grid>
               <Grid item xs={4}>
                 <ControlButton
+                  disabled={disbleSend}
                   color="black"
                   backgroundColor="gray"
-                  onButtonClick={onSaveClick}
+                  onButtonClick={onSendClick}
                 >
-                  Save
+                  Send
                 </ControlButton>
               </Grid>
             </Grid>
@@ -191,12 +213,12 @@ export default Main
 //     let message;
 
 //     if (us_them_order) {
-//       message = `\nSimple Score VB:
+//       message = `\nSimple Score VB: from 6982
 //       Match: Us (${match_us}) vs Them (${match_them})
 //       Game : Us (${game_us}) vs Them (${game_them})`
 //     }
 //     else {
-//       message = `\nSimple Score VB:
+//       message = `\nSimple Score VB: from 6982
 //       Match: Them (${match_them}) vs Us (${match_us})
 //       Game : Them (${game_them}) vs Us (${game_us})`
 //     }

@@ -13,7 +13,10 @@ This is also hosted in GH-Pages [here](https://alpiepho.github.io/simple-score-v
 This was copied from [any-counter](https://github.com/alpiepho/any-counter) and is still
 a work-in-progress.
 
-This will be a PWA application that allows easy score keeping of a volleyball match
+![simple-score-volleyball-pwa](./simple_score_volleyball_pwa.png)
+
+
+This is a PWA application that allows easy score keeping of a volleyball match
 with an additional button to send text messages of the ongoing match results to a 
 preconfigured list of phone numbers.
 
@@ -24,23 +27,31 @@ to send texts.
 Eventually, this will be ported to an Expo application so it can run natively on IOS
 and Android.
 
+:warning: This is currently in Alpha, so only a limited number of people can actually 
+send texts.
+
+### Lighthouse
+
+We have fireworks!!!
+
+![lighthouse](./lighthouse.png)
+
+
 ### TODO
 
-- scoring engine
-- settings page
-- scores page
-- hook send text
-
-- try modal
-- icons/favicon
-- screenshots for readme
+- fully test scoring engine
+- finish send text
 
 ### BUGS
 
-- double click
-- about page (fix 1st load without style, take out work around)
-- investigate send text failure
+- double click on IOS zooms the page.  this could be problem when adding points quickly
 
+
+
+
+## Development Notes
+
+Keep these around for my own reference.
 
 ### Rough Diagram - Main
 
@@ -201,7 +212,7 @@ login page will even ask the URL for the site.  The problem is that any confirma
 take you to the hosted site.  In my case, I didn't have the login code deployed yet, so my user
 could never confirm their email.
 
-## Notes on using Sending Texts
+### Notes on using Sending Texts
 
 The applications sends score updates by:
 - client side applications posts payload to Netlify Function(lambda)
@@ -247,46 +258,3 @@ the global CSS (in this case it is layout.css) I added the follow:
 This mimicks the styled CSS, but because it is declared as 'class' then 'html element' it will not 
 carry over to other pages.
 
-<!-- ----------------------------------------------------
-
-
-## Any Counter PWA
-
-![any-counter](./any_counter.png)
-
-
-### What it is
-This is a simple PWA (Progressive Web Application) written in React.js and the Server Side Rendering framework Gatsby.js. This was designed using the Google Material UI React package.
-
-This is hosted on GH-Pages [here](https://alpiepho.github.io/any-counter/)
-
-### So, Why?
-
-What is the purpose of this application?
-
-There are several problems that can be solved with a counter that uses different ranges for the digits. For example, if you enter all 1s for max, then you have a binary counter. If you enter 'FF', then you have a hex counter.
-
-A more complex example is min set to '5 0 0' and max set to '9 59 59' then you have a time counter from 5 mins to 10 mins.
-
-This algorithm was originally used to 'count' thru the permutations of letter from a phone. '2' shows 'abc', '7' shows 'pqrs'. The ranges are different. This algorithm was used to map from integers to letters. With min set to '0 0', and max to '2 3', the count would be '0 0', '0 1'...'2 3'. This can easily be mapped to 'ap', 'aq'...'cs'.
-
-
-## Success!!!
-
-I have been exeprimenting with LightHouse testing for a few weeks.  I noticed the Look/Feel of this tool changed with a recent update of Chrome.  I also saw a cool easter egg when I hit all 100s for this app (sorry, can't show the animated fireworks):
-
-![lighthouse fireworks](./lighthouse_fireworks.png)
-
-
-##  Whats left TODO
-
-This is a list of some things to finish up:
-
-- Clean up layout.js (remove or use Header etc)
-- Clean up unused components
-- Create Bootstrap version
-- Use this for other apps:
-    - A clock timer
-    - A date count down
-
- -->
