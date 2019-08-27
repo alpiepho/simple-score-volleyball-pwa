@@ -7,6 +7,8 @@
 
 This is hosted on Netlify [here](https://admiring-bhabha-8dfc0c.netlify.com/)
 
+This is also hosted in GH-Pages [here](https://alpiepho.github.io/simple-score-volleyball-pwa/).  NOTE: Send button will not work from GH-Pages.
+
 
 This was copied from [any-counter](https://github.com/alpiepho/any-counter) and is still
 a work-in-progress.
