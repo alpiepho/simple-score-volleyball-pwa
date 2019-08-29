@@ -2,6 +2,7 @@ import React from "react"
 import { navigate } from "gatsby"
 import { Grid, Typography } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
+import { FaGithub } from 'react-icons/fa'
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -120,6 +121,24 @@ const About = () => {
             this as a Chrome Applications.  Look for the ... in the upper right,
             then look for "Add to Home screen"
           </Typography>
+
+          <Grid item className={classes.title} >
+            <Title label="Source Code" />
+          </Grid>
+          <div
+          >
+            You can find the source for this on github   
+    <a 
+    href='https://github.com/alpiepho/simple-score-volleyball-pwa'
+    target='_blank'
+    rel="noopener noreferrer"
+    aria-label="github"
+  >
+    <FaGithub size={32} aria-hidden="true" />
+  </a>
+
+            <br/><br/>
+          </div>
 
           <ControlButton
             color="black"
