@@ -130,7 +130,7 @@ const SettingsPage = () => {
   useEffect(() => {
     packSettings()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [score1, score2, match1, match2, gameDone, matchDone, label1, label2])
+  }, [horizontal, score1, score2, match1, match2, gameDone, matchDone, label1, label2])
 
   const updateFromEngine = () => {
     let gameA
@@ -173,47 +173,47 @@ const SettingsPage = () => {
   const onUndoClick = () => {
     engine_undo()
     updateFromEngine()
-    packSettings()
+    //packSettings()
     navigate("/home/")
   }
 
   const onFinishGameClick = () => {
     engine_finishGame()
     updateFromEngine()
-    packSettings()
+    //packSettings()
     navigate("/home/")
   }
 
   const onResetGameClick = () => {
     engine_resetGame()
     updateFromEngine()
-    packSettings()
+    //packSettings()
     navigate("/home/")
   }
 
   const onFinishMatchClick = () => {
     engine_finishMatch()
     updateFromEngine()
-    packSettings()
+    //packSettings()
     navigate("/home/")
   }
 
   const onResetMatchClick = () => {
     engine_resetMatch()
     updateFromEngine()
-    packSettings()
+    //packSettings()
     navigate("/home/")
   }
 
   const onToggleHorizontalClick = () => {
     setHorizontal(!horizontal)
-    packSettings()
+    //packSettings()
     navigate("/home/")
   }
 
   const onToggleGoodGuysClick = () => {
     toggleGoodGuys()
-    packSettings()
+    //packSettings()
     navigate("/home/")
   }
 
