@@ -8,10 +8,7 @@ import SEO from "../components/seo"
 import LandscapeWarning from "../components/landscapewarning"
 import Title from "../components/title"
 import ControlButton from "../components/controlbutton"
-import {
-  getFromLS,
-  saveToLS,
-} from "./utils"
+import { getFromLS, saveToLS } from "./utils"
 import {
   engine_undo,
   engine_finishGame,
@@ -20,8 +17,8 @@ import {
   engine_resetMatch,
   engine_load,
   engine_save,
-  engine_get
- } from "./engine"
+  engine_get,
+} from "./engine"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -85,7 +82,7 @@ const SettingsPage = () => {
     settings["gameDone"] = gameDone
     settings["matchDone"] = matchDone
 
-    settings['engine'] = engine_save()
+    settings["engine"] = engine_save()
     //console.log('settings::pack')
     //console.log(settings)
     settings = JSON.stringify(settings)
@@ -98,8 +95,8 @@ const SettingsPage = () => {
       settings = JSON.parse(settings)
       //console.log('settings::unpack')
       //console.log(settings)
-      if (settings['engine']) {
-        engine_load(settings['engine'])
+      if (settings["engine"]) {
+        engine_load(settings["engine"])
       }
 
       setPhone(settings.phone)
@@ -130,7 +127,21 @@ const SettingsPage = () => {
   useEffect(() => {
     packSettings()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [horizontal, score1, score2, match1, match2, gameDone, matchDone, label1, label2])
+  }, [
+    horizontal,
+    score1,
+    score2,
+    match1,
+    match2,
+    gameDone,
+    matchDone,
+    label1,
+    label2,
+    color1,
+    color2,
+    backgroundColor1,
+    backgroundColor2,
+  ])
 
   const updateFromEngine = () => {
     let gameA
@@ -151,111 +162,97 @@ const SettingsPage = () => {
     setMatchDone(matchDone)
   }
 
-  const toggleGoodGuys = () => {
-    let newLabel1, newLabel2
-    if (label1 === "US") {
-      newLabel1 = "GOOD GUYS"
-      newLabel2 = "BAD GUYS"
-    } else if (label1 === "THEM") {
-      newLabel2 = "GOOD GUYS"
-      newLabel1 = "BAD GUYS"
-    } else if (label1 === "GOOD GUYS") {
-      newLabel1 = "US"
-      newLabel2 = "THEM"
-    } else if (label1 === "BAD GUYS") {
-      newLabel2 = "US"
-      newLabel1 = "THEM"
-    }
-    setLabel1(newLabel1)
-    setLabel2(newLabel2)
-  }
-
   const onUndoClick = () => {
     engine_undo()
     updateFromEngine()
-    //packSettings()
     navigate("/home/")
   }
 
   const onFinishGameClick = () => {
     engine_finishGame()
     updateFromEngine()
-    //packSettings()
     navigate("/home/")
   }
 
   const onResetGameClick = () => {
     engine_resetGame()
     updateFromEngine()
-    //packSettings()
     navigate("/home/")
   }
 
   const onFinishMatchClick = () => {
     engine_finishMatch()
     updateFromEngine()
-    //packSettings()
     navigate("/home/")
   }
 
   const onResetMatchClick = () => {
     engine_resetMatch()
     updateFromEngine()
-    //packSettings()
     navigate("/home/")
   }
 
   const onToggleHorizontalClick = () => {
     setHorizontal(!horizontal)
-    //packSettings()
     navigate("/home/")
   }
 
-  const onToggleGoodGuysClick = () => {
-    toggleGoodGuys()
-    //packSettings()
-    navigate("/home/")
-  }
-
-  const onDefaultColorsClick = (event) => {
+  const onDefaultsClick = event => {
     setColor1("white")
     setColor2("white")
     setBackgroundColor1("red")
     setBackgroundColor2("blue")
+    setLabel1("US")
+    setLabel2("THEM")
   }
 
-  const onPhoneChange = (event) => {
+  const onPhoneChange = event => {
     setPhone(event.target.value)
   }
 
-  const onColorChange1 = (event) => {
+  const onColorChange1 = event => {
     setColor1(event.target.value)
   }
 
-  const onBackgroundColorChange1 = (event) => {
+  const onBackgroundColorChange1 = event => {
     setBackgroundColor1(event.target.value)
   }
 
-  const onColorChange2 = (event) => {
+  const onColorChange2 = event => {
     setColor2(event.target.value)
   }
 
-  const onBackgroundColorChange2 = (event) => {
+  const onBackgroundColorChange2 = event => {
     setBackgroundColor2(event.target.value)
   }
 
-
-  const onCancelClick = () => {
-    navigate("/home/")
+  const onLabel1Change = event => {
+    setLabel1(event.target.value)
   }
 
-  const onSaveClick = () => {
-    packSettings()
-    navigate("/home/")
-
+  const onLabel2Change = event => {
+    setLabel2(event.target.value)
   }
 
+  const onMatch1Change = event => {
+    setMatch1(event.target.value)
+  }
 
+  const onMatch2Change = event => {
+    setMatch2(event.target.value)
+  }
+
+  const onGame1Change = event => {
+    setScore1(event.target.value)
+  }
+
+  const onGame2Change = event => {
+    setScore2(event.target.value)
+  }
+
+  const onDoneClick = () => {
+    navigate("/home/")
+  }
 
   return (
     <Layout>
@@ -333,16 +330,6 @@ const SettingsPage = () => {
                   className={classes.button}
                   color="black"
                   backgroundColor="gray"
-                  onButtonClick={onToggleGoodGuysClick}
-                >
-                  Toggle "Good Guys"
-                </ControlButton>
-              </Grid>
-              <Grid item className={classes.button}>
-                <ControlButton
-                  className={classes.button}
-                  color="black"
-                  backgroundColor="gray"
                   onButtonClick={onToggleHorizontalClick}
                 >
                   Toggle Horizontal
@@ -351,17 +338,17 @@ const SettingsPage = () => {
               <Grid item className={classes.button}>
                 <hr />
               </Grid>
-               <Grid item className={classes.button}>
+              <Grid item xs={8} className={classes.button}>
                 <ControlButton
                   className={classes.button}
                   color="black"
                   backgroundColor="gray"
-                  onButtonClick={onDefaultColorsClick}
+                  onButtonClick={onDefaultsClick}
                 >
-                  Default Colors
+                  Default Colors/Labels
                 </ControlButton>
               </Grid>
-           </Grid>
+            </Grid>
 
             <Grid
               container
@@ -413,6 +400,75 @@ const SettingsPage = () => {
                   onChange={onBackgroundColorChange2}
                 />
               </Grid>
+
+              <Grid item className={classes.textfield}>
+                <TextField
+                  id="standard-helperText"
+                  label=""
+                  value={label1}
+                  className={classes.textField}
+                  helperText="change team name 1"
+                  margin="normal"
+                  onChange={onLabel1Change}
+                />
+              </Grid>
+              <Grid item className={classes.textfield}>
+                <TextField
+                  id="standard-helperText"
+                  label=""
+                  value={label2}
+                  className={classes.textField}
+                  helperText="change team name 2"
+                  margin="normal"
+                  onChange={onLabel2Change}
+                />
+              </Grid>
+
+              <Grid item className={classes.textfield}>
+                <TextField
+                  id="standard-helperText"
+                  label=""
+                  value={match1}
+                  className={classes.textField}
+                  helperText="force match score 1"
+                  margin="normal"
+                  onChange={onMatch1Change}
+                />
+              </Grid>
+              <Grid item className={classes.textfield}>
+                <TextField
+                  id="standard-helperText"
+                  label=""
+                  value={match2}
+                  className={classes.textField}
+                  helperText="force match score 2"
+                  margin="normal"
+                  onChange={onMatch2Change}
+                />
+              </Grid>
+              <Grid item className={classes.textfield}>
+                <TextField
+                  id="standard-helperText"
+                  label=""
+                  value={score1}
+                  className={classes.textField}
+                  helperText="force game score 1"
+                  margin="normal"
+                  onChange={onGame1Change}
+                />
+              </Grid>
+              <Grid item className={classes.textfield}>
+                <TextField
+                  id="standard-helperText"
+                  label=""
+                  value={score2}
+                  className={classes.textField}
+                  helperText="force game score 2"
+                  margin="normal"
+                  onChange={onGame2Change}
+                />
+              </Grid>
+
               <Grid item className={classes.textfield}>
                 <TextField
                   id="standard-helperText"
@@ -434,26 +490,19 @@ const SettingsPage = () => {
               alignItems="center"
               direction="row"
             >
-              <Grid item xs={4}>
+              <Grid item xs={12}>
                 <ControlButton
                   color="black"
                   backgroundColor="gray"
-                  onButtonClick={onCancelClick}
+                  onButtonClick={onDoneClick}
                 >
-                  Cancel
-                </ControlButton>
-              </Grid>
-              <Grid item xs={4}>
-                <ControlButton
-                  color="black"
-                  backgroundColor="gray"
-                  onButtonClick={onSaveClick}
-                >
-                  Save
+                  Done
                 </ControlButton>
               </Grid>
             </Grid>
           </Grid>
+
+          
         </div>
         <div className="settings-horizontal">
           <LandscapeWarning />
