@@ -39,9 +39,7 @@ const LandscapeWarning = () => {
       gutterBottom
     >
       Automatic formating for horizontal or landscape mode is not
-      available. A workaround is to lock the screen rotation on your
-      phone and use the settings for horizontal mode. Then all the text
-      will be rotated 90 degrees.
+      available.
     </Typography>
   </Grid>
 )

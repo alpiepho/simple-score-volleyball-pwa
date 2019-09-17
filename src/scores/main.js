@@ -6,7 +6,6 @@ import { makeStyles } from "@material-ui/core/styles"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import LandscapeWarning from "../components/landscapewarning"
 //import Title from "../components/title"
 import ControlButton from "../components/controlbutton"
 import { getFromLS } from "../components/utils"
@@ -268,11 +267,6 @@ const Main = () => {
   }
 
   const buildHorizontal = () => {
-    // return (
-    //   <div className="scores-horizontal">
-    //     <LandscapeWarning />
-    //   </div>
-    // )
     return (
       <div className="scores-horizontal">
         <Grid

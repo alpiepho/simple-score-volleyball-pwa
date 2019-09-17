@@ -44,7 +44,6 @@ const SettingsPage = () => {
   const classes = useStyles()
 
   const [phone, setPhone] = useState("0000")
-  const [horizontal, setHorizontal] = useState(false)
 
   const [color1, setColor1] = useState("white")
   const [backgroundColor1, setBackgroundColor1] = useState("red")
@@ -65,7 +64,6 @@ const SettingsPage = () => {
     let settings = {}
 
     settings["phone"] = phone
-    settings["horizontal"] = horizontal
 
     settings["color1"] = color1
     settings["backgroundColor1"] = backgroundColor1
@@ -100,7 +98,6 @@ const SettingsPage = () => {
       }
 
       setPhone(settings.phone)
-      setHorizontal(settings.horizontal)
 
       setColor1(settings.color1)
       setBackgroundColor1(settings.backgroundColor1)
@@ -129,7 +126,6 @@ const SettingsPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     phone,
-    horizontal,
     score1,
     score2,
     match1,
@@ -190,11 +186,6 @@ const SettingsPage = () => {
   const onResetMatchClick = () => {
     engine_resetMatch()
     updateFromEngine()
-    navigate("/home/")
-  }
-
-  const onToggleHorizontalClick = () => {
-    setHorizontal(!horizontal)
     navigate("/home/")
   }
 
@@ -324,16 +315,6 @@ const SettingsPage = () => {
                   onButtonClick={onResetMatchClick}
                 >
                   Reset Match
-                </ControlButton>
-              </Grid>
-              <Grid item className={classes.button}>
-                <ControlButton
-                  className={classes.button}
-                  color="black"
-                  backgroundColor="gray"
-                  onButtonClick={onToggleHorizontalClick}
-                >
-                  Toggle Horizontal
                 </ControlButton>
               </Grid>
               <Grid item className={classes.button}>

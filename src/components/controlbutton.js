@@ -5,7 +5,9 @@ import { makeStyles } from "@material-ui/core/styles"
 const useStyles = makeStyles(theme => ({
   button: {
     width: "100%",
-    height: "8vh",
+    height: props => { return (props.horizontal ? "16vh" : "8vh") },
+    marginLeft: props => { return (props.horizontal ? "-22px" : "0px") },
+
     borderRadius: 20,
     color: props => props.color,
     backgroundColor: props => props.backgroundColor,
@@ -13,7 +15,7 @@ const useStyles = makeStyles(theme => ({
       color: props => props.color,
       backgroundColor: props => props.backgroundColor,
     },
-    transform: props => { return(props.horizontal ? "rotate(-90deg)" : "") }
+    transform: props => { return(props.rotate ? "rotate(-90deg)" : "") }
   },
 }))
 

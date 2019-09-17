@@ -20,7 +20,7 @@ export default function Controls(props) {
       spacing={2}
       justify="space-around"
       alignItems="center"
-      direction="row"
+      direction={ props.horizontal ? "column" : "row" }
     >
       <Grid item xs={3}>
         <ControlButton
@@ -46,6 +46,7 @@ export default function Controls(props) {
       <Grid item xs={3}>
         <ControlButton
           horizontal={props.horizontal}
+          rotate={props.horizontal}
           color={props.color}
           backgroundColor={props.backgroundColor}
           onButtonClick={props.onSwapTeamsClick}

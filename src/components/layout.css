@@ -622,6 +622,18 @@ pre tt:after {
 }
 
 
+
+.layout {
+  padding: 0px 1.0875rem 1.45rem;
+}
+
+@media all and (orientation:landscape) {
+  .layout {
+    padding: 0px 0.5rem 1.0rem;
+  }
+}
+
+
 .home-vertical {
   display: grid;
   overflow-x: hidden !important;
