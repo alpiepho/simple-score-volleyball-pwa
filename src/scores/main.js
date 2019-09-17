@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: 20,
   },
   score: {
-    marginTop: -10
+    marginTop: -10,
   },
   buttonRow: {
     width: "80vw",
@@ -73,13 +73,13 @@ const Main = () => {
 
   const getMessage = () => {
     let message = `\nSimple Score VB: from ${phone}
-    Match: ${label1} (${match1}) vs ${label2} (${match2})
-    Game : ${label1} (${score1}) vs ${label2} (${score2})`
+    Game   : ${label1} (${score1}) vs ${label2} (${score2})
+    Matches: ${label1} (${match1}) vs ${label2} (${match2})`
     if (extra) message += "\n" + extra
     return message
   }
 
-  const onExtraChange = (event) => {
+  const onExtraChange = event => {
     setExtra(event.target.value)
   }
 
@@ -108,116 +108,212 @@ const Main = () => {
     navigate("/home/")
   }
 
+  const buildGame = () => {
+    return (
+      <Grid
+        className={classes.scoreSet}
+        container
+        spacing={0}
+        justify="space-around"
+        alignItems="center"
+        direction="column"
+      >
+        <Grid item className={classes.subtitle}>
+          <h2>Game</h2>
+        </Grid>
+        <Grid item className={classes.score}>
+          <h3>
+            {label1} : {score1}
+          </h3>
+        </Grid>
+        <Grid item className={classes.score}>
+          <h3>
+            {label2} : {score2}
+          </h3>
+        </Grid>
+      </Grid>
+    )
+  }
+
+  const buildMatches = () => {
+    return (
+      <Grid
+        className={classes.scoreSet}
+        container
+        spacing={0}
+        justify="space-around"
+        alignItems="center"
+        direction="column"
+      >
+        <Grid item className={classes.subtitle}>
+          <h2>Matches</h2>
+        </Grid>
+        <Grid item className={classes.score}>
+          <h3>
+            {label1} : {match1}
+          </h3>
+        </Grid>
+        <Grid item className={classes.score}>
+          <h3>
+            {label2} : {match2}
+          </h3>
+        </Grid>
+      </Grid>
+    )
+  }
+
+  const buildExtra = () => {
+    return (
+      <TextField
+        id="standard-multiline-flexible"
+        multiline
+        rowsMax="4"
+        label="Extra Note"
+        value={extra}
+        className={classes.textField}
+        margin="normal"
+        onChange={onExtraChange}
+      />
+    )
+  }
+
+  const buildButtonsVertical = () => {
+    return (
+      <Grid
+        className={classes.buttonRow}
+        container
+        spacing={0}
+        justify="space-around"
+        alignItems="center"
+        direction="row"
+      >
+        <Grid item xs={4}>
+          <ControlButton
+            color="black"
+            backgroundColor="gray"
+            onButtonClick={onCancelClick}
+          >
+            Cancel
+          </ControlButton>
+        </Grid>
+        <Grid item xs={4}>
+          <ControlButton
+            disabled={disbleSend}
+            color="black"
+            backgroundColor="gray"
+            onButtonClick={onSendClick}
+          >
+            Send
+          </ControlButton>
+        </Grid>
+      </Grid>
+    )
+  }
+
+  const buildButtonsHorizontal = () => {
+    return (
+      <Grid
+        className={classes.buttonRow}
+        container
+        spacing={6}
+        justify="space-around"
+        alignItems="center"
+        direction="row"
+      >
+        <Grid item xs={4}>
+          <ControlButton
+            color="black"
+            backgroundColor="gray"
+            onButtonClick={onCancelClick}
+          >
+            Cancel
+          </ControlButton>
+        </Grid>
+        <Grid item xs={4}>
+          <ControlButton
+            disabled={disbleSend}
+            color="black"
+            backgroundColor="gray"
+            onButtonClick={onSendClick}
+          >
+            Send
+          </ControlButton>
+        </Grid>
+      </Grid>
+    )
+  }
+
+  const buildVertical = () => {
+    return (
+      <div className="scores-vertical">
+        <Grid
+          className={classes.root}
+          container
+          spacing={0}
+          justify="space-around"
+          direction="column"
+        >
+          {/* <Grid item className={classes.title}>
+              <Title label="Scores" />
+            </Grid> */}
+
+          {buildGame()}
+          {buildMatches()}
+          {buildExtra()}
+          {buildButtonsVertical()}
+        </Grid>
+        {" "}
+      </div>
+    )
+  }
+
+  const buildHorizontal = () => {
+    // return (
+    //   <div className="scores-horizontal">
+    //     <LandscapeWarning />
+    //   </div>
+    // )
+    return (
+      <div className="scores-horizontal">
+        <Grid
+          className={classes.root}
+          container
+          spacing={0}
+          justify="space-around"
+          direction="column"
+        >
+          {/* <Grid item className={classes.title}>
+              <Title label="Scores" />
+            </Grid> */}
+
+          <Grid
+            className={classes.buttonRow}
+            container
+            spacing={0}
+            justify="space-around"
+            alignItems="center"
+            direction="row"
+          >
+            <Grid item>{buildGame()}</Grid>
+            <Grid item>{buildMatches()}</Grid>
+          </Grid>
+          {buildExtra()}
+          {buildButtonsHorizontal()}
+        </Grid>
+        {" "}
+      </div>
+    )
+  }
+
   return (
     <Layout>
       <SEO title="Scores" />
       <>
-        <div className="scores-vertical">
-          <Grid
-            className={classes.root}
-            container
-            spacing={0}
-            justify="space-around"
-            direction="column"
-          >
-            {/* <Grid item className={classes.title}>
-              <Title label="Scores" />
-            </Grid> */}
-
-            <Grid
-              className={classes.scoreSet}
-              container
-              spacing={0}
-              justify="space-around"
-              alignItems="center"
-              direction="column"
-            >
-              <Grid item className={classes.subtitle}>
-                <h2>Game</h2>
-              </Grid>
-              <Grid item className={classes.score}>
-                <h3>
-                  {label1} : {score1}
-                </h3>
-              </Grid>
-              <Grid item className={classes.score}>
-                <h3>
-                  {label2} : {score2}
-                </h3>
-              </Grid>
-            </Grid>
-
-            <Grid
-              className={classes.scoreSet}
-              container
-              spacing={0}
-              justify="space-around"
-              alignItems="center"
-              direction="column"
-            >
-              <Grid item className={classes.subtitle}>
-                <h2>Match</h2>
-              </Grid>
-              <Grid item className={classes.score}>
-                <h3>
-                  {label1} : {match1}
-                </h3>
-              </Grid>
-              <Grid item className={classes.score}>
-                <h3>
-                  {label2} : {match2}
-                </h3>
-              </Grid>
-            </Grid>
-
-            <TextField
-                  id="standard-multiline-flexible"
-                  multiline
-                  rowsMax="4"
-                  label="Extra Note"
-                  value={extra}
-                  className={classes.textField}
-                  margin="normal"
-                  onChange={onExtraChange}
-                />
- 
-            <Grid
-              className={classes.buttonRow}
-              container
-              spacing={6}
-              justify="space-around"
-              alignItems="center"
-              direction="row"
-            >
-              <Grid item xs={4}>
-                <ControlButton
-                  color="black"
-                  backgroundColor="gray"
-                  onButtonClick={onCancelClick}
-                >
-                  Cancel
-                </ControlButton>
-              </Grid>
-              <Grid item xs={4}>
-                <ControlButton
-                  disabled={disbleSend}
-                  color="black"
-                  backgroundColor="gray"
-                  onButtonClick={onSendClick}
-                >
-                  Send
-                </ControlButton>
-              </Grid>
-            </Grid>
-          </Grid>{" "}
-        </div>
-        <div className="scores-horizontal">
-          <LandscapeWarning />
-        </div>
+        {buildVertical()}
+        {buildHorizontal()}
       </>
     </Layout>
   )
 }
 
 export default Main
-

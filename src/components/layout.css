@@ -684,6 +684,7 @@ pre tt:after {
     display: none;
   }
   .scores-horizontal {
+    margin-top: -40px;
     display: block;
   }
 }
