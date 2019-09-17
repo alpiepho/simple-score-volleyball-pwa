@@ -43,7 +43,8 @@ const useStyles = makeStyles(theme => ({
 const SettingsPage = () => {
   const classes = useStyles()
 
-  const [phone, setPhone] = useState("0000")
+  const [phone, setPhone]   = useState("+18885550000")
+  const [phones, setPhones] = useState("")
 
   const [color1, setColor1] = useState("white")
   const [backgroundColor1, setBackgroundColor1] = useState("red")
@@ -63,7 +64,8 @@ const SettingsPage = () => {
   const packSettings = () => {
     let settings = {}
 
-    settings["phone"] = phone
+    settings["phone"]  = phone
+    settings["phones"] = phones
 
     settings["color1"] = color1
     settings["backgroundColor1"] = backgroundColor1
@@ -97,7 +99,13 @@ const SettingsPage = () => {
         engine_load(settings["engine"])
       }
 
-      setPhone(settings.phone)
+      if (settings.phone && settings.phone.length === "+18885550000".length) {
+        setPhone(settings.phone)
+      }
+
+      if (settings.phones && settings.phones.length > "+18885550000".length) {
+        setPhones(settings.phones)
+      }
 
       setColor1(settings.color1)
       setBackgroundColor1(settings.backgroundColor1)
@@ -126,6 +134,7 @@ const SettingsPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     phone,
+    phones,
     score1,
     score2,
     match1,
@@ -200,6 +209,10 @@ const SettingsPage = () => {
 
   const onPhoneChange = event => {
     setPhone(event.target.value)
+  }
+
+  const onPhonesChange = event => {
+    setPhones(event.target.value)
   }
 
   const onColorChange1 = event => {
@@ -455,9 +468,23 @@ const SettingsPage = () => {
                 <TextField
                   id="standard-helperText"
                   label=""
+                  multiline
+                  rowsMax="4"
+                  value={phones}
+                  className={classes.textField}
+                  helperText="send to (ie. +18885550000,+18885550000)"
+                  margin="normal"
+                  onChange={onPhonesChange}
+                />
+              </Grid>
+
+              <Grid item className={classes.textfield}>
+                <TextField
+                  id="standard-helperText"
+                  label=""
                   value={phone}
                   className={classes.textField}
-                  helperText="phone last 4 digits to allow send text"
+                  helperText="phone allowed to send (ie. +18885550000)"
                   margin="normal"
                   onChange={onPhoneChange}
                 />

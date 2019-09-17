@@ -31,7 +31,8 @@ const useStyles = makeStyles(theme => ({
 const Main = () => {
   const classes = useStyles()
 
-  const [phone, setPhone] = useState("0000")
+  const [phone, setPhone]   = useState("+18885550000")
+  const [phones, setPhones] = useState("")
   const [label1, setLabel1] = useState("US")
   const [match1, setMatch1] = useState(0)
   const [score1, setScore1] = useState(0)
@@ -48,6 +49,7 @@ const Main = () => {
       settings = JSON.parse(settings)
 
       setPhone(settings.phone)
+      setPhones(settings.phones)
       setLabel1(settings.label1)
       setMatch1(settings.match1)
       setScore1(settings.score1)
@@ -64,7 +66,7 @@ const Main = () => {
   }, [])
 
   useEffect(() => {
-    if (phone !== undefined && phone !== "0000") {
+    if (phone !== undefined && phone !== "+18885550000") {
       setDisableSend(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -76,6 +78,10 @@ const Main = () => {
     Matches: ${label1} (${match1}) vs ${label2} (${match2})`
     if (extra) message += "\n" + extra
     return message
+  }
+
+  const getInnerMessage = () => {
+    return `\nINTERNAL ${phones}`
   }
 
   const onExtraChange = event => {
@@ -97,7 +103,7 @@ const Main = () => {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: getMessage(),
+      body: getMessage() + getInnerMessage(),
     })
       .then(response => response.json())
       .then(json => {

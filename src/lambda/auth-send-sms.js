@@ -12,7 +12,7 @@ export function handler(event, context, callback) {
   // Simple Score VB: from nnnn
   let lines = event.body.split('\n')
   let line = lines[1]
-  let number = line.substring(line.length - 4) || 'missing'
+  let number = line.substring(line.length - 12) || 'missing'
   let i
   //console.log('lines')
   //console.log(lines)
@@ -28,6 +28,15 @@ export function handler(event, context, callback) {
   //console.log('valid')
   //console.log(valid)
   //valid = false
+
+  // rebuild numbers from event.body
+  let parts = event.body.split('INTERNAL ')
+  event.body = parts[0]
+  numbers = []
+  if (parts.length > 1) {
+    numbers = parts[1].replace('\n', ' ').replace('\t', ' ').replace(' ', '').replace(';', ',').split(',')
+  }
+  console.log(numbers)
 
   if (valid && context.clientContext) {
     numbers.map((number, index) => {
