@@ -1,7 +1,9 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/6513a439-e820-4405-954f-8f442c0a29c1/deploy-status)](https://app.netlify.com/sites/admiring-bhabha-8dfc0c/deploys)
 
-[![Actions Status](https://github.com/alpiepho/simple-score-volleyball-pwa/workflows/node_ci/badge.svg)](https://github.com/alpiepho/simple-score-volleyball-pwa/actions)
+![GitHub Actions status | alpiepho/simple-score-volleyball-pwa](https://github.com/alpiepho/simple-score-volleyball-pwa/workflows/Node%20CI/badge.svg)
+
+
 
 ## Simple Score Volleyball PWA
 
