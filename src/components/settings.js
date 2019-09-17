@@ -128,6 +128,7 @@ const SettingsPage = () => {
     packSettings()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
+    phone,
     horizontal,
     score1,
     score2,
