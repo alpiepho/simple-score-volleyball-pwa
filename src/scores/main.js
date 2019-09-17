@@ -74,8 +74,8 @@ const Main = () => {
 
   const getMessage = () => {
     let message = `\nSimple Score VB: from ${phone}
-    Game   : ${label1} (${score1}) vs ${label2} (${score2})
-    Matches: ${label1} (${match1}) vs ${label2} (${match2})`
+Game   : ${label1} (${score1}) vs ${label2} (${score2})
+Matches: ${label1} (${match1}) vs ${label2} (${match2})`
     if (extra) message += "\n" + extra
     return message
   }

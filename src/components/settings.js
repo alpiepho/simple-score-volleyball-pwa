@@ -103,7 +103,7 @@ const SettingsPage = () => {
         setPhone(settings.phone)
       }
 
-      if (settings.phones && settings.phones.length > "+18885550000".length) {
+      if (settings.phones && settings.phones.length >= "8885550000".length) {
         setPhones(settings.phones)
       }
 
