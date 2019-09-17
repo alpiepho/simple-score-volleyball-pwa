@@ -5,7 +5,6 @@ import { makeStyles } from "@material-ui/core/styles"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import LandscapeWarning from "../components/landscapewarning"
 import TeamButton from "../components/teambutton"
 import Controls from "../components/controls"
 import { getFromLS, saveToLS } from "./utils"
@@ -19,9 +18,15 @@ import {
 } from "./engine"
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  rootVertical: {
     flexGrow: 1,
     height: "95vh",
+    marginTop: "2.5vh",
+  },
+  rootHorizontal: {
+    flexGrow: 1,
+    height: "95vh",
+    width: "95vw",
     marginTop: "2.5vh",
   },
 }))
@@ -29,7 +34,6 @@ const useStyles = makeStyles(theme => ({
 const Home = () => {
   const classes = useStyles()
   const [phone, setPhone] = useState("0000")
-  const [horizontal, setHorizontal] = useState(false)
 
   const [color1, setColor1] = useState("white")
   const [backgroundColor1, setBackgroundColor1] = useState("red")
@@ -50,7 +54,6 @@ const Home = () => {
     let settings = {}
 
     settings["phone"] = phone
-    settings["horizontal"] = horizontal
 
     settings["color1"] = color1
     settings["backgroundColor1"] = backgroundColor1
@@ -80,12 +83,11 @@ const Home = () => {
       settings = JSON.parse(settings)
       //console.log('home::unpack')
       //console.log(settings)
-        if (settings["engine"]) {
+      if (settings["engine"]) {
         engine_load(settings["engine"])
       }
 
       setPhone(settings.phone)
-      setHorizontal(settings.horizontal)
 
       setColor1(settings.color1)
       setBackgroundColor1(settings.backgroundColor1)
@@ -184,51 +186,94 @@ const Home = () => {
     navigate("/settings/")
   }
 
+  const buildButton1 = (horizontal) => {
+    return (
+      <TeamButton
+        horizontal={horizontal}
+        disabled={gameDone || matchDone}
+        winner=""
+        color={color1}
+        backgroundColor={backgroundColor1}
+        label={label1}
+        score={score1}
+        onButtonClick={onTeam1Click}
+      />
+    )
+  }
+
+  const buildControls = (horizontal) => {
+    return (
+      <Controls
+        horizontal={horizontal}
+        color="black"
+        backgroundColor="gray"
+        onScoresClick={onScoresClick}
+        onAboutClick={onAboutClick}
+        onSwapTeamsClick={onSwapTeamsClick}
+        onSettingsClick={onSettingsClick}
+      />
+    )
+  }
+
+  const buildButton2 = (horizontal) => {
+    return (
+      <TeamButton
+        horizontal={horizontal}
+        disabled={gameDone || matchDone}
+        winner=""
+        color={color2}
+        backgroundColor={backgroundColor2}
+        label={label2}
+        score={score2}
+        onButtonClick={onTeam2Click}
+      />
+    )
+  }
+
   return (
     <Layout>
       <SEO title="Home" />
       <>
         <div className="home-vertical">
           <Grid
-            className={classes.root}
+            className={classes.rootVertical}
             container
             spacing={0}
             justify="space-around"
             direction="column"
           >
-            <TeamButton
-              disabled={gameDone || matchDone}
-              winner=""
-              horizontal={horizontal}
-              color={color1}
-              backgroundColor={backgroundColor1}
-              label={label1}
-              score={score1}
-              onButtonClick={onTeam1Click}
-            />
-            <Controls
-              horizontal={horizontal}
-              color="black"
-              backgroundColor="gray"
-              onScoresClick={onScoresClick}
-              onAboutClick={onAboutClick}
-              onSwapTeamsClick={onSwapTeamsClick}
-              onSettingsClick={onSettingsClick}
-            />
-            <TeamButton
-              disabled={gameDone || matchDone}
-              winner=""
-              horizontal={horizontal}
-              color={color2}
-              backgroundColor={backgroundColor2}
-              label={label2}
-              score={score2}
-              onButtonClick={onTeam2Click}
-            />
+            {buildButton1(false)}
+            {buildControls(false)}
+            {buildButton2(false)}
           </Grid>
         </div>
         <div className="home-horizontal">
-          <LandscapeWarning />
+          <Grid
+            className={classes.rootHorizontal}
+            container
+            spacing={0}
+            justify="space-around"
+            direction="column"
+          >
+            <Grid item>
+              <Grid
+                container
+                spacing={0}
+                justify="space-around"
+                direction="row"
+              >
+                <Grid item xs={5}>
+                  {buildButton1(true)}
+                </Grid>
+                <Grid item xs={2}>
+                  {buildControls(true)}
+                </Grid>
+                <Grid item xs={5}>
+                  {buildButton2(true)}
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
         </div>
       </>
     </Layout>

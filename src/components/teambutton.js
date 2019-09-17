@@ -7,8 +7,8 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   button: {
-    width: "80vw",
-    height: "40vh",
+    width: props => { return (props.horizontal ? "40vw" : "80vw") },
+    height: props => { return (props.horizontal ? "80vh" : "40vh") },
     borderRadius: 20,
     color: props => props.color,
     backgroundColor: props => props.backgroundColor,
@@ -24,9 +24,9 @@ const useStyles = makeStyles(theme => ({
   teamScore: {
     fontSize: 100,
     marginBottom: 20,
-    transform: props => {
-      return props.horizontal ? "rotate(-90deg)" : ""
-    },
+    // transform: props => {
+    //   return props.horizontal ? "rotate(-90deg)" : ""
+    // },
   },
 }))
 
