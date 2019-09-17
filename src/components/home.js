@@ -33,7 +33,8 @@ const useStyles = makeStyles(theme => ({
 
 const Home = () => {
   const classes = useStyles()
-  const [phone, setPhone] = useState("0000")
+  const [phone, setPhone]   = useState("+18885550000")
+  const [phones, setPhones] = useState("")
 
   const [color1, setColor1] = useState("white")
   const [backgroundColor1, setBackgroundColor1] = useState("red")
@@ -53,7 +54,8 @@ const Home = () => {
   const packSettings = () => {
     let settings = {}
 
-    settings["phone"] = phone
+    settings["phone"]  = phone
+    settings["phones"] = phones
 
     settings["color1"] = color1
     settings["backgroundColor1"] = backgroundColor1
@@ -88,6 +90,7 @@ const Home = () => {
       }
 
       setPhone(settings.phone)
+      setPhones(settings.phones)
 
       setColor1(settings.color1)
       setBackgroundColor1(settings.backgroundColor1)
