@@ -458,9 +458,13 @@ const SettingsPage = () => {
                   New Match
                 </ControlButton>
               </Grid>
+
+              {/* Seperatator */}
               <Grid item className={classes.button}>
                 <hr />
               </Grid>
+
+              {/* Swap Teams */}
               <Grid item xs={8} className={classes.button}>
                 <ControlButton
                   color="black"
@@ -470,6 +474,8 @@ const SettingsPage = () => {
                   Swap Teams
                 </ControlButton>
               </Grid>
+
+              {/* Default Colors */}
               <Grid item xs={8} className={classes.button}>
                 <ControlButton
                   className={classes.button}
@@ -482,6 +488,7 @@ const SettingsPage = () => {
               </Grid>
             </Grid>
 
+            {/* Team 1 Colors */}
             <Grid
               container
               spacing={2}
@@ -546,6 +553,8 @@ const SettingsPage = () => {
                   ) : null}
                 </>
               </Grid>
+
+              {/* Team 2 Colors */}
               <Grid item className={classes.textfield}>
                 <>
                   <TextField
@@ -605,6 +614,7 @@ const SettingsPage = () => {
                 </>
               </Grid>
 
+              {/* Team Names */}
               <Grid item className={classes.textfield}>
                 <TextField
                   id="standard-helperText"
@@ -628,28 +638,7 @@ const SettingsPage = () => {
                 />
               </Grid>
 
-              <Grid item className={classes.textfield}>
-                <TextField
-                  id="standard-helperText"
-                  label=""
-                  value={match1}
-                  className={classes.textField}
-                  helperText="force sets team 1"
-                  margin="normal"
-                  onChange={onMatch1Change}
-                />
-              </Grid>
-              <Grid item className={classes.textfield}>
-                <TextField
-                  id="standard-helperText"
-                  label=""
-                  value={match2}
-                  className={classes.textField}
-                  helperText="force sets team 2"
-                  margin="normal"
-                  onChange={onMatch2Change}
-                />
-              </Grid>
+              {/* Force Team Points */}
               <Grid item className={classes.textfield}>
                 <TextField
                   id="standard-helperText"
@@ -673,6 +662,31 @@ const SettingsPage = () => {
                 />
               </Grid>
 
+              {/* Force Team Sets */}
+              <Grid item className={classes.textfield}>
+                <TextField
+                  id="standard-helperText"
+                  label=""
+                  value={match1}
+                  className={classes.textField}
+                  helperText="force sets team 1"
+                  margin="normal"
+                  onChange={onMatch1Change}
+                />
+              </Grid>
+              <Grid item className={classes.textfield}>
+                <TextField
+                  id="standard-helperText"
+                  label=""
+                  value={match2}
+                  className={classes.textField}
+                  helperText="force sets team 2"
+                  margin="normal"
+                  onChange={onMatch2Change}
+                />
+              </Grid>
+
+              {/* Phone Numbers for Texting */}
               <Grid item className={classes.textfield}>
                 <TextField
                   id="standard-helperText"
@@ -687,6 +701,7 @@ const SettingsPage = () => {
                 />
               </Grid>
 
+              {/* Authorized Phone Number */}
               <Grid item className={classes.textfield}>
                 <TextField
                   id="standard-helperText"

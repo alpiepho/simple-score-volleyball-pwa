@@ -31,12 +31,18 @@ export function handler(event, context, callback) {
 
   // rebuild numbers from event.body
   let parts = event.body.split('INTERNAL ')
-  event.body = parts[0]
   numbers = []
   if (parts.length > 1) {
     numbers = parts[1].replace('\n', ' ').replace('\t', ' ').replace(' ', '').replace(';', ',').split(',')
   }
   console.log(numbers)
+
+  // cleanup event.body that will be sent out
+  lines = parts[0].split('\n')
+  parts = lines[1].split('from')
+  lines[1] = parts[0]
+  event.body = lines.join('\n')
+  console.log(event.body)
 
   if (valid && context.clientContext) {
     numbers.map((number, index) => {
