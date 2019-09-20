@@ -41,10 +41,6 @@ export default function TeamButton(props) {
     props.onButtonClick()
   }
 
-  const onInnerButtonClick = () => {
-    props.onInnerButtonClick()
-  }
-
   return (
     <>
       <Button

@@ -1,5 +1,5 @@
 
-const GAME_MAX = 25
+//const GAME_MAX = 25
 var orderAB = true
 var stack = [] // will always be orderAB === true; previous states
 var gameA = 0
@@ -20,16 +20,17 @@ function engine_push() {
 }
 
 function engine_check() {
-    if (gameA >= GAME_MAX || gameB >= GAME_MAX) {
-        if ((gameA - gameB) >= 2) {
-            gameDone = true
-            matchA += 1
-        }    
-        if ((gameB - gameA) >= 2) {
-            gameDone = true
-            matchB += 1
-        }    
-    }
+    // TODO: should this be automatic? would need to set thresholds
+    // if (gameA >= GAME_MAX || gameB >= GAME_MAX) {
+    //     if ((gameA - gameB) >= 2) {
+    //         gameDone = true
+    //         matchA += 1
+    //     }    
+    //     if ((gameB - gameA) >= 2) {
+    //         gameDone = true
+    //         matchB += 1
+    //     }    
+    // }
 }
 
 function engine_reset() {
