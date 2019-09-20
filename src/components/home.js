@@ -39,7 +39,7 @@ const Home = () => {
   const [color1, setColor1] = useState("white")
   const [backgroundColor1, setBackgroundColor1] = useState("red")
   const [label1, setLabel1] = useState("US")
-  const [possession1, setPossession1] = useState("*")
+  const [possession1, setPossession1] = useState(">")
   const [match1, setMatch1] = useState(0)
   const [score1, setScore1] = useState(0)
 
@@ -178,7 +178,7 @@ const Home = () => {
   }
 
   const onInnerTeam1Click = () => {
-    setPossession1("*")
+    setPossession1(">")
     setPossession2(" ")
   }
 
@@ -189,7 +189,7 @@ const Home = () => {
 
   const onInnerTeam2Click = () => {
     setPossession1(" ")
-    setPossession2("*")
+    setPossession2(">")
   }
 
   const onScoresClick = () => {
