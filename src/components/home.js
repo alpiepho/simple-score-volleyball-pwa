@@ -9,7 +9,6 @@ import TeamButton from "../components/teambutton"
 import Controls from "../components/controls"
 import { getFromLS, saveToLS } from "./utils"
 import {
-  engine_toggleOrder,
   engine_pointA,
   engine_pointB,
   engine_load,
@@ -129,31 +128,6 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [score1, score2, label1, label2, possession1, possession2])
 
-  const toggleUsThem = () => {
-    let color = color1
-    let backgroundColor = backgroundColor1
-    let label = label1
-    let possession = possession1
-    let match = match1
-    let score = score1
-
-    setColor1(color2)
-    setBackgroundColor1(backgroundColor2)
-    setLabel1(label2)
-    setPossession1(possession2)
-    setMatch1(match2)
-    setScore1(score2)
-
-    setColor2(color)
-    setBackgroundColor2(backgroundColor)
-    setLabel2(label)
-    setPossession2(possession1)
-    setMatch2(match)
-    setScore2(score)
-
-    engine_toggleOrder()
-  }
-
   const updateFromEngine = () => {
     let gameA
     let gameB
@@ -172,24 +146,14 @@ const Home = () => {
     setMatchDone(matchDone)
   }
 
-  const onTeam1Click = () => {
+  const onTeam1Click = (event) => {
     engine_pointA()
     updateFromEngine()
-  }
-
-  const onInnerTeam1Click = () => {
-    setPossession1(">")
-    setPossession2(" ")
   }
 
   const onTeam2Click = () => {
     engine_pointB()
     updateFromEngine()
-  }
-
-  const onInnerTeam2Click = () => {
-    setPossession1(" ")
-    setPossession2(">")
   }
 
   const onScoresClick = () => {
@@ -202,8 +166,17 @@ const Home = () => {
     navigate("/about/")
   }
 
-  const onSwapTeamsClick = () => {
-    toggleUsThem()
+  const onSwapPossesionClick = () => {
+    //toggleUsThem()
+
+    if (possession1 === " ") {
+      setPossession1(">")
+      setPossession2(" ")
+    }
+    else {
+      setPossession1(" ")
+      setPossession2(">")
+    }    
     packSettings()
   }
 
@@ -223,7 +196,6 @@ const Home = () => {
         label={possession1 + label1}
         score={score1}
         onButtonClick={onTeam1Click}
-        onInnerButtonClick={onInnerTeam1Click}
       />
     )
   }
@@ -236,7 +208,7 @@ const Home = () => {
         backgroundColor="gray"
         onScoresClick={onScoresClick}
         onAboutClick={onAboutClick}
-        onSwapTeamsClick={onSwapTeamsClick}
+        onSwapPossesionClick={onSwapPossesionClick}
         onSettingsClick={onSettingsClick}
       />
     )
@@ -253,7 +225,6 @@ const Home = () => {
         label={possession2 + label2}
         score={score2}
         onButtonClick={onTeam2Click}
-        onInnerButtonClick={onInnerTeam2Click}
       />
     )
   }

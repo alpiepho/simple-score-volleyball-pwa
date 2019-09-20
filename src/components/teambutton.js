@@ -21,14 +21,6 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: props => props.backgroundColor,
     },
   },
-  label: {
-    backgroundColor: "transparent",
-    "&:hover, &:focus": {
-      backgroundColor: "transparent",
-    },
-    marginTop: 20,
-    fontSize: 24,
-  },
   teamLabel: {
     marginTop: 20,
     fontSize: 24,
@@ -54,30 +46,24 @@ export default function TeamButton(props) {
   }
 
   return (
-    <Button
-      aria-label="team button"
-      disabled={props.disabled}
-      className={classes.button}
-      variant="contained"
-      color="secondary"
-      onClick={onButtonClick}
-    >
-      <Grid container spacing={2} justify="space-around" direction="column">
-        <Grid item className={classes.teamLabel}>
-          <Button
-            aria-label="team label"
-            disabled={props.disabled}
-            className={classes.label}
-            variant="contained"
-            onClick={onInnerButtonClick}
-          >
+    <>
+      <Button
+        aria-label="team button"
+        disabled={props.disabled}
+        className={classes.button}
+        variant="contained"
+        color="secondary"
+        onClick={onButtonClick}
+      >
+        <Grid container spacing={2} justify="space-around" direction="column">
+          <Grid item className={classes.teamLabel}>
             {props.winner ? props.winner : props.label}
-          </Button>
+          </Grid>
+          <Grid item className={classes.teamScore}>
+            {props.score}
+          </Grid>
         </Grid>
-        <Grid item className={classes.teamScore}>
-          {props.score}
-        </Grid>
-      </Grid>
-    </Button>
+      </Button>
+    </>
   )
 }

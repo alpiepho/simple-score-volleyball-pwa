@@ -10,6 +10,7 @@ import Title from "../components/title"
 import ControlButton from "../components/controlbutton"
 import { getFromLS, saveToLS } from "./utils"
 import {
+  engine_toggleOrder,
   engine_undo,
   engine_finishGame,
   engine_resetGame,
@@ -208,6 +209,32 @@ const SettingsPage = () => {
     navigate("/home/")
   }
 
+  const onSwapClick = () => {
+    let color = color1
+    let backgroundColor = backgroundColor1
+    let label = label1
+    let possession = possession1
+    let match = match1
+    let score = score1
+
+    setColor1(color2)
+    setBackgroundColor1(backgroundColor2)
+    setLabel1(label2)
+    setPossession1(possession2)
+    setMatch1(match2)
+    setScore1(score2)
+
+    setColor2(color)
+    setBackgroundColor2(backgroundColor)
+    setLabel2(label)
+    setPossession2(possession1)
+    setMatch2(match)
+    setScore2(score)
+
+    engine_toggleOrder()
+    navigate("/home/")
+  }
+
   const onDefaultsClick = event => {
     setColor1("white")
     setColor2("white")
@@ -317,7 +344,7 @@ const SettingsPage = () => {
                   backgroundColor="gray"
                   onButtonClick={onResetGameClick}
                 >
-                  Reset Game
+                  New Game
                 </ControlButton>
               </Grid>
               <Grid item className={classes.button}>
@@ -337,11 +364,20 @@ const SettingsPage = () => {
                   backgroundColor="gray"
                   onButtonClick={onResetMatchClick}
                 >
-                  Reset Match
+                  New Match
                 </ControlButton>
               </Grid>
               <Grid item className={classes.button}>
                 <hr />
+              </Grid>
+              <Grid item xs={8} className={classes.button}>
+                <ControlButton
+                  color="black"
+                  backgroundColor="gray"
+                  onButtonClick={onSwapClick}
+                >
+                  Swap Teams
+                </ControlButton>
               </Grid>
               <Grid item xs={8} className={classes.button}>
                 <ControlButton
