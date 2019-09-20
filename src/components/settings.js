@@ -21,6 +21,8 @@ import {
   engine_get,
 } from "./engine"
 
+import { SketchPicker } from "react-color"
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -39,12 +41,39 @@ const useStyles = makeStyles(theme => ({
     width: "80vw",
     marginTop: 10,
   },
+
+  pickerColor: {
+    width: "36px",
+    height: "14px",
+    borderRadius: "2px",
+    background: `rgba(1, 1, 1, 1)`,
+  },
+  pickerSwatch: {
+    transform: "translateY(32px);",
+    padding: "5px",
+    background: "#ddd",
+    borderRadius: "4px",
+    boxShadow: "0 0 0 1px rgba(0,0,0,.1)",
+    display: "inline-block",
+    cursor: "pointer",
+  },
+  pickerPopover: {
+    position: "absolute",
+    zIndex: "2",
+  },
+  pickerCover: {
+    position: "fixed",
+    top: "0px",
+    right: "0px",
+    bottom: "0px",
+    left: "0px",
+  },
 }))
 
 const SettingsPage = () => {
   const classes = useStyles()
 
-  const [phone, setPhone]   = useState("+18885550000")
+  const [phone, setPhone] = useState("+18885550000")
   const [phones, setPhones] = useState("")
 
   const [color1, setColor1] = useState("white")
@@ -64,10 +93,15 @@ const SettingsPage = () => {
   const [gameDone, setGameDone] = useState(false)
   const [matchDone, setMatchDone] = useState(false)
 
+  const [displayColorPickerA, setDisplayColorPickerA] = useState(false)
+  const [displayColorPickerB, setDisplayColorPickerB] = useState(false)
+  const [displayColorPickerC, setDisplayColorPickerC] = useState(false)
+  const [displayColorPickerD, setDisplayColorPickerD] = useState(false)
+
   const packSettings = () => {
     let settings = {}
 
-    settings["phone"]  = phone
+    settings["phone"] = phone
     settings["phones"] = phones
 
     settings["color1"] = color1
@@ -227,7 +261,7 @@ const SettingsPage = () => {
     setColor2(color)
     setBackgroundColor2(backgroundColor)
     setLabel2(label)
-    setPossession2(possession1)
+    setPossession2(possession)
     setMatch2(match)
     setScore2(score)
 
@@ -243,6 +277,63 @@ const SettingsPage = () => {
     setLabel1("US")
     setLabel2("THEM")
   }
+
+
+
+  // PickerA - Color1
+  const onPickerAClick = () => {
+    setDisplayColorPickerA(!displayColorPickerA)
+  }
+
+  const onPickerAClose = () => {
+    setDisplayColorPickerA(false)
+  }
+
+  const onPickerAChange = color => {
+    setColor1(color.hex)
+  }
+
+  // PickerB - BackgroundColor1
+  const onPickerBClick = () => {
+    setDisplayColorPickerB(!displayColorPickerB)
+  }
+
+  const onPickerBClose = () => {
+    setDisplayColorPickerB(false)
+  }
+
+  const onPickerBChange = color => {
+    setBackgroundColor1(color.hex)
+  }
+
+
+  // PickerC - Color2
+  const onPickerCClick = () => {
+    setDisplayColorPickerC(!displayColorPickerC)
+  }
+
+  const onPickerCClose = () => {
+    setDisplayColorPickerC(false)
+  }
+
+  const onPickerCChange = color => {
+    setColor2(color.hex)
+  }
+
+  // PickerD - BackgroundColor2
+  const onPickerDClick = () => {
+    setDisplayColorPickerD(!displayColorPickerD)
+  }
+
+  const onPickerDClose = () => {
+    setDisplayColorPickerD(false)
+  }
+
+  const onPickerDChange = color => {
+    setBackgroundColor2(color.hex)
+  }
+
+
 
   const onPhoneChange = event => {
     setPhone(event.target.value)
@@ -398,48 +489,120 @@ const SettingsPage = () => {
               alignItems="center"
             >
               <Grid item className={classes.textfield}>
-                <TextField
-                  id="standard-helperText"
-                  label="Team 1 text"
-                  value={color1}
-                  className={classes.textField}
-                  helperText="color name or CSS hex (ie. #000, #000000)"
-                  margin="normal"
-                  onChange={onColorChange1}
-                />
+                <>
+                  <TextField
+                    id="standard-helperText"
+                    label="Team 1 text"
+                    value={color1}
+                    className={classes.textField}
+                    helperText="color name or CSS hex (ie. #000000)"
+                    margin="normal"
+                    onChange={onColorChange1}
+                  />
+                  <div className={classes.pickerSwatch}>
+                    <div
+                      className={classes.pickerColor}
+                      style={{backgroundColor: color1}}
+                      onClick={onPickerAClick}
+                    />
+                  </div>
+                  {displayColorPickerA ? (
+                    <div className={classes.pickerPopover}>
+                      <div
+                        className={classes.pickerCover}
+                        onClick={onPickerAClose}
+                      />
+                      <SketchPicker color={color1} onChange={onPickerAChange} />
+                    </div>
+                  ) : null}
+                </>
               </Grid>
               <Grid item className={classes.textfield}>
-                <TextField
-                  id="standard-helperText"
-                  label="Team 1 background"
-                  value={backgroundColor1}
-                  className={classes.textField}
-                  helperText="color name or CSS hex (ie. #000, #000000)"
-                  margin="normal"
-                  onChange={onBackgroundColorChange1}
-                />
+                <>
+                  <TextField
+                    id="standard-helperText"
+                    label="Team 1 background"
+                    value={backgroundColor1}
+                    className={classes.textField}
+                    helperText="color name or CSS hex (ie. #000000)"
+                    margin="normal"
+                    onChange={onBackgroundColorChange1}
+                  />
+                  <div className={classes.pickerSwatch}>
+                    <div
+                      className={classes.pickerColor}
+                      style={{ backgroundColor: backgroundColor1 }}
+                      onClick={onPickerBClick}
+                    />
+                  </div>
+                  {displayColorPickerB ? (
+                    <div className={classes.pickerPopover}>
+                      <div
+                        className={classes.pickerCover}
+                        onClick={onPickerBClose}
+                      />
+                      <SketchPicker color={backgroundColor1} onChange={onPickerBChange} />
+                    </div>
+                  ) : null}
+                </>
               </Grid>
               <Grid item className={classes.textfield}>
-                <TextField
-                  id="standard-helperText"
-                  label="Team 2 text"
-                  value={color2}
-                  className={classes.textField}
-                  helperText="color name or CSS hex (ie. #000, #000000)"
-                  margin="normal"
-                  onChange={onColorChange2}
-                />
+                <>
+                  <TextField
+                    id="standard-helperText"
+                    label="Team 2 text"
+                    value={color2}
+                    className={classes.textField}
+                    helperText="color name or CSS hex (ie. #000000)"
+                    margin="normal"
+                    onChange={onColorChange2}
+                  />
+                  <div className={classes.pickerSwatch}>
+                    <div
+                      className={classes.pickerColor}
+                      style={{ backgroundColor: color2 }}
+                      onClick={onPickerCClick}
+                    />
+                  </div>
+                  {displayColorPickerC ? (
+                    <div className={classes.pickerPopover}>
+                      <div
+                        className={classes.pickerCover}
+                        onClick={onPickerCClose}
+                      />
+                      <SketchPicker color={color2} onChange={onPickerCChange} />
+                    </div>
+                  ) : null}
+                </>
               </Grid>
               <Grid item className={classes.textfield}>
-                <TextField
-                  id="standard-helperText"
-                  label="Team 2 background"
-                  value={backgroundColor2}
-                  className={classes.textField}
-                  helperText="color name or CSS hex (ie. #000, #000000)"
-                  margin="normal"
-                  onChange={onBackgroundColorChange2}
-                />
+                <>
+                  <TextField
+                    id="standard-helperText"
+                    label="Team 2 background"
+                    value={backgroundColor2}
+                    className={classes.textField}
+                    helperText="color name or CSS hex (ie. #000000)"
+                    margin="normal"
+                    onChange={onBackgroundColorChange2}
+                  />
+                  <div className={classes.pickerSwatch}>
+                    <div
+                      className={classes.pickerColor}
+                      style={{ backgroundColor: backgroundColor2 }}
+                      onClick={onPickerDClick}
+                      />
+                  </div>
+                  {displayColorPickerD ? (
+                    <div className={classes.pickerPopover}>
+                      <div
+                        className={classes.pickerCover}
+                        onClick={onPickerDClose}
+                      />
+                      <SketchPicker color={backgroundColor2} onChange={onPickerDChange} />
+                    </div>
+                  ) : null}
+                </>
               </Grid>
 
               <Grid item className={classes.textfield}>
@@ -471,7 +634,7 @@ const SettingsPage = () => {
                   label=""
                   value={match1}
                   className={classes.textField}
-                  helperText="force match score 1"
+                  helperText="force sets team 1"
                   margin="normal"
                   onChange={onMatch1Change}
                 />
@@ -482,7 +645,7 @@ const SettingsPage = () => {
                   label=""
                   value={match2}
                   className={classes.textField}
-                  helperText="force match score 2"
+                  helperText="force sets team 2"
                   margin="normal"
                   onChange={onMatch2Change}
                 />
@@ -493,7 +656,7 @@ const SettingsPage = () => {
                   label=""
                   value={score1}
                   className={classes.textField}
-                  helperText="force game score 1"
+                  helperText="force points team 1"
                   margin="normal"
                   onChange={onGame1Change}
                 />
@@ -504,7 +667,7 @@ const SettingsPage = () => {
                   label=""
                   value={score2}
                   className={classes.textField}
-                  helperText="force game score 2"
+                  helperText="force points team 2"
                   margin="normal"
                   onChange={onGame2Change}
                 />
@@ -556,8 +719,6 @@ const SettingsPage = () => {
               </Grid>
             </Grid>
           </Grid>
-
-          
         </div>
         <div className="settings-horizontal">
           <LandscapeWarning />
