@@ -10,6 +10,7 @@ import Title from "../components/title"
 import ControlButton from "../components/controlbutton"
 import { getFromLS, saveToLS } from "./utils"
 import {
+  engine_toggleOrder,
   engine_undo,
   engine_finishGame,
   engine_resetGame,
@@ -49,12 +50,14 @@ const SettingsPage = () => {
   const [color1, setColor1] = useState("white")
   const [backgroundColor1, setBackgroundColor1] = useState("red")
   const [label1, setLabel1] = useState("US")
+  const [possession1, setPossession1] = useState(" ")
   const [match1, setMatch1] = useState(0)
   const [score1, setScore1] = useState(0)
 
   const [color2, setColor2] = useState("white")
   const [backgroundColor2, setBackgroundColor2] = useState("blue")
   const [label2, setLabel2] = useState("THEM")
+  const [possession2, setPossession2] = useState(" ")
   const [match2, setMatch2] = useState(0)
   const [score2, setScore2] = useState(0)
 
@@ -70,12 +73,14 @@ const SettingsPage = () => {
     settings["color1"] = color1
     settings["backgroundColor1"] = backgroundColor1
     settings["label1"] = label1
+    settings["possession1"] = possession1
     settings["match1"] = match1
     settings["score1"] = score1
 
     settings["color2"] = color2
     settings["backgroundColor2"] = backgroundColor2
     settings["label2"] = label2
+    settings["possession2"] = possession2
     settings["match2"] = match2
     settings["score2"] = score2
 
@@ -110,12 +115,18 @@ const SettingsPage = () => {
       setColor1(settings.color1)
       setBackgroundColor1(settings.backgroundColor1)
       setLabel1(settings.label1)
+      if (settings.possession1) {
+        setPossession1(settings.possession1)
+      }
       setMatch1(settings.match1)
       setScore1(settings.score1)
 
       setColor2(settings.color2)
       setBackgroundColor2(settings.backgroundColor2)
       setLabel2(settings.label2)
+      if (settings.possession2) {
+        setPossession2(settings.possession2)
+      }
       setMatch2(settings.match2)
       setScore2(settings.score2)
 
@@ -195,6 +206,32 @@ const SettingsPage = () => {
   const onResetMatchClick = () => {
     engine_resetMatch()
     updateFromEngine()
+    navigate("/home/")
+  }
+
+  const onSwapClick = () => {
+    let color = color1
+    let backgroundColor = backgroundColor1
+    let label = label1
+    let possession = possession1
+    let match = match1
+    let score = score1
+
+    setColor1(color2)
+    setBackgroundColor1(backgroundColor2)
+    setLabel1(label2)
+    setPossession1(possession2)
+    setMatch1(match2)
+    setScore1(score2)
+
+    setColor2(color)
+    setBackgroundColor2(backgroundColor)
+    setLabel2(label)
+    setPossession2(possession1)
+    setMatch2(match)
+    setScore2(score)
+
+    engine_toggleOrder()
     navigate("/home/")
   }
 
@@ -307,7 +344,7 @@ const SettingsPage = () => {
                   backgroundColor="gray"
                   onButtonClick={onResetGameClick}
                 >
-                  Reset Game
+                  New Game
                 </ControlButton>
               </Grid>
               <Grid item className={classes.button}>
@@ -327,11 +364,20 @@ const SettingsPage = () => {
                   backgroundColor="gray"
                   onButtonClick={onResetMatchClick}
                 >
-                  Reset Match
+                  New Match
                 </ControlButton>
               </Grid>
               <Grid item className={classes.button}>
                 <hr />
+              </Grid>
+              <Grid item xs={8} className={classes.button}>
+                <ControlButton
+                  color="black"
+                  backgroundColor="gray"
+                  onButtonClick={onSwapClick}
+                >
+                  Swap Teams
+                </ControlButton>
               </Grid>
               <Grid item xs={8} className={classes.button}>
                 <ControlButton

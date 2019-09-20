@@ -7,8 +7,12 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   button: {
-    width: props => { return (props.horizontal ? "40vw" : "80vw") },
-    height: props => { return (props.horizontal ? "80vh" : "40vh") },
+    width: props => {
+      return props.horizontal ? "40vw" : "80vw"
+    },
+    height: props => {
+      return props.horizontal ? "80vh" : "40vh"
+    },
     borderRadius: 20,
     color: props => props.color,
     backgroundColor: props => props.backgroundColor,
@@ -37,23 +41,29 @@ export default function TeamButton(props) {
     props.onButtonClick()
   }
 
+  const onInnerButtonClick = () => {
+    props.onInnerButtonClick()
+  }
+
   return (
-    <Button
-      aria-label="team button"
-      disabled={props.disabled}
-      className={classes.button}
-      variant="contained"
-      color="secondary"
-      onClick={onButtonClick}
-    >
-      <Grid container spacing={2} justify="space-around" direction="column">
-        <Grid item className={classes.teamLabel}>
-          {(props.winner ? (props.winner) : props.label) }
+    <>
+      <Button
+        aria-label="team button"
+        disabled={props.disabled}
+        className={classes.button}
+        variant="contained"
+        color="secondary"
+        onClick={onButtonClick}
+      >
+        <Grid container spacing={2} justify="space-around" direction="column">
+          <Grid item className={classes.teamLabel}>
+            {props.winner ? props.winner : props.label}
+          </Grid>
+          <Grid item className={classes.teamScore}>
+            {props.score}
+          </Grid>
         </Grid>
-        <Grid item className={classes.teamScore}>
-          {props.score}
-        </Grid>
-      </Grid>
-    </Button>
+      </Button>
+    </>
   )
 }

@@ -34,9 +34,11 @@ const Main = () => {
   const [phone, setPhone]   = useState("+18885550000")
   const [phones, setPhones] = useState("")
   const [label1, setLabel1] = useState("US")
+  const [possession1, setPossession1] = useState(" ")
   const [match1, setMatch1] = useState(0)
   const [score1, setScore1] = useState(0)
   const [label2, setLabel2] = useState("THEM")
+  const [possession2, setPossession2] = useState(" ")
   const [match2, setMatch2] = useState(0)
   const [score2, setScore2] = useState(0)
 
@@ -50,11 +52,14 @@ const Main = () => {
 
       setPhone(settings.phone)
       setPhones(settings.phones)
+
       setLabel1(settings.label1)
+      setPossession1(settings.possession1)
       setMatch1(settings.match1)
       setScore1(settings.score1)
 
       setLabel2(settings.label2)
+      setPossession2(settings.possession2)
       setMatch2(settings.match2)
       setScore2(settings.score2)
     }
@@ -74,8 +79,8 @@ const Main = () => {
 
   const getMessage = () => {
     let message = `\nSimple Score VB: from ${phone}
-Game   : ${label1} (${score1}) vs ${label2} (${score2})
-Matches: ${label1} (${match1}) vs ${label2} (${match2})`
+Game: ${possession1}${label1} (${score1}) vs ${possession2}${label2} (${score2})
+Sets: ${label1} (${match1}) vs ${label2} (${match2})`
     if (extra) message += "\n" + extra
     return message
   }
@@ -128,19 +133,19 @@ Matches: ${label1} (${match1}) vs ${label2} (${match2})`
         </Grid>
         <Grid item className={classes.score}>
           <h3>
-            {label1} : {score1}
+          {possession1}{label1} : {score1}
           </h3>
         </Grid>
         <Grid item className={classes.score}>
           <h3>
-            {label2} : {score2}
+          {possession2}{label2} : {score2}
           </h3>
         </Grid>
       </Grid>
     )
   }
 
-  const buildMatches = () => {
+  const buildSets = () => {
     return (
       <Grid
         className={classes.scoreSet}
@@ -151,7 +156,7 @@ Matches: ${label1} (${match1}) vs ${label2} (${match2})`
         direction="column"
       >
         <Grid item className={classes.subtitle}>
-          <h2>Matches</h2>
+          <h2>Sets</h2>
         </Grid>
         <Grid item className={classes.score}>
           <h3>
@@ -263,7 +268,7 @@ Matches: ${label1} (${match1}) vs ${label2} (${match2})`
             </Grid> */}
 
           {buildGame()}
-          {buildMatches()}
+          {buildSets()}
           {buildExtra()}
           {buildButtonsVertical()}
         </Grid>
@@ -295,7 +300,7 @@ Matches: ${label1} (${match1}) vs ${label2} (${match2})`
             direction="row"
           >
             <Grid item>{buildGame()}</Grid>
-            <Grid item>{buildMatches()}</Grid>
+            <Grid item>{buildSets()}</Grid>
           </Grid>
           {buildExtra()}
           {buildButtonsHorizontal()}

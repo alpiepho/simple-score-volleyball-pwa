@@ -49,7 +49,7 @@ export default function Controls(props) {
           rotate={props.horizontal}
           color={props.color}
           backgroundColor={props.backgroundColor}
-          onButtonClick={props.onSwapTeamsClick}
+          onButtonClick={props.onSwapPossesionClick}
           >
           <FaArrowsAltV className={classes.icon} size={24} aria-hidden="true" />
         </ControlButton>
