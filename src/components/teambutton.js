@@ -20,6 +20,7 @@ const useStyles = makeStyles(theme => ({
       color: props => props.color,
       backgroundColor: props => props.backgroundColor,
     },
+    touchAction: "manipulation",
   },
   teamLabel: {
     marginTop: 20,
