@@ -24,11 +24,11 @@ This is a PWA application that allows easy score keeping of a volleyball match
 with an additional button to send text messages of the ongoing match results to a 
 preconfigured list of phone numbers.
 
-The PWA version will be written with React/Gatsby on the front end, hosted on Netlify,
+The PWA version was written with React/Gatsby on the front end, hosted on Netlify,
 and use a Netlify Function (basically an AWS Lamda function) to interface with Twillio
 to send texts.
 
-Eventually, this will be ported to an Expo application so it can run natively on IOS
+Eventually, this might be ported to an Expo application so it can run natively on IOS
 and Android.
 
 :warning: This is currently in Alpha, so only a limited number of people can actually 
