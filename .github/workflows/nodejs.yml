@@ -27,6 +27,6 @@ jobs:
         sed -i 's/github/alpiepho@github/g' .git/config
         #
         cat .git/config
-        npm run deploy
+        #npm run deploy
       env:
         CI: true
