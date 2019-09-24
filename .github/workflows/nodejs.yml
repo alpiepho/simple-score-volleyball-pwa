@@ -20,11 +20,12 @@ jobs:
     - name: npm install, build, and deploy
       run: |
         npm install
+        #
+        #HACK to set credentials like development system
         git config --global user.name "alpiepho"
         git config --global user.password ${{ secrets.GH_PAT }}
-        cat .git/config
         sed -i 's/github.com/alpiepho@github/g' .git/config
-        cat .git/config
-        #npm run deploy
+        #
+        npm run deploy
       env:
         CI: true
