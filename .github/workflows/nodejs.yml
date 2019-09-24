@@ -26,6 +26,7 @@ jobs:
         git config --global user.password ${{ secrets.GH_PAT }}
         sed -i 's/github.com/alpiepho@github/g' .git/config
         #
+        cat .git/config
         npm run deploy
       env:
         CI: true
