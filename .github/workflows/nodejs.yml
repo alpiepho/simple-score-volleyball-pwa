@@ -20,6 +20,6 @@ jobs:
     - name: npm install, build, and deploy
       run: |
         npm install
-        #npm run deploy
+        npm run deploy
       env:
         CI: true
