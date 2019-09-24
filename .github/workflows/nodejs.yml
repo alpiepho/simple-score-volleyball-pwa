@@ -20,6 +20,8 @@ jobs:
     - name: npm install, build, and deploy
       run: |
         npm install
+        git config --global user.name "alpiepho"
+        git config --global user.password ${{ secrets.GH_PAT }}
         npm run deploy
       env:
         CI: true
