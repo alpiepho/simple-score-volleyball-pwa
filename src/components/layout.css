@@ -691,7 +691,7 @@ pre tt:after {
 .scores-horizontal {
   display: none;
 }
-@media all and (orientation:landscape) {
+/* @media all and (orientation:landscape) {
   .scores-vertical {
     display: none;
   }
@@ -699,4 +699,4 @@ pre tt:after {
     margin-top: -40px;
     display: block;
   }
-}
+} */
