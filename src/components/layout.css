@@ -674,14 +674,14 @@ pre tt:after {
 .settings-horizontal {
   display: none;
 }
-@media all and (orientation:landscape) {
+/* @media all and (orientation:landscape) {
   .settings-vertical {
     display: none;
   }
   .settings-horizontal {
     display: block;
   }
-}
+} */
 
 .scores-vertical {
   display: grid;
