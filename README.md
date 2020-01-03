@@ -43,14 +43,28 @@ We have fireworks!!!
 
 ### TODO
 
-- fully test scoring engine
-- finish send text
+- remove navbar and login(??)
+- refactor as SPA, to clean up data passing
+- change sms/text mechanism to send to Github instead to keep score history 
+  and easier for others to follow
+- disable sms in lambda
+- disable settings for text numbers
+- (re)build data from lambda
+- option for auto side-out
+- option for auto game finish
+- option for auto game points
+- option for auto match finish
+- option for auto match count
+- option for auto post match start (after names/colors changed?)
+- option for auto post game point
+- option for auto post game finish
+- option for auto post match count
+- option for auto post match finish
+- fix horizontal settings buttons
 
 ### BUGS
 
-- double click on IOS zooms the page.  this could be problem when adding points quickly
-
-
+- settings/score buttons too wide in landscape mode
 
 
 ## Development Notes

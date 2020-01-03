@@ -687,7 +687,7 @@ const SettingsPage = () => {
               </Grid>
 
               {/* Phone Numbers for Texting */}
-              <Grid item className={classes.textfield}>
+              {/* <Grid item className={classes.textfield}>
                 <TextField
                   id="standard-helperText"
                   label=""
@@ -699,7 +699,7 @@ const SettingsPage = () => {
                   margin="normal"
                   onChange={onPhonesChange}
                 />
-              </Grid>
+              </Grid> */}
 
               {/* Authorized Phone Number */}
               <Grid item className={classes.textfield}>
