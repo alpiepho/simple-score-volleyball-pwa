@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react"
 import { navigate } from "gatsby"
 import { Grid, TextField } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
-//import { getUser, isLoggedIn, logout } from "./services/auth"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -94,7 +93,7 @@ Sets: ${label1} (${match1}) vs ${label2} (${match2})`
   }
 
   const onCancelClick = () => {
-    navigate("/home/")
+    navigate("/")
   }
 
   //Authorization: "Bearer " + user.token.access_token,
@@ -115,7 +114,7 @@ Sets: ${label1} (${match1}) vs ${label2} (${match2})`
         console.log(json)
       })
 
-    navigate("/home/")
+    navigate("/")
   }
 
   const buildGame = () => {

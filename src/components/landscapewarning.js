@@ -27,22 +27,17 @@ const LandscapeWarning = () => {
 
   return (
     <Grid
-    className={classes.root}
-    container
-    spacing={0}
-    justify="space-around"
-    direction="column"
-  >
-    <Typography
-      className={classes.paragraph}
-      variant="body1"
-      gutterBottom
+      className={classes.root}
+      container
+      spacing={0}
+      justify="space-around"
+      direction="column"
     >
-      Automatic formating for horizontal or landscape mode is not
-      available.
-    </Typography>
-  </Grid>
-)
+      <Typography className={classes.paragraph} variant="body1" gutterBottom>
+        Automatic formating for horizontal or landscape mode is not available.
+      </Typography>
+    </Grid>
+  )
 }
 
 export default LandscapeWarning

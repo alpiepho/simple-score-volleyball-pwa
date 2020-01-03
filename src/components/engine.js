@@ -1,4 +1,3 @@
-
 //const GAME_MAX = 25
 var orderAB = true
 var stack = [] // will always be orderAB === true; previous states
@@ -20,17 +19,17 @@ function engine_push() {
 }
 
 function engine_check() {
-    // TODO: should this be automatic? would need to set thresholds
-    // if (gameA >= GAME_MAX || gameB >= GAME_MAX) {
-    //     if ((gameA - gameB) >= 2) {
-    //         gameDone = true
-    //         matchA += 1
-    //     }    
-    //     if ((gameB - gameA) >= 2) {
-    //         gameDone = true
-    //         matchB += 1
-    //     }    
-    // }
+  // TODO: should this be automatic? would need to set thresholds
+  // if (gameA >= GAME_MAX || gameB >= GAME_MAX) {
+  //     if ((gameA - gameB) >= 2) {
+  //         gameDone = true
+  //         matchA += 1
+  //     }
+  //     if ((gameB - gameA) >= 2) {
+  //         gameDone = true
+  //         matchB += 1
+  //     }
+  // }
 }
 
 function engine_reset() {
@@ -59,43 +58,38 @@ export function engine_undo() {
 }
 
 export function engine_pointA() {
-    if (!gameDone) {
-        engine_push()
-        if (orderAB)
-            gameA += 1
-        else
-            gameB += 1
-        engine_check()
-    }
+  if (!gameDone) {
+    engine_push()
+    if (orderAB) gameA += 1
+    else gameB += 1
+    engine_check()
+  }
 }
 
 export function engine_pointB() {
-    if (!gameDone) {
-        engine_push()
-        if (orderAB)
-            gameB += 1
-        else
-            gameA += 1
-        engine_check()
-    }
+  if (!gameDone) {
+    engine_push()
+    if (orderAB) gameB += 1
+    else gameA += 1
+    engine_check()
+  }
 }
 
 export function engine_finishGame() {
-    engine_push()
-    gameDone = true
-    if (gameA > gameB) {
-        matchA += 1
-    }
-    else {
-        matchB += 1
-    }
+  engine_push()
+  gameDone = true
+  if (gameA > gameB) {
+    matchA += 1
+  } else {
+    matchB += 1
+  }
 }
 
 export function engine_resetGame() {
-    engine_push()
-    gameDone = false
-    gameA = 0
-    gameB = 0   
+  engine_push()
+  gameDone = false
+  gameA = 0
+  gameB = 0
 }
 
 export function engine_finishMatch() {
@@ -110,30 +104,30 @@ export function engine_resetMatch() {
 }
 
 export function engine_load(settings) {
-    if (settings.length) {
-        settings = JSON.parse(settings)
-        orderAB = settings['orderAB']
-        gameA = settings['gameA']
-        gameB = settings['gameB']
-        matchA = settings['matchA']
-        matchB = settings['matchB']
-        gameDone = settings['gameDone']
-        matchDone = settings['matchDone']
-        stack = JSON.parse(settings['stack'])
-    }
+  if (settings.length) {
+    settings = JSON.parse(settings)
+    orderAB = settings["orderAB"]
+    gameA = settings["gameA"]
+    gameB = settings["gameB"]
+    matchA = settings["matchA"]
+    matchB = settings["matchB"]
+    gameDone = settings["gameDone"]
+    matchDone = settings["matchDone"]
+    stack = JSON.parse(settings["stack"])
+  }
 }
 
 export function engine_save() {
-    let settings = {}
-    settings['orderAB'] = orderAB
-    settings['gameA'] = gameA
-    settings['gameB'] = gameB
-    settings['matchA'] = matchA
-    settings['matchB'] = matchB
-    settings['gameDone'] = gameDone
-    settings['matchDone'] = matchDone
-    settings['stack'] = JSON.stringify(stack)
-    return JSON.stringify(settings)
+  let settings = {}
+  settings["orderAB"] = orderAB
+  settings["gameA"] = gameA
+  settings["gameB"] = gameB
+  settings["matchA"] = matchA
+  settings["matchB"] = matchB
+  settings["gameDone"] = gameDone
+  settings["matchDone"] = matchDone
+  settings["stack"] = JSON.stringify(stack)
+  return JSON.stringify(settings)
 }
 
 export function engine_get() {

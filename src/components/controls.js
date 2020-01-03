@@ -20,7 +20,7 @@ export default function Controls(props) {
       spacing={2}
       justify="space-around"
       alignItems="center"
-      direction={ props.horizontal ? "column" : "row" }
+      direction={props.horizontal ? "column" : "row"}
     >
       <Grid item xs={3}>
         <ControlButton
@@ -29,7 +29,11 @@ export default function Controls(props) {
           backgroundColor={props.backgroundColor}
           onButtonClick={props.onScoresClick}
         >
-          <FaRegChartBar className={classes.icon} size={24} aria-hidden="true" />
+          <FaRegChartBar
+            className={classes.icon}
+            size={24}
+            aria-hidden="true"
+          />
         </ControlButton>
       </Grid>
       <Grid item xs={3}>
@@ -38,7 +42,7 @@ export default function Controls(props) {
           color={props.color}
           backgroundColor={props.backgroundColor}
           onButtonClick={props.onAboutClick}
-          >
+        >
           <FaQuestion className={classes.icon} size={24} aria-hidden="true" />
         </ControlButton>
       </Grid>
@@ -50,7 +54,7 @@ export default function Controls(props) {
           color={props.color}
           backgroundColor={props.backgroundColor}
           onButtonClick={props.onSwapPossesionClick}
-          >
+        >
           <FaArrowsAltV className={classes.icon} size={24} aria-hidden="true" />
         </ControlButton>
       </Grid>
@@ -60,7 +64,7 @@ export default function Controls(props) {
           color={props.color}
           backgroundColor={props.backgroundColor}
           onButtonClick={props.onSettingsClick}
-          >
+        >
           <FaBars className={classes.icon} size={24} aria-hidden="true" />
         </ControlButton>
       </Grid>

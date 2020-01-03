@@ -43,8 +43,6 @@ We have fireworks!!!
 
 ### TODO
 
-- remove navbar and login(??)
-- refactor as SPA, to clean up data passing
 - change sms/text mechanism to send to Github instead to keep score history 
   and easier for others to follow
 - disable sms in lambda
@@ -60,11 +58,10 @@ We have fireworks!!!
 - option for auto post game finish
 - option for auto post match count
 - option for auto post match finish
-- fix horizontal settings buttons
 
 ### BUGS
 
-- settings/score buttons too wide in landscape mode
+- many buttons not aligned properly
 
 
 ## Development Notes
