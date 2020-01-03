@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import { navigate } from "gatsby"
 import { Grid } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 
@@ -7,6 +6,7 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import About from "../components/about"
 import Settings from "../components/settings"
+import Scores from "../components/scores"
 
 import TeamButton from "../components/teambutton"
 import Controls from "../components/controls"
@@ -174,7 +174,7 @@ const Home = () => {
 
   const onScoresClick = () => {
     packSettings()
-    navigate("/scores/")
+    setPage("scores")
   }
 
   const onSwapPossesionClick = () => {
@@ -278,6 +278,30 @@ const Home = () => {
           setGameDone={setGameDone}
           matchDone={matchDone}
           setMatchDone={setMatchDone}
+        />
+      ) : (
+        ""
+      )}
+      {page === "scores" ? (
+        <Scores
+          page={page}
+          onHomeClick={onHomeClick}
+          phone={phone}
+          phones={phones}
+          color1={color1}
+          backgroundColor1={backgroundColor1}
+          label1={label1}
+          possession1={possession1}
+          match1={match1}
+          score1={score1}
+          color2={color2}
+          backgroundColor2={backgroundColor2}
+          label2={label2}
+          possession2={possession2}
+          match2={match2}
+          score2={score2}
+          gameDone={gameDone}
+          matchDone={matchDone}
         />
       ) : (
         ""

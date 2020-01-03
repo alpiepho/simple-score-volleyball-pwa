@@ -222,9 +222,9 @@ const SettingsPage = props => {
     props.setPhone(event.target.value)
   }
 
-  // const onPhonesChange = event => {
-  //   setPhones(event.target.value)
-  // }
+  const onPhonesChange = event => {
+    props.setPhones(event.target.value)
+  }
 
   const onColorChange1 = event => {
     props.setColor1(event.target.value)
@@ -594,19 +594,19 @@ const SettingsPage = props => {
                   </Grid>
 
                   {/* Phone Numbers for Texting */}
-                  {/* <Grid item className={classes.textfield}>
-                <TextField
-                  id="standard-helperText-PhoneNumbers"
-                  label=""
-                  multiline
-                  rowsMax="4"
-                  value={phones}
-                  className={classes.textField}
-                  helperText="send to (ie. +18885550000,+18885550000)"
-                  margin="normal"
-                  onChange={onPhonesChange}
-                />
-              </Grid> */}
+                  <Grid item className={classes.textfield}>
+                    <TextField
+                      id="standard-helperText-PhoneNumbers"
+                      label=""
+                      multiline
+                      rowsMax="4"
+                      value={props.phones}
+                      className={classes.textField}
+                      helperText="send to (ie. +18885550000,+18885550000)"
+                      margin="normal"
+                      onChange={onPhonesChange}
+                    />
+                  </Grid>
 
                   {/* Authorized Phone Number */}
                   <Grid item className={classes.textfield}>
