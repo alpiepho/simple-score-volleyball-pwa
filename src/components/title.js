@@ -16,7 +16,7 @@ export default function Title(props) {
     <Grid container spacing={3} justify="space-around" direction="row">
       <Grid item xs={12}>
         <Grid container justify="center" spacing={2}>
-        <h2 className={classes.title}>{props.label}</h2>
+          <h2 className={classes.title}>{props.label}</h2>
         </Grid>
       </Grid>
     </Grid>

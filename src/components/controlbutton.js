@@ -4,18 +4,29 @@ import { makeStyles } from "@material-ui/core/styles"
 
 const useStyles = makeStyles(theme => ({
   button: {
-    width: "100%",
-    height: props => { return (props.horizontal ? "16vh" : "8vh") },
-    marginLeft: props => { return (props.horizontal ? "-22px" : "0px") },
+    width: props => {
+      return props.width ? props.width : "100%"
+    },
+    minHeight: props => {
+      return props.minHeight ? props.minHeight : "inherit"
+    },
+    height: props => {
+      return props.horizontal ? "16vh" : "8vh"
+    },
+    marginLeft: props => {
+      return props.horizontal ? "-22px" : "0px"
+    },
 
     borderRadius: 20,
     color: props => props.color,
     backgroundColor: props => props.backgroundColor,
-    '&:hover, &:focus': {
+    "&:hover, &:focus": {
       color: props => props.color,
       backgroundColor: props => props.backgroundColor,
     },
-    transform: props => { return(props.rotate ? "rotate(-90deg)" : "") }
+    transform: props => {
+      return props.rotate ? "rotate(-90deg)" : ""
+    },
   },
 }))
 
@@ -27,15 +38,15 @@ export default function ControlButton(props) {
   }
 
   return (
-      <Button
-        aria-label="control button"
-        disabled={props.disabled}
-        className={classes.button}
-        variant="contained"
-        color="primary"
-        onClick={onButtonClick}
-      >
-         {props.children}
-      </Button>
+    <Button
+      aria-label="control button"
+      disabled={props.disabled}
+      className={classes.button}
+      variant="contained"
+      color="primary"
+      onClick={onButtonClick}
+    >
+      {props.children}
+    </Button>
   )
 }

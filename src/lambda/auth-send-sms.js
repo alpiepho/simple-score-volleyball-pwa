@@ -10,9 +10,9 @@ export function handler(event, context, callback) {
   let valid = false
 
   // Simple Score VB: from nnnn
-  let lines = event.body.split('\n')
+  let lines = event.body.split("\n")
   let line = lines[1]
-  let number = line.substring(line.length - 12) || 'missing'
+  let number = line.substring(line.length - 12) || "missing"
   let i
   //console.log('lines')
   //console.log(lines)
@@ -30,18 +30,23 @@ export function handler(event, context, callback) {
   //valid = false
 
   // rebuild numbers from event.body
-  let parts = event.body.split('INTERNAL ')
+  let parts = event.body.split("INTERNAL ")
   numbers = []
   if (parts.length > 1) {
-    numbers = parts[1].replace('\n', ' ').replace('\t', ' ').replace(' ', '').replace(';', ',').split(',')
+    numbers = parts[1]
+      .replace("\n", " ")
+      .replace("\t", " ")
+      .replace(" ", "")
+      .replace(";", ",")
+      .split(",")
   }
   console.log(numbers)
 
   // cleanup event.body that will be sent out
-  lines = parts[0].split('\n')
-  parts = lines[1].split('from')
+  lines = parts[0].split("\n")
+  parts = lines[1].split("from")
   lines[1] = parts[0]
-  event.body = lines.join('\n')
+  event.body = lines.join("\n")
   console.log(event.body)
 
   if (valid && context.clientContext) {
@@ -62,7 +67,9 @@ export function handler(event, context, callback) {
     callback(null, {
       statusCode: 200,
       body: JSON.stringify({
-        msg: `auth-send_sms(${sentCount++}) : ${Math.round(Math.random() * 10)}`,
+        msg: `auth-send_sms(${sentCount++}) : ${Math.round(
+          Math.random() * 10
+        )}`,
         identity,
         user,
       }),

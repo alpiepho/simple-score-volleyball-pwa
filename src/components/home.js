@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react"
-import { navigate } from "gatsby"
 import { Grid } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import About from "../components/about"
+import Settings from "../components/settings"
+import Scores from "../components/scores"
+
 import TeamButton from "../components/teambutton"
 import Controls from "../components/controls"
 import { getFromLS, saveToLS } from "./utils"
@@ -32,7 +35,10 @@ const useStyles = makeStyles(theme => ({
 
 const Home = () => {
   const classes = useStyles()
-  const [phone, setPhone]   = useState("+18885550000")
+
+  const [page, setPage] = useState("home")
+
+  const [phone, setPhone] = useState("+18885550000")
   const [phones, setPhones] = useState("")
 
   const [color1, setColor1] = useState("white")
@@ -55,7 +61,7 @@ const Home = () => {
   const packSettings = () => {
     let settings = {}
 
-    settings["phone"]  = phone
+    settings["phone"] = phone
     settings["phones"] = phones
 
     settings["color1"] = color1
@@ -146,7 +152,7 @@ const Home = () => {
     setMatchDone(matchDone)
   }
 
-  const onTeam1Click = (event) => {
+  const onTeam1Click = event => {
     engine_pointA()
     updateFromEngine()
   }
@@ -156,14 +162,19 @@ const Home = () => {
     updateFromEngine()
   }
 
-  const onScoresClick = () => {
-    packSettings()
-    navigate("/scores/")
-  }
-
   const onAboutClick = () => {
     packSettings()
-    navigate("/about/")
+    setPage("about")
+  }
+
+  const onHomeClick = () => {
+    packSettings() // from possible changes by about/settings etc.
+    setPage("home")
+  }
+
+  const onScoresClick = () => {
+    packSettings()
+    setPage("scores")
   }
 
   const onSwapPossesionClick = () => {
@@ -172,20 +183,19 @@ const Home = () => {
     if (possession1 === " ") {
       setPossession1(">")
       setPossession2(" ")
-    }
-    else {
+    } else {
       setPossession1(" ")
       setPossession2(">")
-    }    
+    }
     packSettings()
   }
 
   const onSettingsClick = () => {
     packSettings()
-    navigate("/settings/")
+    setPage("settings")
   }
 
-  const buildButton1 = (horizontal) => {
+  const buildButton1 = horizontal => {
     return (
       <TeamButton
         horizontal={horizontal}
@@ -200,7 +210,7 @@ const Home = () => {
     )
   }
 
-  const buildControls = (horizontal) => {
+  const buildControls = horizontal => {
     return (
       <Controls
         horizontal={horizontal}
@@ -214,7 +224,7 @@ const Home = () => {
     )
   }
 
-  const buildButton2 = (horizontal) => {
+  const buildButton2 = horizontal => {
     return (
       <TeamButton
         horizontal={horizontal}
@@ -230,52 +240,123 @@ const Home = () => {
   }
 
   return (
-    <Layout>
-      <SEO title="Home" />
-      <>
-        <div className="home-vertical">
-          <Grid
-            className={classes.rootVertical}
-            container
-            spacing={0}
-            justify="space-around"
-            direction="column"
-          >
-            {buildButton1(false)}
-            {buildControls(false)}
-            {buildButton2(false)}
-          </Grid>
-        </div>
-        <div className="home-horizontal">
-          <Grid
-            className={classes.rootHorizontal}
-            container
-            spacing={0}
-            justify="space-around"
-            direction="column"
-          >
-            <Grid item>
+    <>
+      <About page={page} onHomeClick={onHomeClick} />
+      {page === "settings" ? (
+        <Settings
+          page={page}
+          onHomeClick={onHomeClick}
+          phone={phone}
+          setPhone={setPhone}
+          phones={phones}
+          setPhones={setPhones}
+          color1={color1}
+          setColor1={setColor1}
+          backgroundColor1={backgroundColor1}
+          setBackgroundColor1={setBackgroundColor1}
+          label1={label1}
+          setLabel1={setLabel1}
+          possession1={possession1}
+          setPossession1={setPossession1}
+          match1={match1}
+          setMatch1={setMatch1}
+          score1={score1}
+          setScore1={setScore1}
+          color2={color2}
+          setColor2={setColor2}
+          backgroundColor2={backgroundColor2}
+          setBackgroundColor2={setBackgroundColor2}
+          label2={label2}
+          setLabel2={setLabel2}
+          possession2={possession2}
+          setPossession2={setPossession2}
+          match2={match2}
+          setMatch2={setMatch2}
+          score2={score2}
+          setScore2={setScore2}
+          gameDone={gameDone}
+          setGameDone={setGameDone}
+          matchDone={matchDone}
+          setMatchDone={setMatchDone}
+        />
+      ) : (
+        ""
+      )}
+      {page === "scores" ? (
+        <Scores
+          page={page}
+          onHomeClick={onHomeClick}
+          phone={phone}
+          phones={phones}
+          color1={color1}
+          backgroundColor1={backgroundColor1}
+          label1={label1}
+          possession1={possession1}
+          match1={match1}
+          score1={score1}
+          color2={color2}
+          backgroundColor2={backgroundColor2}
+          label2={label2}
+          possession2={possession2}
+          match2={match2}
+          score2={score2}
+          gameDone={gameDone}
+          matchDone={matchDone}
+        />
+      ) : (
+        ""
+      )}
+      {page === "home" ? (
+        <Layout>
+          <SEO title="Home" />
+          <>
+            <div className="home-vertical">
               <Grid
+                className={classes.rootVertical}
                 container
                 spacing={0}
                 justify="space-around"
-                direction="row"
+                direction="column"
               >
-                <Grid item xs={5}>
-                  {buildButton1(true)}
-                </Grid>
-                <Grid item xs={2}>
-                  {buildControls(true)}
-                </Grid>
-                <Grid item xs={5}>
-                  {buildButton2(true)}
+                {buildButton1(false)}
+                {buildControls(false)}
+                {buildButton2(false)}
+              </Grid>
+            </div>
+            <div className="home-horizontal">
+              <Grid
+                className={classes.rootHorizontal}
+                container
+                spacing={0}
+                justify="space-around"
+                direction="column"
+              >
+                <Grid item>
+                  <Grid
+                    container
+                    spacing={0}
+                    justify="space-around"
+                    direction="row"
+                  >
+                    <Grid item xs={5}>
+                      {buildButton1(true)}
+                    </Grid>
+                    <Grid item xs={2}>
+                      {buildControls(true)}
+                    </Grid>
+                    <Grid item xs={5}>
+                      {buildButton2(true)}
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          </Grid>
-        </div>
-      </>
-    </Layout>
+            </div>
+          </>
+        </Layout>
+      ) : (
+        ""
+      )}
+    </>
   )
 }
 

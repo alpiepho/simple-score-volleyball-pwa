@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react"
-import { navigate } from "gatsby"
 import { Grid, TextField } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
-//import { getUser, isLoggedIn, logout } from "./services/auth"
 
-import Layout from "../components/layout"
-import SEO from "../components/seo"
-//import Title from "../components/title"
-import ControlButton from "../components/controlbutton"
-import { getFromLS } from "../components/utils"
+import Layout from "./layout"
+import SEO from "./seo"
+import ControlButton from "./controlbutton"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,65 +24,29 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const Main = () => {
+const ScoresPage = props => {
   const classes = useStyles()
-
-  const [phone, setPhone]   = useState("+18885550000")
-  const [phones, setPhones] = useState("")
-  const [label1, setLabel1] = useState("US")
-  const [possession1, setPossession1] = useState(" ")
-  const [match1, setMatch1] = useState(0)
-  const [score1, setScore1] = useState(0)
-  const [label2, setLabel2] = useState("THEM")
-  const [possession2, setPossession2] = useState(" ")
-  const [match2, setMatch2] = useState(0)
-  const [score2, setScore2] = useState(0)
 
   const [disbleSend, setDisableSend] = useState(true)
   const [extra, setExtra] = useState("")
 
-  const unpackSettings = () => {
-    let settings = getFromLS("allSettings")
-    if (settings) {
-      settings = JSON.parse(settings)
-
-      setPhone(settings.phone)
-      setPhones(settings.phones)
-
-      setLabel1(settings.label1)
-      setPossession1(settings.possession1)
-      setMatch1(settings.match1)
-      setScore1(settings.score1)
-
-      setLabel2(settings.label2)
-      setPossession2(settings.possession2)
-      setMatch2(settings.match2)
-      setScore2(settings.score2)
-    }
-  }
-
   useEffect(() => {
-    unpackSettings()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
-    if (phone !== undefined && phone !== "+18885550000") {
+    if (props.phone !== undefined && props.phone !== "+18885550000") {
       setDisableSend(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phone])
+  }, [props.phone])
 
   const getMessage = () => {
-    let message = `\nSimple Score VB: from ${phone}
-Game: ${possession1}${label1} (${score1}) vs ${possession2}${label2} (${score2})
-Sets: ${label1} (${match1}) vs ${label2} (${match2})`
+    let message = `\nSimple Score VB: from ${props.phone}
+Game: ${props.possession1}${props.label1} (${props.score1}) vs ${props.possession2}${props.label2} (${props.score2})
+Sets: ${props.label1} (${props.match1}) vs ${props.label2} (${props.match2})`
     if (extra) message += "\n" + extra
     return message
   }
 
   const getInnerMessage = () => {
-    return `\nINTERNAL ${phones}`
+    return `\nINTERNAL ${props.phones}`
   }
 
   const onExtraChange = event => {
@@ -94,7 +54,7 @@ Sets: ${label1} (${match1}) vs ${label2} (${match2})`
   }
 
   const onCancelClick = () => {
-    navigate("/home/")
+    props.onHomeClick()
   }
 
   //Authorization: "Bearer " + user.token.access_token,
@@ -115,7 +75,7 @@ Sets: ${label1} (${match1}) vs ${label2} (${match2})`
         console.log(json)
       })
 
-    navigate("/home/")
+    props.onHomeClick()
   }
 
   const buildGame = () => {
@@ -133,12 +93,14 @@ Sets: ${label1} (${match1}) vs ${label2} (${match2})`
         </Grid>
         <Grid item className={classes.score}>
           <h3>
-          {possession1}{label1} : {score1}
+            {props.possession1}
+            {props.label1} : {props.score1}
           </h3>
         </Grid>
         <Grid item className={classes.score}>
           <h3>
-          {possession2}{label2} : {score2}
+            {props.possession2}
+            {props.label2} : {props.score2}
           </h3>
         </Grid>
       </Grid>
@@ -160,12 +122,12 @@ Sets: ${label1} (${match1}) vs ${label2} (${match2})`
         </Grid>
         <Grid item className={classes.score}>
           <h3>
-            {label1} : {match1}
+            {props.label1} : {props.match1}
           </h3>
         </Grid>
         <Grid item className={classes.score}>
           <h3>
-            {label2} : {match2}
+            {props.label2} : {props.match2}
           </h3>
         </Grid>
       </Grid>
@@ -271,8 +233,7 @@ Sets: ${label1} (${match1}) vs ${label2} (${match2})`
           {buildSets()}
           {buildExtra()}
           {buildButtonsVertical()}
-        </Grid>
-        {" "}
+        </Grid>{" "}
       </div>
     )
   }
@@ -304,21 +265,26 @@ Sets: ${label1} (${match1}) vs ${label2} (${match2})`
           </Grid>
           {buildExtra()}
           {buildButtonsHorizontal()}
-        </Grid>
-        {" "}
+        </Grid>{" "}
       </div>
     )
   }
 
   return (
-    <Layout>
-      <SEO title="Scores" />
-      <>
-        {buildVertical()}
-        {buildHorizontal()}
-      </>
-    </Layout>
+    <>
+      {props.page === "scores" ? (
+        <Layout>
+          <SEO title="Scores" />
+          <>
+            {buildVertical()}
+            {buildHorizontal()}
+          </>
+        </Layout>
+      ) : (
+        ""
+      )}
+    </>
   )
 }
 
-export default Main
+export default ScoresPage

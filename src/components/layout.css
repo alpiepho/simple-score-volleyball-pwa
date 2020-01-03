@@ -621,18 +621,15 @@ pre tt:after {
   }
 }
 
-
-
 .layout {
   padding: 0px 1.0875rem 1.45rem;
 }
 
-@media all and (orientation:landscape) {
+@media all and (orientation: landscape) {
   .layout {
-    padding: 0px 0.5rem 1.0rem;
+    padding: 0px 0.5rem 1rem;
   }
 }
-
 
 .home-vertical {
   display: grid;
@@ -642,7 +639,7 @@ pre tt:after {
 .home-horizontal {
   display: none;
 }
-@media all and (orientation:landscape) {
+@media all and (orientation: landscape) {
   .home-vertical {
     display: none;
   }
@@ -650,7 +647,6 @@ pre tt:after {
     display: block;
   }
 }
-
 
 /* .about-component h2 {
   margin-top: 5vh;

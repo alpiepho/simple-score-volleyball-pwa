@@ -1,4 +1,3 @@
-
 export function getFromLS(key) {
   let ls = {}
   if (window.localStorage) {
