@@ -1,25 +1,16 @@
 import React, { useState } from "react"
-import { Grid, TextField } from "@material-ui/core"
+import { Checkbox, Grid, FormControlLabel, TextField } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 // import LandscapeWarning from "../components/landscapewarning"
 import Title from "../components/title"
+import SubTitle from "../components/subtitle"
 import ControlButton from "../components/controlbutton"
-import {
-  engine_toggleOrder,
-  engine_undo,
-  engine_finishGame,
-  engine_resetGame,
-  engine_finishMatch,
-  engine_resetMatch,
-  //  engine_load,
-  //  engine_save,
-  engine_get,
-} from "./engine"
 
 import { SketchPicker } from "react-color"
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,6 +18,9 @@ const useStyles = makeStyles(theme => ({
     marginTop: 40,
   },
   title: {
+    width: "80vw",
+  },
+  subtitle: {
     width: "80vw",
   },
   button: {
@@ -82,80 +76,7 @@ const SettingsPage = props => {
   const [displayColorPickerC, setDisplayColorPickerC] = useState(false)
   const [displayColorPickerD, setDisplayColorPickerD] = useState(false)
 
-  const updateFromEngine = () => {
-    let gameA
-    let gameB
-    let matchA
-    let matchB
-    let gameDone
-    let matchDone
-    ;[gameA, gameB, matchA, matchB, gameDone, matchDone] = engine_get()
 
-    //console.log('settings::updateFromEngine')
-    //console.log([gameA, gameB, matchA, matchB, gameDone, matchDone])
-    props.setScore1(gameA)
-    props.setScore2(gameB)
-    props.setMatch1(matchA)
-    props.setMatch2(matchB)
-    props.setGameDone(gameDone)
-    props.setMatchDone(matchDone)
-  }
-
-  const onUndoClick = () => {
-    engine_undo()
-    updateFromEngine()
-    props.onHomeClick()
-  }
-
-  const onFinishGameClick = () => {
-    engine_finishGame()
-    updateFromEngine()
-    props.onHomeClick()
-  }
-
-  const onResetGameClick = () => {
-    engine_resetGame()
-    updateFromEngine()
-    props.onHomeClick()
-  }
-
-  const onFinishMatchClick = () => {
-    engine_finishMatch()
-    updateFromEngine()
-    props.onHomeClick()
-  }
-
-  const onResetMatchClick = () => {
-    engine_resetMatch()
-    updateFromEngine()
-    props.onHomeClick()
-  }
-
-  const onSwapClick = () => {
-    let color = props.color1
-    let backgroundColor = props.backgroundColor1
-    let label = props.label1
-    let possession = props.possession1
-    let match = props.match1
-    let score = props.score1
-
-    props.setColor1(props.color2)
-    props.setBackgroundColor1(props.backgroundColor2)
-    props.setLabel1(props.label2)
-    props.setPossession1(props.possession2)
-    props.setMatch1(props.match2)
-    props.setScore1(props.score2)
-
-    props.setColor2(color)
-    props.setBackgroundColor2(backgroundColor)
-    props.setLabel2(label)
-    props.setPossession2(possession)
-    props.setMatch2(match)
-    props.setScore2(score)
-
-    engine_toggleOrder()
-    props.onHomeClick()
-  }
 
   const onDefaultsClick = event => {
     props.setColor1("white")
@@ -218,12 +139,8 @@ const SettingsPage = props => {
     props.setBackgroundColor2(color.hex)
   }
 
-  const onPhoneChange = event => {
-    props.setPhone(event.target.value)
-  }
-
-  const onPhonesChange = event => {
-    props.setPhones(event.target.value)
+  const onUseridChange = event => {
+    props.setUserid(event.target.value)
   }
 
   const onColorChange1 = event => {
@@ -258,16 +175,56 @@ const SettingsPage = props => {
     props.setMatch2(event.target.value)
   }
 
-  const onGame1Change = event => {
-    props.setScore1(event.target.value)
+  // const onGame1Change = event => {
+  //   props.setScore1(event.target.value)
+  // }
+
+  // const onGame2Change = event => {
+  //   props.setScore2(event.target.value)
+  // }
+
+  const onAutoSideOutChange = event => {
+    props.setAutoSideOut(event.target.checked)
   }
 
-  const onGame2Change = event => {
-    props.setScore2(event.target.value)
+  const onAutoGameFinishChange = event => {
+    props.setAutoGameFinish(event.target.checked)
   }
 
-  const onDoneClick = () => {
-    props.onHomeClick()
+  const onAutoMatchFinishChange = event => {
+    props.setAutoMatchFinish(event.target.checked)
+  }
+
+  const onAutoPostMatchStartChange = event => {
+    props.setAutoPostMatchStart(event.target.checked)
+  }
+
+  const onAutoPostGamePointChange = event => {
+    props.setAutoPostGamePoint(event.target.checked)
+  }
+
+  const onAutoPostGameFinishChange = event => {
+    props.setAutoPostGameFinish(event.target.checked)
+  }
+
+  const onAutoPostMatchCountChange = event => {
+    props.setAutoPostMatchCount(event.target.checked)
+  }
+
+  const onAutoPostMatchFinishChange = event => {
+    props.setAutoPostMatchFinish(event.target.checked)
+  }
+
+  const onAutoGamePointsChange = event => {
+    props.setAutoGamePoints(event.target.value)
+  }
+
+  const onAutoLastGamePointsChange = event => {
+    props.setAutoLastGamePoints(event.target.value)
+  }
+
+  const onAutoMatchGamesChange = event => {
+    props.setAutoMatchGames(event.target.value)
   }
 
   return (
@@ -288,6 +245,14 @@ const SettingsPage = props => {
                   <Title label="Settings" />
                 </Grid>
 
+                {/* Seperatator */}
+                <Grid item className={classes.seperator}>
+                  <hr />
+                </Grid>
+                <Grid item className={classes.subtitle}>
+                  <SubTitle label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quick adjust" />
+                </Grid>
+
                 <Grid
                   container
                   spacing={2}
@@ -298,7 +263,7 @@ const SettingsPage = props => {
                     <ControlButton
                       color="black"
                       backgroundColor="gray"
-                      onButtonClick={onUndoClick}
+                      onButtonClick={props.onUndoClick}
                     >
                       Undo
                     </ControlButton>
@@ -308,7 +273,7 @@ const SettingsPage = props => {
                       className={classes.button}
                       color="black"
                       backgroundColor="gray"
-                      onButtonClick={onFinishGameClick}
+                      onButtonClick={props.onFinishGameClick}
                     >
                       Finish Game
                     </ControlButton>
@@ -318,7 +283,7 @@ const SettingsPage = props => {
                       className={classes.button}
                       color="black"
                       backgroundColor="gray"
-                      onButtonClick={onResetGameClick}
+                      onButtonClick={props.onResetGameClick}
                     >
                       New Game
                     </ControlButton>
@@ -328,7 +293,7 @@ const SettingsPage = props => {
                       className={classes.button}
                       color="black"
                       backgroundColor="gray"
-                      onButtonClick={onFinishMatchClick}
+                      onButtonClick={props.onFinishMatchClick}
                     >
                       Finish Match
                     </ControlButton>
@@ -338,7 +303,7 @@ const SettingsPage = props => {
                       className={classes.button}
                       color="black"
                       backgroundColor="gray"
-                      onButtonClick={onResetMatchClick}
+                      onButtonClick={props.onResetMatchClick}
                     >
                       New Match
                     </ControlButton>
@@ -348,13 +313,16 @@ const SettingsPage = props => {
                   <Grid item className={classes.seperator}>
                     <hr />
                   </Grid>
+                  <Grid item className={classes.subtitle}>
+                    <SubTitle label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;team adjust" />
+                  </Grid>
 
                   {/* Swap Teams */}
                   <Grid item xs={8} className={classes.button}>
                     <ControlButton
                       color="black"
                       backgroundColor="gray"
-                      onButtonClick={onSwapClick}
+                      onButtonClick={props.onSwapClick}
                     >
                       Swap Teams
                     </ControlButton>
@@ -539,9 +507,12 @@ const SettingsPage = props => {
                   <Grid item className={classes.seperator}>
                     <hr />
                   </Grid>
+                  <Grid item className={classes.subtitle}>
+                    <SubTitle label="score adjust" />
+                  </Grid>
 
                   {/* Force Team Points */}
-                  <Grid item className={classes.textfield}>
+                  {/* <Grid item className={classes.textfield}>
                     <TextField
                       id="standard-helperText-Team1points"
                       label=""
@@ -562,7 +533,7 @@ const SettingsPage = props => {
                       margin="normal"
                       onChange={onGame2Change}
                     />
-                  </Grid>
+                  </Grid> */}
 
                   {/* Force Team Sets */}
                   <Grid item className={classes.textfield}>
@@ -592,34 +563,162 @@ const SettingsPage = props => {
                   <Grid item className={classes.seperator}>
                     <hr />
                   </Grid>
+                  <Grid item className={classes.subtitle}>
+                    <SubTitle label="updating" />
+                  </Grid>
 
-                  {/* Phone Numbers for Texting */}
+                  <Grid item className={classes.textfield}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={props.autoSideOut}
+                        onChange={onAutoSideOutChange}
+                        color="primary"
+                      />
+                    }
+                    label="Auto Side-Out"
+                  />
+                  </Grid>
+                  <Grid item className={classes.textfield}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={props.autoGameFinish}
+                        onChange={onAutoGameFinishChange}
+                        color="primary"
+                      />
+                    }
+                    label="Auto Game Finish"
+                  />
+                  </Grid>
+                  <Grid item className={classes.textfield}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={props.autoMatchFinish}
+                        onChange={onAutoMatchFinishChange}
+                        color="primary"
+                      />
+                    }
+                    label="Auto Match Finish"
+                  />
+                  </Grid>
+                  <Grid item className={classes.textfield}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={props.autoPostMatchStart}
+                        onChange={onAutoPostMatchStartChange}
+                        color="primary"
+                      />
+                    }
+                    label="Auto Post Match Start"
+                  />
+                  </Grid>
+                  <Grid item className={classes.textfield}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={props.autoPostGamePoint}
+                        onChange={onAutoPostGamePointChange}
+                        color="primary"
+                      />
+                    }
+                    label="Auto Post Game Point"
+                  />
+                  </Grid>
+                  <Grid item className={classes.textfield}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={props.autoPostGameFinish}
+                        onChange={onAutoPostGameFinishChange}
+                        color="primary"
+                      />
+                    }
+                    label="Auto Post Game Finish"
+                  />
+                  </Grid>
+                  <Grid item className={classes.textfield}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={props.autoPostMatchCount}
+                        onChange={onAutoPostMatchCountChange}
+                        color="primary"
+                      />
+                    }
+                    label="Auto Post Match Count"
+                  />
+                  </Grid>
+                  <Grid item className={classes.textfield}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={props.autoPostMatchFinish}
+                        onChange={onAutoPostMatchFinishChange}
+                        color="primary"
+                      />
+                    }
+                    label="Auto Post Match Finish"
+                  />
+                  </Grid>
+
                   <Grid item className={classes.textfield}>
                     <TextField
-                      id="standard-helperText-PhoneNumbers"
+                      id="standard-helperText-AutoGamePoints"
                       label=""
-                      multiline
-                      rowsMax="4"
-                      value={props.phones}
+                      value={props.autoGamePoints}
                       className={classes.textField}
-                      helperText="send to (ie. +18885550000,+18885550000)"
+                      helperText="points to win game"
                       margin="normal"
-                      onChange={onPhonesChange}
+                      onChange={onAutoGamePointsChange}
+                    />
+                  </Grid>
+                  <Grid item className={classes.textfield}>
+                    <TextField
+                      id="standard-helperText-AutoLastGamePoints"
+                      label=""
+                      value={props.autoLastGamePoints}
+                      className={classes.textField}
+                      helperText="points to win last game"
+                      margin="normal"
+                      onChange={onAutoLastGamePointsChange}
+                    />
+                  </Grid>
+                  <Grid item className={classes.textfield}>
+                    <TextField
+                      id="standard-helperText-AutoMatchGames"
+                      label=""
+                      value={props.autoMatchGames}
+                      className={classes.textField}
+                      helperText="games to win match"
+                      margin="normal"
+                      onChange={onAutoMatchGamesChange}
                     />
                   </Grid>
 
-                  {/* Authorized Phone Number */}
+                  {/* Seperatator */}
+                  <Grid item className={classes.seperator}>
+                    <hr />
+                  </Grid>
+                  <Grid item className={classes.subtitle}>
+                    <SubTitle label="user info" />
+                  </Grid>
+
+                  {/* Authorized Userid */}
                   <Grid item className={classes.textfield}>
                     <TextField
-                      id="standard-helperText-PhoneAllowed"
+                      id="standard-helperText-Userid"
                       label=""
-                      value={props.phone}
+                      value={props.userid}
                       className={classes.textField}
-                      helperText="phone allowed to send (ie. +18885550000)"
+                      helperText="assigned user id"
                       margin="normal"
-                      onChange={onPhoneChange}
+                      onChange={onUseridChange}
                     />
                   </Grid>
+
                   {/* Seperatator */}
                   <Grid item className={classes.seperator}>
                     <hr />
@@ -638,7 +737,7 @@ const SettingsPage = props => {
                     <ControlButton
                       color="black"
                       backgroundColor="gray"
-                      onButtonClick={onDoneClick}
+                      onButtonClick={props.onHomeClick}
                     >
                       Done
                     </ControlButton>

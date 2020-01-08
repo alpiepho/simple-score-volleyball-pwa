@@ -17,7 +17,17 @@ import {
   engine_load,
   engine_save,
   engine_get,
+  engine_finishGame,
+  engine_finishMatch,
+  engine_undo,
+  engine_resetGame,
+  engine_resetMatch,
+  engine_toggleOrder,
+  engine_setBase,
+  engine_setAuto,
 } from "./engine"
+
+const uuidv4 = require("uuid/v4")
 
 const useStyles = makeStyles(theme => ({
   rootVertical: {
@@ -38,8 +48,7 @@ const Home = () => {
 
   const [page, setPage] = useState("home")
 
-  const [phone, setPhone] = useState("+18885550000")
-  const [phones, setPhones] = useState("")
+  const [userid, setUserid] = useState("user")
 
   const [color1, setColor1] = useState("white")
   const [backgroundColor1, setBackgroundColor1] = useState("red")
@@ -58,28 +67,54 @@ const Home = () => {
   const [gameDone, setGameDone] = useState(false)
   const [matchDone, setMatchDone] = useState(false)
 
+  const [gameGuid, setGameGuid] = useState(uuidv4())
+  const [gameStartTs, setGameStartTs] = useState(Date.now())
+  const [gameModifiedTs, setGameModifiedTs] = useState(Date.now())
+  const [matchGuid, setMatchGuid] = useState(uuidv4())
+  const [matchStartTs, setMatchStartTs] = useState(Date.now())
+  const [matchModifiedTs, setMatchModifiedTs] = useState(Date.now())
+
+  const [autoSideOut, setAutoSideOut] = useState(true)
+
+  const [autoGameFinish, setAutoGameFinish] = useState(true)
+  const [autoMatchFinish, setAutoMatchFinish] = useState(true)
+  const [autoGamePoints, setAutoGamePoints] = useState(25)
+  const [autoLastGamePoints, setAutoLastGamePoints] = useState(15)
+  const [autoMatchGames, setAutoMatchGames] = useState(3)
+
+  const [autoPostMatchStart, setAutoPostMatchStart] = useState(true)
+  const [autoPostGamePoint, setAutoPostGamePoint] = useState(false) // TODO: too much data?
+  const [autoPostGameFinish, setAutoPostGameFinish] = useState(true)
+  const [autoPostMatchCount, setAutoPostMatchCount] = useState(true)
+  const [autoPostMatchFinish, setAutoPostMatchFinish] = useState(true)
+
   const packSettings = () => {
     let settings = {}
 
-    settings["phone"] = phone
-    settings["phones"] = phones
+    settings["userid"] = userid
+    //settings["phone"] = phone
+    //settings["phones"] = phones
 
     settings["color1"] = color1
     settings["backgroundColor1"] = backgroundColor1
     settings["label1"] = label1
-    settings["possession1"] = possession1
-    settings["match1"] = match1
-    settings["score1"] = score1
 
     settings["color2"] = color2
     settings["backgroundColor2"] = backgroundColor2
     settings["label2"] = label2
-    settings["possession2"] = possession2
-    settings["match2"] = match2
-    settings["score2"] = score2
 
-    settings["gameDone"] = gameDone
-    settings["matchDone"] = matchDone
+    settings["gameGuid"] = gameGuid
+    settings["gameStartTs"] = gameStartTs
+    settings["gameModifiedTs"] = gameModifiedTs
+    settings["matchGuid"] = matchGuid
+    settings["matchStartTs"] = matchStartTs
+    settings["matchModifiedTs"] = matchModifiedTs
+
+    settings["autoPostMatchStart"] = autoPostMatchStart
+    settings["autoPostGamePoint"] = autoPostGamePoint
+    settings["autoPostGameFinish"] = autoPostGameFinish
+    settings["autoPostMatchCount"] = autoPostMatchCount
+    settings["autoPostMatchFinish"] = autoPostMatchFinish
 
     settings["engine"] = engine_save()
     //console.log('home::pack')
@@ -98,78 +133,123 @@ const Home = () => {
         engine_load(settings["engine"])
       }
 
-      setPhone(settings.phone)
-      setPhones(settings.phones)
+      setUserid(settings.userid)
 
       setColor1(settings.color1)
       setBackgroundColor1(settings.backgroundColor1)
       setLabel1(settings.label1)
-      if (settings.possession1) {
-        setPossession1(settings.possession1)
-      }
-      setMatch1(settings.match1)
-      setScore1(settings.score1)
 
       setColor2(settings.color2)
       setBackgroundColor2(settings.backgroundColor2)
       setLabel2(settings.label2)
-      if (settings.possession2) {
-        setPossession2(settings.possession2)
-      }
-      setMatch2(settings.match2)
-      setScore2(settings.score2)
 
-      setGameDone(settings.gameDone)
-      setMatchDone(settings.matchDone)
+      setGameGuid(settings.gameGuid)
+      setGameStartTs(settings.gameStartTs)
+      setGameModifiedTs(settings.gameModifiedTs)
+      setMatchGuid(settings.matchGuid)
+      setMatchStartTs(settings.matchStartTs)
+      setMatchModifiedTs(settings.matchModifiedTs)
+
+      setAutoPostMatchStart(settings.autoPostMatchStart)
+      setAutoPostGamePoint(settings.autoPostGamePoint)
+      setAutoPostGameFinish(settings.autoPostGameFinish)
+      setAutoPostMatchCount(settings.autoPostMatchCount)
+      setAutoPostMatchFinish(settings.autoPostMatchFinish)
     }
+    return settings
   }
 
   useEffect(() => {
     unpackSettings()
+    updateFromEngine()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     packSettings()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [score1, score2, label1, label2, possession1, possession2])
+  }, [score1, score2])
 
   const updateFromEngine = () => {
+    let possessionA
+    let possessionB
     let gameA
     let gameB
     let matchA
     let matchB
     let gameDone
     let matchDone
-    ;[gameA, gameB, matchA, matchB, gameDone, matchDone] = engine_get()
+    let local_autoSideOut
+    let local_autoGameFinish
+    let local_autoMatchFinish
+    let local_autoGamePoints
+    let local_autoLastGamePoints
+    let local_autoMatchGames
+    [
+      possessionA,
+      possessionB,
+      gameA, 
+      gameB, 
+      matchA, 
+      matchB, 
+      gameDone, 
+      matchDone,
+      local_autoSideOut,
+      local_autoGameFinish,
+      local_autoMatchFinish,
+      local_autoGamePoints,
+      local_autoLastGamePoints,
+      local_autoMatchGames
+    ] = engine_get()
 
-    //console.log([gameA, gameB, matchA, matchB, gameDone, matchDone])
+    console.log([
+      possessionA,
+      possessionB,
+      gameA, 
+      gameB, 
+      matchA, 
+      matchB, 
+      gameDone, 
+      matchDone,
+      local_autoSideOut,
+      local_autoGameFinish,
+      local_autoMatchFinish,
+      local_autoGamePoints,
+      local_autoLastGamePoints,
+      local_autoMatchGames
+    ])
+    setPossession1(possessionA)
+    setPossession2(possessionB)
     setScore1(gameA)
     setScore2(gameB)
     setMatch1(matchA)
     setMatch2(matchB)
     setGameDone(gameDone)
     setMatchDone(matchDone)
+
+    setAutoSideOut(local_autoSideOut)
+    setAutoGameFinish(local_autoGameFinish)
+    setAutoMatchFinish(local_autoMatchFinish)
+    setAutoGamePoints(local_autoGamePoints)
+    setAutoLastGamePoints(local_autoLastGamePoints)
+    setAutoMatchGames(local_autoMatchGames)
   }
 
   const onTeam1Click = event => {
     engine_pointA()
     updateFromEngine()
+    setGameModifiedTs(Date.now())
   }
 
   const onTeam2Click = () => {
     engine_pointB()
     updateFromEngine()
+    setGameModifiedTs(Date.now())
   }
 
   const onAboutClick = () => {
     packSettings()
     setPage("about")
-  }
-
-  const onHomeClick = () => {
-    packSettings() // from possible changes by about/settings etc.
-    setPage("home")
   }
 
   const onScoresClick = () => {
@@ -178,21 +258,125 @@ const Home = () => {
   }
 
   const onSwapPossesionClick = () => {
-    //toggleUsThem()
-
-    if (possession1 === " ") {
-      setPossession1(">")
-      setPossession2(" ")
-    } else {
-      setPossession1(" ")
-      setPossession2(">")
-    }
+    var local_possession1 = possession2
+    var local_possession2 = possession1
+    engine_setBase(
+      local_possession1,
+      local_possession2,
+      score1,
+      score2,
+      match1,
+      match2,
+      gameDone,
+      matchDone
+    )
+    updateFromEngine()
     packSettings()
   }
 
   const onSettingsClick = () => {
     packSettings()
     setPage("settings")
+  }
+
+  const onHomeClick = () => {
+    // engine_setBase(
+    //   possession1,
+    //   possession2,
+    //   score1,
+    //   score2,
+    //   match1,
+    //   match2,
+    //   gameDone,
+    //   matchDone
+    // )
+    engine_setAuto(
+      autoSideOut,
+      autoGameFinish,
+      autoMatchFinish,
+      autoGamePoints,
+      autoLastGamePoints,
+      autoMatchGames
+    )
+    packSettings() // from possible changes by about/settings etc.
+    setPage("home")
+  }
+
+  const onUndoClick = () => {
+    engine_undo()
+    updateFromEngine()
+    setGameModifiedTs(Date.now())
+    setMatchModifiedTs(Date.now())
+    onHomeClick()
+  }
+
+  const onFinishGameClick = () => {
+    engine_finishGame()
+    updateFromEngine()
+    setGameModifiedTs(Date.now())
+    setMatchModifiedTs(Date.now())
+    onHomeClick()
+  }
+
+  const onResetGameClick = () => {
+    engine_resetGame()
+    updateFromEngine()
+    setGameGuid(uuidv4())
+    setGameStartTs(Date.now())
+    setGameModifiedTs(Date.now())
+    onHomeClick()
+  }
+
+  const onFinishMatchClick = () => {
+    engine_finishMatch()
+    updateFromEngine()
+    setMatchModifiedTs(Date.now())
+    onHomeClick()
+  }
+
+  const onResetMatchClick = () => {
+    engine_resetMatch()
+    engine_setAuto(
+      autoSideOut,
+      autoGameFinish,
+      autoMatchFinish,
+      autoGamePoints,
+      autoLastGamePoints,
+      autoMatchGames
+    )
+    updateFromEngine()
+    setGameDone(false)
+    setMatchDone(false)
+    setMatchGuid(uuidv4())
+    setMatchStartTs(Date.now())
+    setMatchModifiedTs(Date.now())
+    onHomeClick()
+  }
+
+  const onSwapClick = () => {
+    let color = color1
+    let backgroundColor = backgroundColor1
+    let label = label1
+    let possession = possession1
+    let match = match1
+    let score = score1
+
+    setColor1(color2)
+    setBackgroundColor1(backgroundColor2)
+    setLabel1(label2)
+    setPossession1(possession2)
+    setMatch1(match2)
+    setScore1(score2)
+
+    setColor2(color)
+    setBackgroundColor2(backgroundColor)
+    setLabel2(label)
+    setPossession2(possession)
+    setMatch2(match)
+    setScore2(score)
+
+    engine_toggleOrder()
+    onHomeClick()
   }
 
   const buildButton1 = horizontal => {
@@ -246,10 +430,18 @@ const Home = () => {
         <Settings
           page={page}
           onHomeClick={onHomeClick}
-          phone={phone}
-          setPhone={setPhone}
-          phones={phones}
-          setPhones={setPhones}
+          onUndoClick={onUndoClick}
+          onFinishGameClick={onFinishGameClick}
+          onResetGameClick={onResetGameClick}
+          onFinishMatchClick={onFinishMatchClick}
+          onResetMatchClick={onResetMatchClick}
+          onSwapClick={onSwapClick}
+          userid={userid}
+          setUserid={setUserid}
+          //phone={phone}
+          //setPhone={setPhone}
+          //phones={phones}
+          //setPhones={setPhones}
           color1={color1}
           setColor1={setColor1}
           backgroundColor1={backgroundColor1}
@@ -278,6 +470,40 @@ const Home = () => {
           setGameDone={setGameDone}
           matchDone={matchDone}
           setMatchDone={setMatchDone}
+          gameGuid={gameGuid}
+          setGameGuid={setGameGuid}
+          gameStartTs={gameStartTs}
+          setGameStartTs={setGameStartTs}
+          gameModifiedTs={gameModifiedTs}
+          setGameModifiedTs={setGameModifiedTs}
+          matchGuid={matchGuid}
+          setMatchGuid={setMatchGuid}
+          matchStartTs={matchStartTs}
+          setMatchStartTs={setMatchStartTs}
+          matchModifiedTs={matchModifiedTs}
+          setMatchModifiedTs={setMatchModifiedTs}
+          autoSideOut={autoSideOut}
+          setAutoSideOut={setAutoSideOut}
+          autoGameFinish={autoGameFinish}
+          setAutoGameFinish={setAutoGameFinish}
+          autoMatchFinish={autoMatchFinish}
+          setAutoMatchFinish={setAutoMatchFinish}
+          autoGamePoints={autoGamePoints}
+          setAutoGamePoints={setAutoGamePoints}
+          autoLastGamePoints={autoLastGamePoints}
+          setAutoLastGamePoints={setAutoLastGamePoints}
+          autoMatchGames={autoMatchGames}
+          setAutoMatchGames={setAutoMatchGames}
+          autoPostMatchStart={autoPostMatchStart}
+          setAutoPostMatchStart={setAutoPostMatchStart}
+          autoPostGamePoint={autoPostGamePoint}
+          setAutoPostGamePoint={setAutoPostGamePoint}
+          autoPostGameFinish={autoPostGameFinish}
+          setAutoPostGameFinish={setAutoPostGameFinish}
+          autoPostMatchCount={autoPostMatchCount}
+          setAutoPostMatchCount={setAutoPostMatchCount}
+          autoPostMatchFinish={autoPostMatchFinish}
+          setAutoPostMatchFinish={setAutoPostMatchFinish}
         />
       ) : (
         ""
@@ -286,8 +512,9 @@ const Home = () => {
         <Scores
           page={page}
           onHomeClick={onHomeClick}
-          phone={phone}
-          phones={phones}
+          userid={userid}
+          //phone={phone}
+          //phones={phones}
           color1={color1}
           backgroundColor1={backgroundColor1}
           label1={label1}
@@ -302,6 +529,7 @@ const Home = () => {
           score2={score2}
           gameDone={gameDone}
           matchDone={matchDone}
+          unpackSettings={unpackSettings}
         />
       ) : (
         ""

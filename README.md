@@ -11,7 +11,7 @@
 
 This is hosted on Netlify [here](https://admiring-bhabha-8dfc0c.netlify.com/)
 
-This is also hosted in GH-Pages [here](https://alpiepho.github.io/simple-score-volleyball-pwa/).  NOTE: Send button will not work from GH-Pages.
+This is also hosted in GH-Pages [here](https://alpiepho.github.io/simple-score-volleyball-pwa/).  NOTE: Send button will not work from GH-Pages. (This version is typically used for testing prototype changes.)
 
 
 This was copied from [any-counter](https://github.com/alpiepho/any-counter) and is still
@@ -43,26 +43,25 @@ We have fireworks!!!
 
 ### TODO
 
-- change sms/text mechanism to send to Github instead to keep score history 
-  and easier for others to follow
-- disable sms in lambda
-- disable settings for text numbers
-- (re)build data from lambda
-- option for auto side-out
-- option for auto game finish
-- option for auto game points
-- option for auto match finish
-- option for auto match count
-- option for auto post match start (after names/colors changed?)
+- option for auto post match start
 - option for auto post game point
 - option for auto post game finish
 - option for auto post match count
 - option for auto post match finish
+- option for auto game points
+- option for auto match count
+- send packed data to -gh
+- separate app to display saved data per match guid/date
+- seprate app to track serving???
+
 
 ### BUGS
 
+- fix force score plus increment score
+- fix onHomeClick call to engine_setBase. (can change points, but next increment reverts to 25)
+- using 30+ hooks for values, packing data to local storage, and using engine..messy
 - many buttons not aligned properly
-
+- refactor settings...file is too long
 
 ## Development Notes
 

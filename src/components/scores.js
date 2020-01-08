@@ -31,22 +31,30 @@ const ScoresPage = props => {
   const [extra, setExtra] = useState("")
 
   useEffect(() => {
-    if (props.phone !== undefined && props.phone !== "+18885550000") {
+    if (props.userid !== undefined && props.userid !== "user") {
       setDisableSend(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.phone])
+  }, [props.userid])
+
+  // useEffect(() => {
+  //   if (props.phone !== undefined && props.phone !== "+18885550000") {
+  //     setDisableSend(false)
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [props.phone])
 
   const getMessage = () => {
-    let message = `\nSimple Score VB: from ${props.phone}
-Game: ${props.possession1}${props.label1} (${props.score1}) vs ${props.possession2}${props.label2} (${props.score2})
-Sets: ${props.label1} (${props.match1}) vs ${props.label2} (${props.match2})`
-    if (extra) message += "\n" + extra
-    return message
+//     let message = `\nSimple Score VB: from ${props.phone}
+// Game: ${props.possession1}${props.label1} (${props.score1}) vs ${props.possession2}${props.label2} (${props.score2})
+// Sets: ${props.label1} (${props.match1}) vs ${props.label2} (${props.match2})`
+//     if (extra) message += "\n" + extra
+//     return message
+    return props.unpackSettings()
   }
 
   const getInnerMessage = () => {
-    return `\nINTERNAL ${props.phones}`
+    return ''
   }
 
   const onExtraChange = event => {
@@ -57,12 +65,10 @@ Sets: ${props.label1} (${props.match1}) vs ${props.label2} (${props.match2})`
     props.onHomeClick()
   }
 
-  //Authorization: "Bearer " + user.token.access_token,
-
   const onSendClick = () => {
     console.log(getMessage())
 
-    fetch("/.netlify/functions/auth-send-sms", {
+    fetch("/.netlify/functions/auth-send-gh", {
       method: "POST",
       headers: {
         Accept: "application/json",
